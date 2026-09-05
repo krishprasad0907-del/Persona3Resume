@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Krish Prasad - Persona 3 Reload Resume</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Impact&family=Montserrat:ital,wght@0,900;1,900&family=Press+Start+2P&family=VT323&display=swap');
@@ -12,6 +12,7 @@
             padding: 0;
             box-sizing: border-box;
             user-select: none;
+            -webkit-user-select: none;
         }
 
         body {
@@ -587,8 +588,8 @@
 
         <!-- Dedicated Audio Control UI Buttons -->
         <div class="audio-control-bar">
-            <button class="audio-btn" id="start-audio-btn">♪ PLAY MUSIC</button>
-            <button class="audio-btn" id="stop-audio-btn">■ STOP MUSIC</button>
+            <button class="audio-btn" id="start-audio-btn">♪ PLAY</button>
+            <button class="audio-btn" id="stop-audio-btn">■ STOP</button>
         </div>
 
         <div class="video-background">
@@ -905,6 +906,9 @@
                     { title: "Cybersecurity & Networking", desc: "Knowledge of vulnerabilities, security best practices, Cisco networking fundamentals." },
                     { title: "Digital Media", desc: "Adobe Photoshop, Illustrator, Canva" }
                 ],
+                experience: [
+                    { title: "IT Help Desk The Willows Community School | 2025", desc: "<ul><li>Programmed and deployed 400 laptops and 200 iPads for K–8 students.</li><li>Maintained structured inventory datasets (600+ records) with zero discrepancies.</li><li>Created internal documentation for equipment tracking and device deployment.</li><li>Supported remote setup, printer setups, and hardware issue resolutions.</li></ul>" }
+                ],
                 projects: [
                     { title: "Datacom Cyber Security Operations Job Simulation", desc: "Completed a job simulation investigating a cyberattack, conducting risk assessment, and delivering detailed findings report." },
                     { title: "Database Management", desc: "Designed and populated databases in Microsoft Access and Excel, ensuring accuracy and data integrity." },
@@ -942,25 +946,24 @@
                 videoBackground.style.opacity = '1';
             }
 
-            // Attempt to start music immediately on load
             musicElem.play().then(() => {
                 playStatus.textContent = "■ STATUS: PLAYING";
                 playStatus.style.color = "#00ffcc";
             }).catch(err => {
-                console.log("Autoplay blocked by browser. Music will start on first user interaction.");
                 const unlockAudio = () => {
                     musicElem.play().then(() => {
                         playStatus.textContent = "■ STATUS: PLAYING";
                         playStatus.style.color = "#00ffcc";
                         window.removeEventListener('click', unlockAudio);
                         window.removeEventListener('keydown', unlockAudio);
+                        window.removeEventListener('touchstart', unlockAudio);
                     }).catch(e => console.log("Unlock play failed:", e));
                 };
                 window.addEventListener('click', unlockAudio);
                 window.addEventListener('keydown', unlockAudio);
+                window.addEventListener('touchstart', unlockAudio);
             });
 
-            // Dedicated Play Action Button
             startAudioBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 musicElem.play().then(() => {
@@ -969,7 +972,6 @@
                 }).catch(err => console.log("Playback error:", err));
             });
 
-            // Dedicated Stop Action Button
             stopAudioBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 musicElem.pause();
@@ -1003,14 +1005,14 @@
                 resetToVideoBackground();
             }
 
-            function updateSubSelection(stateKey, delta) {
+            function setSubSelectionIndex(stateKey, newIndex) {
                 const overlay = overlays[stateKey];
                 if (!overlay) return;
                 const rows = Array.from(overlay.querySelectorAll('.hud-row'));
                 if (rows.length === 0) return;
 
                 rows[subIndices[stateKey]].classList.remove('active-row');
-                subIndices[stateKey] = (delta + rows.length) % rows.length;
+                subIndices[stateKey] = (newIndex + rows.length) % rows.length;
                 rows[subIndices[stateKey]].classList.add('active-row');
 
                 const data = detailsMap[stateKey]?.[subIndices[stateKey]];
@@ -1033,7 +1035,7 @@
                     overlays[stateKey].classList.add('visible');
                     activeHudState = stateKey;
                     subIndices[stateKey] = 0;
-                    updateSubSelection(stateKey, 0);
+                    setSubSelectionIndex(stateKey, 0);
                 }
             }
 
@@ -1053,10 +1055,10 @@
                         closeActiveHUD();
                     } else if (e.key === 'ArrowDown' || e.key.toLowerCase() === 's') {
                         e.preventDefault();
-                        updateSubSelection(activeHudState, subIndices[activeHudState] + 1);
+                        setSubSelectionIndex(activeHudState, subIndices[activeHudState] + 1);
                     } else if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') {
                         e.preventDefault();
-                        updateSubSelection(activeHudState, subIndices[activeHudState] - 1);
+                        setSubSelectionIndex(activeHudState, subIndices[activeHudState] - 1);
                     }
                     return;
                 }
@@ -1083,13 +1085,12 @@
                 if (!overlay) continue;
                 const rows = overlay.querySelectorAll('.hud-row');
                 rows.forEach((row, index) => {
-                    row.addEventListener('mouseenter', () => {
-                        subIndices[key] = index;
-                        updateSubSelection(key, 0);
+                    row.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        setSubSelectionIndex(key, index);
                     });
-                    row.addEventListener('click', () => {
-                        subIndices[key] = index;
-                        updateSubSelection(key, 0);
+                    row.addEventListener('mouseenter', () => {
+                        setSubSelectionIndex(key, index);
                     });
                 });
                 const backBtn = overlay.querySelector('.hud-footer');
