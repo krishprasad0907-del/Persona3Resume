@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Krish Prasad - Persona 3 Reload Resume</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Impact&family=Montserrat:ital,wght@0,900;1,900&family=Press+Start+2P&family=VT323&display=swap');
@@ -12,6 +12,7 @@
             padding: 0;
             box-sizing: border-box;
             user-select: none;
+            -webkit-user-select: none;
         }
 
         body {
@@ -579,16 +580,172 @@
             color: #ff66b2;
             letter-spacing: 1px;
         }
+
+        /* Mobile Responsive Fallback Media Queries */
+        @media (max-width: 1024px) or (max-height: 768px) {
+            body {
+                overflow: auto;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .scaler-wrapper {
+                position: relative;
+                top: 0;
+                left: 0;
+                transform: none !important;
+                width: 100%;
+                height: 100%;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+
+            .video-background, .image-background {
+                position: fixed;
+            }
+
+            .side-title-container {
+                display: none !important;
+            }
+
+            .audio-control-bar {
+                position: fixed;
+                top: 15px;
+                right: 15px;
+                z-index: 9999;
+            }
+
+            .audio-btn {
+                padding: 6px 12px;
+                font-size: 14px;
+                box-shadow: 2px 2px 0px #000;
+            }
+
+            .ui-layer {
+                width: 100%;
+                height: auto;
+                min-height: 100vh;
+                padding: 80px 20px 40px 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+
+            .menu-container {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none !important;
+                opacity: 1 !important;
+                align-items: center;
+                text-align: center;
+                width: 100%;
+                gap: 10px;
+            }
+
+            .menu-item {
+                font-size: 32px !important;
+            }
+
+            .menu-item.active {
+                font-size: 42px !important;
+                padding: 6px 20px !important;
+            }
+
+            .track-card {
+                position: relative;
+                top: auto;
+                right: auto;
+                transform: none !important;
+                width: 100%;
+                max-width: 320px;
+                background: rgba(0,0,0,0.7);
+                border: 2px solid #00a8ff;
+                padding: 15px;
+                box-shadow: 4px 4px 0px #ff66b2;
+            }
+
+            .song-title {
+                font-size: 22px !important;
+            }
+
+            .p3-big {
+                font-size: 32px !important;
+            }
+
+            .controls-hint {
+                display: none;
+            }
+
+            .hud-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                padding: 20px;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow-y: auto;
+                background: rgba(0,0,0,0.85);
+            }
+
+            .hud-container {
+                width: 100%;
+                max-width: 450px;
+                transform: none !important;
+            }
+
+            .hud-row {
+                height: 60px;
+            }
+
+            .hud-row-inner {
+                padding: 0 20px;
+            }
+
+            .hud-name-text {
+                font-size: 18px !important;
+            }
+
+            .hud-detail-sidebar {
+                width: 100%;
+                max-width: 450px;
+                transform: none !important;
+                margin-top: 15px;
+                max-height: 45vh;
+                padding: 20px;
+            }
+
+            .sidebar-category-title {
+                font-size: 24px !important;
+            }
+
+            .sidebar-description {
+                font-size: 15px !important;
+            }
+
+            .hud-footer {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                margin-top: 15px;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="scaler-wrapper" id="scaler">
 
-        <!-- Dedicated Audio Control UI Buttons -->
         <div class="audio-control-bar">
-            <button class="audio-btn" id="start-audio-btn">♪ PLAY MUSIC</button>
-            <button class="audio-btn" id="stop-audio-btn">■ STOP MUSIC</button>
+            <button class="audio-btn" id="start-audio-btn">♪ PLAY</button>
+            <button class="audio-btn" id="stop-audio-btn">■ STOP</button>
         </div>
 
         <div class="video-background">
@@ -598,19 +755,19 @@
         </div>
 
         <div class="image-background" id="bg-about">
-            <img src="images.jpg" alt="About Background">
+            <img src="253e40d7270f57218fa16ba173d41800.jpg" alt="About Background">
         </div>
         <div class="image-background" id="bg-skills">
-            <img src="64662133e36f72e282c95b2a3c433534.jpg" alt="Skills Background">
+            <img src="64662133e36f72e282c95b2a3c433534.png" alt="Skills Background">
         </div>
         <div class="image-background" id="bg-exp">
-            <img src="c8e500f3fca638633661069f1cc6795c.jpg" alt="Experience Background">
+            <img src="c8e500f3fca638633661069f1cc6795c.png" alt="Experience Background">
         </div>
         <div class="image-background" id="bg-proj">
-            <img src="download.jpg" alt="Projects Background">
+            <img src="download.png" alt="Projects Background">
         </div>
         <div class="image-background" id="bg-edu">
-            <img src="thumb-1920-1344915.jpg" alt="Education Background">
+            <img src="4482f3aefda95e241230b485b6788c8f.jpg" alt="Education Background">
         </div>
         <div class="image-background" id="bg-contact">
             <img src="24671851e83b17040f79df10fd5a6689.jpg" alt="Contact Background">
@@ -655,7 +812,6 @@
             </div>
         </div>
 
-        <!-- ABOUT HUD SUB-MENU -->
         <div class="hud-overlay" id="about-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -680,7 +836,6 @@
             </div>
         </div>
 
-        <!-- SKILLS HUD SUB-MENU -->
         <div class="hud-overlay" id="skills-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -717,7 +872,6 @@
             </div>
         </div>
 
-        <!-- EXPERIENCE HUD SUB-MENU -->
         <div class="hud-overlay" id="exp-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -743,7 +897,6 @@
             </div>
         </div>
 
-        <!-- PROJECTS HUD SUB-MENU -->
         <div class="hud-overlay" id="proj-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -774,7 +927,6 @@
             </div>
         </div>
 
-        <!-- EDUCATION HUD SUB-MENU -->
         <div class="hud-overlay" id="edu-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -805,7 +957,6 @@
             </div>
         </div>
 
-        <!-- CONTACT HUD SUB-MENU -->
         <div class="hud-overlay" id="contact-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -840,8 +991,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             const scaler = document.getElementById('scaler');
             function adjustScale() {
-                const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-                scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                if (window.innerWidth > 1024 && window.innerHeight > 768) {
+                    const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+                    scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                } else {
+                    scaler.style.transform = 'none';
+                }
             }
             window.addEventListener('resize', adjustScale);
             adjustScale();
@@ -954,10 +1109,12 @@
                         playStatus.style.color = "#00ffcc";
                         window.removeEventListener('click', unlockAudio);
                         window.removeEventListener('keydown', unlockAudio);
+                        window.removeEventListener('touchstart', unlockAudio);
                     }).catch(e => console.log("Unlock play failed:", e));
                 };
                 window.addEventListener('click', unlockAudio);
                 window.addEventListener('keydown', unlockAudio);
+                window.addEventListener('touchstart', unlockAudio);
             });
 
             // Dedicated Play Action Button
@@ -1098,6 +1255,9 @@
 
             resetToVideoBackground();
         });
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
