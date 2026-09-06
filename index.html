@@ -579,6 +579,117 @@
             color: #ff66b2;
             letter-spacing: 1px;
         }
+
+        /* --- MOBILE RESPONSIVE OVERRIDES --- */
+        @media screen and (max-width: 1024px), screen and (max-height: 700px) {
+            body {
+                overflow: auto;
+            }
+            .scaler-wrapper {
+                width: 100vw;
+                height: 100vh;
+                transform: none !important;
+                top: 0;
+                left: 0;
+                position: fixed;
+            }
+            .side-title-container {
+                left: 10px;
+                width: 120px;
+                height: 100vh;
+            }
+            .side-title {
+                font-size: 70px;
+            }
+            .menu-container {
+                left: 50% !important;
+                top: 42% !important;
+                transform: translate(-50%, -50%) rotate(0deg) !important;
+                align-items: center;
+                text-align: center;
+            }
+            .menu-item {
+                font-size: 32px;
+            }
+            .menu-item.active {
+                font-size: 42px;
+                padding: 6px 30px 6px 15px;
+            }
+            .track-card {
+                top: auto;
+                bottom: 15px;
+                right: auto;
+                left: 50%;
+                transform: translateX(-50%) !important;
+                width: 90%;
+                align-items: center;
+            }
+            .song-title {
+                font-size: 22px;
+            }
+            .vocal-credits, .controls-hint {
+                display: none;
+            }
+            .audio-control-bar {
+                top: 10px;
+                right: 10px;
+            }
+            .audio-btn {
+                padding: 6px 12px;
+                font-size: 14px;
+                box-shadow: 2px 2px 0px #000;
+            }
+            .hud-overlay {
+                width: 100vw;
+                height: 100vh;
+                padding: 20px;
+                flex-direction: column;
+                justify-content: center;
+                gap: 15px;
+                background: rgba(0, 0, 0, 0.9);
+            }
+            .hud-container {
+                width: 100%;
+                max-width: 100%;
+                transform: none !important;
+                gap: 8px;
+            }
+            .hud-row {
+                height: 55px;
+                transform: skewX(0deg);
+            }
+            .hud-row-inner {
+                transform: skewX(0deg);
+                padding: 0 15px;
+            }
+            .hud-name-text {
+                font-size: 16px;
+            }
+            .hud-tag-label {
+                font-size: 14px;
+                padding: 2px 8px;
+            }
+            .hud-detail-sidebar {
+                width: 100%;
+                max-width: 100%;
+                max-height: 45vh;
+                padding: 20px;
+                transform: none !important;
+            }
+            .sidebar-category-title {
+                font-size: 22px;
+            }
+            .sidebar-description {
+                font-size: 14px;
+            }
+            .hud-footer {
+                position: relative;
+                bottom: auto;
+                right: auto;
+                text-align: center;
+                margin-top: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -674,7 +785,7 @@
                 <div class="sidebar-description" id="about-sidebar-desc">IT professional specializing in systems deployment and security operations.</div>
             </div>
             <div class="hud-footer" id="about-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
+                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
             </div>
         </div>
 
@@ -710,7 +821,7 @@
                 <div class="sidebar-description" id="skills-sidebar-desc">Structured/unstructured data handling, Microsoft Excel, Google Sheets, Access, inventory management, documentation.</div>
             </div>
             <div class="hud-footer" id="skills-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
+                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
             </div>
         </div>
 
@@ -735,7 +846,7 @@
                 </div>
             </div>
             <div class="hud-footer" id="exp-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
+                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
             </div>
         </div>
 
@@ -762,10 +873,10 @@
             </div>
             <div class="hud-detail-sidebar">
                 <div class="sidebar-category-title" id="proj-sidebar-title">Datacom Cyber Security Operations Job Simulation</div>
-                <div class="sidebar-description" id="proj-sidebar-desc">Completed a job simulation investigating cyberattacks, conducting risk assessments, and delivering findings reports.</div>
+                <div class="sidebar-description" id="proj-sidebar-desc">Completed a job simulation investigating a cyberattack, conducting risk assessments, and delivering detailed findings report.</div>
             </div>
             <div class="hud-footer" id="proj-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
+                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
             </div>
         </div>
 
@@ -795,7 +906,7 @@
                 </div>
             </div>
             <div class="hud-footer" id="edu-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
+                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
             </div>
         </div>
 
@@ -823,7 +934,7 @@
                 </div>
             </div>
             <div class="hud-footer" id="contact-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
+                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
             </div>
         </div>
 
@@ -834,25 +945,17 @@
             const scaler = document.getElementById('scaler');
             
             function adjustScale() {
-                const targetWidth = 1920;
-                const targetHeight = 1080;
-                // Scale properly for mobile portrait / landscape without clipping
-                const scaleX = window.innerWidth / targetWidth;
-                const scaleY = window.innerHeight / targetHeight;
-                // If portrait mode, we fit width or height smoothly. Let's use Math.min for containment or cover depending on screen aspect ratio.
-                const scale = Math.min(window.innerWidth / targetWidth, window.innerHeight / targetHeight);
-                scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                if (window.innerWidth > 1024 && window.innerHeight > 700) {
+                    const targetWidth = 1920;
+                    const targetHeight = 1080;
+                    const scale = Math.min(window.innerWidth / targetWidth, window.innerHeight / targetHeight);
+                    scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                } else {
+                    scaler.style.transform = 'none';
+                }
             }
 
-            if (window.ResizeObserver) {
-                const observer = new ResizeObserver(() => {
-                    requestAnimationFrame(adjustScale);
-                });
-                observer.observe(document.body);
-            } else {
-                window.addEventListener('resize', adjustScale);
-            }
-            
+            window.addEventListener('resize', adjustScale);
             adjustScale();
 
             setTimeout(() => document.body.classList.add('loaded'), 50);
@@ -918,7 +1021,7 @@
                     { title: "IT Help Desk The Willows Community School | 2025", desc: "<ul><li>Programmed and deployed 400 laptops and 200 iPads for K–8 students.</li><li>Maintained structured inventory datasets (600+ records) with zero discrepancies.</li><li>Created internal documentation for equipment tracking and device deployment.</li><li>Supported remote setup, printer setups, and hardware issue resolutions.</li></ul>" }
                 ],
                 projects: [
-                    { title: "Datacom Cyber Security Operations Job Simulation", desc: "Completed a job simulation investigating a cyberattack, conducting risk assessment, and delivering detailed findings report." },
+                    { title: "Datacom Cyber Security Operations Job Simulation", desc: "Completed a job simulation investigating a cyberattack, conducting risk assessments, and delivering detailed findings report." },
                     { title: "Database Management", desc: "Designed and populated databases in Microsoft Access and Excel, ensuring accuracy and data integrity." },
                     { title: "Wireshark Packet Analysis", desc: "Analyzed HTTP, malware, and TTLS/SSL traffic." }
                 ],
@@ -1009,7 +1112,7 @@
                 newItem.classList.add('active');
                 newItem.innerHTML = `<div class="badge-bg"></div><div class="badge-slash"></div><span class="text-wrapper" data-text="${selectedText}">${selectedText}</span>`;
 
-                actionTitle.textContent = commandTexts[selectedText] || 'Select Option';
+                if (actionTitle) actionTitle.textContent = commandTexts[selectedText] || 'Select Option';
                 resetToVideoBackground();
             }
 
