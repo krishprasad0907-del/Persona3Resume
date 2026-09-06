@@ -7,6 +7,12 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Impact&family=Montserrat:ital,wght@0,900;1,900&family=Press+Start+2P&family=VT323&display=swap');
 
+        :root {
+            --fluid-side-title: clamp(4rem, 12vw, 9.5rem);
+            --fluid-menu-size: clamp(1.8rem, 3.5vw, 3.25rem);
+            --fluid-active-size: clamp(2.5rem, 5vw, 4.875rem);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -18,27 +24,17 @@
         body {
             font-family: 'Montserrat', 'Arial Black', sans-serif;
             color: #ffffff;
-            overflow: hidden;
             background-color: #000;
             width: 100vw;
-            height: 100vh;
+            min-height: 100vh;
+            overflow-x: hidden;
             position: relative;
-        }
-
-        .scaler-wrapper {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 1920px;
-            height: 1080px;
-            transform: translate(-50%, -50%) scale(1);
-            transform-origin: center center;
-            overflow: hidden;
-            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
         }
 
         .video-background, .image-background {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -75,18 +71,24 @@
             filter: brightness(0.5);
         }
 
+        .main-container {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            width: 100%;
+            min-height: 100vh;
+            padding: 2rem 4rem;
+            position: relative;
+            z-index: 3;
+            align-items: center;
+        }
+
         .side-title-container {
-            position: absolute;
-            top: 0;
-            left: -30px;
-            height: 1080px;
-            width: 380px;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2;
             pointer-events: none;
-            overflow: visible;
             mix-blend-mode: difference;
             transform: translateX(-120%);
             transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.4s ease;
@@ -102,7 +104,7 @@
 
         .side-title {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 150px;
+            font-size: var(--fluid-side-title);
             font-weight: 900;
             font-style: italic;
             writing-mode: vertical-rl;
@@ -118,8 +120,11 @@
         .ui-layer {
             position: relative;
             z-index: 3;
-            width: 1920px;
-            height: 1080px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             pointer-events: auto;
             transition: opacity 0.4s ease;
         }
@@ -130,28 +135,25 @@
         }
 
         .menu-container {
-            position: absolute;
-            top: 50%;
-            left: 55%;
-            transform: translate(-50%, 500px) rotate(-10deg);
-            opacity: 0;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 4px;
+            gap: 0.25rem;
             z-index: 4;
             pointer-events: auto;
+            transform: translateY(30px) rotate(-10deg);
+            opacity: 0;
             transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, opacity 0.5s ease 0.25s;
         }
 
         body.loaded .menu-container {
-            transform: translate(-50%, -50%) rotate(-10deg);
+            transform: translateY(0) rotate(-10deg);
             opacity: 1;
         }
 
         .menu-item {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 52px;
+            font-size: var(--fluid-menu-size);
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -170,10 +172,10 @@
 
         .menu-item.active {
             position: relative;
-            font-size: 78px;
+            font-size: var(--fluid-active-size);
             line-height: 1;
-            padding: 8px 55px 8px 25px;
-            margin-bottom: 6px;
+            padding: 0.4rem 2.5rem 0.4rem 1.2rem;
+            margin-bottom: 0.3rem;
             background: transparent;
             text-shadow: none;
             cursor: pointer;
@@ -194,7 +196,7 @@
 
         .menu-item.active .badge-bg {
             position: absolute;
-            top: 6px;
+            top: 4px;
             left: 0;
             width: 100%;
             height: 88%;
@@ -208,7 +210,7 @@
             top: 50%;
             left: -25%;
             width: 150%;
-            height: 38px;
+            height: 1.8rem;
             background-color: #e6002e;
             transform: translateY(-50%) rotate(-15deg);
             clip-path: polygon(0 35%, 100% 0%, 95% 100%, 5% 85%);
@@ -232,35 +234,34 @@
         }
 
         .track-card {
-            position: absolute;
-            top: 430px;
-            right: 115px;
-            transform: translateY(-50%) translateX(1200px);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
+            align-items: flex-end;
+            text-align: right;
             z-index: 4;
             pointer-events: auto;
             cursor: pointer;
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+            transform: translateX(100px);
+            opacity: 0;
+            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, opacity 0.5s ease 0.4s;
         }
 
         body.loaded .track-card {
-            transform: translateY(-50%) translateX(0);
+            transform: translateX(0);
+            opacity: 1;
         }
 
         .p3-logo {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            margin-bottom: 12px;
+            align-items: flex-end;
+            margin-bottom: 0.8rem;
             pointer-events: none;
         }
 
         .p3-big {
             font-family: 'Press Start 2P', monospace;
-            font-size: 55px;
+            font-size: clamp(2rem, 3.5vw, 3.4rem);
             line-height: 0.9;
             letter-spacing: -2px;
             color: #ffffff;
@@ -269,7 +270,7 @@
 
         .persona-sub {
             font-family: 'VT323', monospace;
-            font-size: 24px;
+            font-size: clamp(1.2rem, 2vw, 1.5rem);
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1;
@@ -283,14 +284,14 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            font-size: 15px;
+            font-size: 0.9rem;
             padding: 1px 8px;
             margin-top: 2px;
             clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
         }
 
         .song-title {
-            font-size: 38px;
+            font-size: clamp(1.5rem, 2.5vw, 2.4rem);
             font-weight: 900;
             font-style: italic;
             letter-spacing: -0.5px;
@@ -302,20 +303,20 @@
 
         .vocal-credits {
             font-family: 'VT323', monospace;
-            font-size: 22px;
+            font-size: clamp(1rem, 1.5vw, 1.35rem);
             letter-spacing: 1px;
             color: #ffffff;
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
             text-shadow: 2px 2px 0px rgba(0,0,0,0.6);
             pointer-events: none;
         }
 
         .play-status {
             font-family: 'VT323', monospace;
-            font-size: 19px;
+            font-size: clamp(0.9rem, 1.2vw, 1.2rem);
             letter-spacing: 1.5px;
             color: #ff66b2;
-            margin-bottom: 10px;
+            margin-bottom: 0.6rem;
             text-shadow: 1px 1px 0px rgba(0,0,0,0.8);
             text-transform: uppercase;
             pointer-events: none;
@@ -330,22 +331,24 @@
         }
 
         .controls-hint {
-            position: absolute;
-            bottom: 35px;
-            right: 60px;
+            position: fixed;
+            bottom: 2rem;
+            right: 4rem;
             text-align: right;
             z-index: 4;
             pointer-events: none;
-            transform: translateY(100px);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s, opacity 0.5s ease 0.5s;
         }
 
         body.loaded .controls-hint {
             transform: translateY(0);
+            opacity: 1;
         }
 
         .action-title {
-            font-size: 28px;
+            font-size: clamp(1.2rem, 2vw, 1.75rem);
             font-weight: 900;
             font-style: italic;
             margin-bottom: 2px;
@@ -353,10 +356,10 @@
         }
 
         .command-sub {
-            font-size: 13px;
+            font-size: 0.8rem;
             font-weight: 700;
             color: #d1d1d1;
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
             border-bottom: 1px solid rgba(255,255,255,0.4);
             padding-bottom: 2px;
         }
@@ -365,9 +368,8 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 15px;
+            font-size: 0.95rem;
             font-weight: 800;
-            margin-left: 12px;
         }
 
         .key-badge {
@@ -375,28 +377,28 @@
             color: #000000;
             padding: 1px 6px;
             border-radius: 3px;
-            font-size: 13px;
+            font-size: 0.8rem;
             box-shadow: 1px 1px 0px #000000;
         }
 
         .audio-control-bar {
-            position: absolute;
-            top: 25px;
-            right: 35px;
+            position: fixed;
+            top: 1.5rem;
+            right: 2rem;
             display: flex;
-            gap: 12px;
+            gap: 10px;
             z-index: 999;
         }
 
         .audio-btn {
             background: #ff66b2;
             color: #fff;
-            padding: 10px 20px;
+            padding: 8px 16px;
             font-family: 'Impact', sans-serif;
-            font-size: 18px;
+            font-size: 1rem;
             font-style: italic;
             letter-spacing: 1px;
-            box-shadow: 4px 4px 0px #000;
+            box-shadow: 3px 3px 0px #000;
             cursor: pointer;
             border: none;
             outline: none;
@@ -417,19 +419,20 @@
         }
 
         .hud-overlay {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
-            width: 1920px;
-            height: 1080px;
+            width: 100vw;
+            height: 100vh;
             z-index: 25;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 115px;
+            padding: 4rem;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
+            background: rgba(0, 0, 0, 0.4);
         }
 
         .hud-overlay.visible {
@@ -439,10 +442,10 @@
 
         .hud-container {
             position: relative;
-            width: 750px;
+            width: 42%;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 1rem;
             transform: translateX(-60px);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -455,7 +458,7 @@
             position: relative;
             display: flex;
             align-items: center;
-            height: 85px;
+            height: 5.2rem;
             background: #000;
             border-left: 6px solid #00a8ff;
             box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
@@ -479,7 +482,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 0 40px;
+            padding: 0 2.5rem;
             transform: skewX(12deg);
             pointer-events: none;
         }
@@ -488,16 +491,16 @@
             background: #000;
             color: #fff;
             font-family: 'Impact', sans-serif;
-            font-size: 22px;
+            font-size: 1.35rem;
             font-style: italic;
-            padding: 4px 18px;
+            padding: 4px 1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         .hud-name-text {
             font-family: 'Impact', sans-serif;
-            font-size: 28px;
+            font-size: clamp(1.1rem, 1.6vw, 1.6rem);
             font-style: italic;
             color: #ffffff;
             text-transform: uppercase;
@@ -506,14 +509,14 @@
         }
 
         .hud-detail-sidebar {
-            width: 800px;
-            background: rgba(0, 0, 0, 0.88);
+            width: 48%;
+            background: rgba(0, 0, 0, 0.92);
             border: 4px solid #00a8ff;
             box-shadow: 8px 8px 0px #ff66b2;
-            padding: 40px;
+            padding: 2.5rem;
             transform: translateX(60px);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            max-height: 880px;
+            max-height: 80vh;
             overflow-y: auto;
             pointer-events: auto;
         }
@@ -524,29 +527,29 @@
 
         .sidebar-category-title {
             font-family: 'Impact', sans-serif;
-            font-size: 35px;
+            font-size: clamp(1.5rem, 2vw, 2.2rem);
             font-style: italic;
             color: #00a8ff;
             text-transform: uppercase;
             border-bottom: 3px solid #ff66b2;
-            padding-bottom: 12px;
-            margin-bottom: 18px;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1rem;
         }
 
         .sidebar-description {
             font-family: 'Montserrat', sans-serif;
-            font-size: 18px;
+            font-size: clamp(0.95rem, 1.2vw, 1.15rem);
             line-height: 1.5;
             color: #e6e6e6;
         }
 
         .sidebar-description ul {
             list-style-type: disc;
-            padding-left: 20px;
+            padding-left: 1.2rem;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-top: 12px;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
         }
 
         .sidebar-description a {
@@ -561,9 +564,9 @@
         }
 
         .hud-footer {
-            position: absolute;
-            bottom: 45px;
-            right: 115px;
+            position: fixed;
+            bottom: 2rem;
+            right: 4rem;
             text-align: right;
             font-family: 'Montserrat', sans-serif;
             font-style: italic;
@@ -571,50 +574,108 @@
             text-shadow: 2px 2px 0px #000;
             cursor: pointer;
             pointer-events: auto;
+            z-index: 30;
         }
 
         .hud-prompt-keys {
             font-family: 'VT323', monospace;
-            font-size: 24px;
+            font-size: 1.4rem;
             color: #ff66b2;
             letter-spacing: 1px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr auto;
+                padding: 1.5rem;
+                justify-items: center;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .side-title-container {
+                display: none;
+            }
+
+            .menu-container {
+                align-items: center;
+                transform: rotate(0deg) !important;
+                margin-top: 3rem;
+            }
+
+            .menu-item.active {
+                padding: 0.4rem 1.5rem;
+            }
+
+            .track-card {
+                align-items: center;
+                text-align: center;
+                transform: none !important;
+            }
+
+            .p3-logo {
+                align-items: center;
+            }
+
+            .controls-hint {
+                display: none;
+            }
+
+            .hud-overlay {
+                flex-direction: column;
+                padding: 1.5rem;
+                justify-content: center;
+                gap: 1.5rem;
+                overflow-y: auto;
+            }
+
+            .hud-container, .hud-detail-sidebar {
+                width: 100%;
+                max-height: 42vh;
+                transform: none !important;
+            }
+            
+            .hud-footer {
+                bottom: 1rem;
+                right: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="scaler-wrapper" id="scaler">
+    <div class="audio-control-bar">
+        <button class="audio-btn" id="start-audio-btn">♪ PLAY</button>
+        <button class="audio-btn" id="stop-audio-btn">■ STOP</button>
+    </div>
 
-        <div class="audio-control-bar">
-            <button class="audio-btn" id="start-audio-btn">♪ PLAY</button>
-            <button class="audio-btn" id="stop-audio-btn">■ STOP</button>
-        </div>
+    <div class="video-background">
+        <video id="vid-about" autoplay loop muted playsinline preload="auto">
+            <source src="m2-res_1080p.mp4" type="video/mp4">
+        </video>
+    </div>
 
-        <div class="video-background">
-            <video id="vid-about" autoplay loop muted playsinline preload="auto">
-                <source src="m2-res_1080p.mp4" type="video/mp4">
-            </video>
-        </div>
+    <div class="image-background" id="bg-about">
+        <img src="images.jpg" alt="About Background">
+    </div>
+    <div class="image-background" id="bg-skills">
+        <img src="64662133e36f72e282c95b2a3c433534.jpg" alt="Skills Background">
+    </div>
+    <div class="image-background" id="bg-exp">
+        <img src="c8e500f3fca638633661069f1cc6795c.jpg" alt="Experience Background">
+    </div>
+    <div class="image-background" id="bg-proj">
+        <img src="download.jpg" alt="Projects Background">
+    </div>
+    <div class="image-background" id="bg-edu">
+        <img src="thumb-1920-1344915.jpg" alt="Education Background">
+    </div>
+    <div class="image-background" id="bg-contact">
+        <img src="24671851e83b17040f79df10fd5a6689.jpg" alt="Contact Background">
+    </div>
 
-        <div class="image-background" id="bg-about">
-            <img src="images.jpg" alt="About Background">
-        </div>
-        <div class="image-background" id="bg-skills">
-            <img src="64662133e36f72e282c95b2a3c433534.jpg" alt="Skills Background">
-        </div>
-        <div class="image-background" id="bg-exp">
-            <img src="c8e500f3fca638633661069f1cc6795c.jpg" alt="Experience Background">
-        </div>
-        <div class="image-background" id="bg-proj">
-            <img src="download.jpg" alt="Projects Background">
-        </div>
-        <div class="image-background" id="bg-edu">
-            <img src="thumb-1920-1344915.jpg" alt="Education Background">
-        </div>
-        <div class="image-background" id="bg-contact">
-            <img src="24671851e83b17040f79df10fd5a6689.jpg" alt="Contact Background">
-        </div>
-
+    <div class="main-container">
         <div class="side-title-container" id="side-title-container">
             <h1 class="side-title">KRISH PRASAD</h1>
         </div>
@@ -632,217 +693,204 @@
                 <div class="menu-item" data-section="EDUCATION">EDUCATION</div>
                 <div class="menu-item" data-section="CONTACT">CONTACT</div>
             </nav>
+        </div>
 
-            <div class="track-card" id="track-card">
-                <div class="p3-logo">
-                    <div class="p3-big">P3</div>
-                    <div class="persona-sub">PERSONA3</div>
-                    <div class="reload-badge">RELOAD</div>
-                </div>
-                <h2 class="song-title">Full Moon Full Life</h2>
-                <div class="vocal-credits">Vocals : Azumi Takahashi feat Lotus Juice</div>
-                <div class="play-status" id="play-status">▶ STATUS: STOPPED</div>
-                <canvas id="visualizer" width="220" height="50"></canvas>
+        <div class="track-card" id="track-card">
+            <div class="p3-logo">
+                <div class="p3-big">P3</div>
+                <div class="persona-sub">PERSONA3</div>
+                <div class="reload-badge">RELOAD</div>
             </div>
+            <h2 class="song-title">Full Moon Full Life</h2>
+            <div class="vocal-credits">Vocals : Azumi Takahashi feat Lotus Juice</div>
+            <div class="play-status" id="play-status">▶ STATUS: STOPPED</div>
+            <canvas id="visualizer" width="220" height="50"></canvas>
+        </div>
+    </div>
 
-            <div class="controls-hint">
-                <div class="action-title" id="action-title">View Bio & Summary</div>
-                <div class="command-sub">Resume Section</div>
-                <div class="key-prompt">
-                    <span class="key-badge">↵</span> Select
+    <div class="controls-hint">
+        <div class="action-title" id="action-title">View Bio & Summary</div>
+        <div class="command-sub">Resume Section</div>
+        <div class="key-prompt">
+            <span class="key-badge">↵</span> Select
+        </div>
+    </div>
+
+    <div class="hud-overlay" id="about-hud-overlay">
+        <div class="hud-container">
+            <div class="hud-row active-row" data-index="0">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#ff66b2;">BIO</span>
+                    <span class="hud-name-text">Professional Summary</span>
+                </div>
+            </div>
+            <div class="hud-row" data-index="1">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#00a8ff;">FOCUS</span>
+                    <span class="hud-name-text">Core Specializations</span>
                 </div>
             </div>
         </div>
+        <div class="hud-detail-sidebar">
+            <div class="sidebar-category-title" id="about-sidebar-title">Professional Summary</div>
+            <div class="sidebar-description" id="about-sidebar-desc">IT professional specializing in systems deployment and security operations.</div>
+        </div>
+        <div class="hud-footer" id="about-back-btn">
+            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
+        </div>
+    </div>
 
-        <div class="hud-overlay" id="about-hud-overlay">
-            <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ff66b2;">BIO</span>
-                        <span class="hud-name-text">Professional Summary</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="1">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00a8ff;">FOCUS</span>
-                        <span class="hud-name-text">Core Specializations</span>
-                    </div>
+    <div class="hud-overlay" id="skills-hud-overlay">
+        <div class="hud-container">
+            <div class="hud-row active-row" data-index="0">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label">DATA</span>
+                    <span class="hud-name-text">Data & Documentation</span>
                 </div>
             </div>
-            <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title" id="about-sidebar-title">Professional Summary</div>
-                <div class="sidebar-description" id="about-sidebar-desc">IT professional specializing in systems deployment and security operations.</div>
+            <div class="hud-row" data-index="1">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#00a8ff;">CODE</span>
+                    <span class="hud-name-text">Technical & Programming</span>
+                </div>
             </div>
-            <div class="hud-footer" id="about-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
+            <div class="hud-row" data-index="2">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#ff66b2;">SEC</span>
+                    <span class="hud-name-text">Cybersecurity & Networking</span>
+                </div>
+            </div>
+            <div class="hud-row" data-index="3">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#00ffcc; color:#000;">MEDIA</span>
+                    <span class="hud-name-text">Digital Media</span>
+                </div>
             </div>
         </div>
+        <div class="hud-detail-sidebar">
+            <div class="sidebar-category-title" id="skills-sidebar-title">Data & Documentation</div>
+            <div class="sidebar-description" id="skills-sidebar-desc">Structured/unstructured data handling, Microsoft Excel, Google Sheets, Access, inventory management, documentation.</div>
+        </div>
+        <div class="hud-footer" id="skills-back-btn">
+            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
+        </div>
+    </div>
 
-        <div class="hud-overlay" id="skills-hud-overlay">
-            <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label">DATA</span>
-                        <span class="hud-name-text">Data & Documentation</span>
-                    </div>
+    <div class="hud-overlay" id="exp-hud-overlay">
+        <div class="hud-container">
+            <div class="hud-row active-row" data-index="0">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#ff66b2;">IT HELP DESK</span>
+                    <span class="hud-name-text">The Willows Community School</span>
                 </div>
-                <div class="hud-row" data-index="1">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00a8ff;">CODE</span>
-                        <span class="hud-name-text">Technical & Programming</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="2">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ff66b2;">SEC</span>
-                        <span class="hud-name-text">Cybersecurity & Networking</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="3">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00ffcc; color:#000;">MEDIA</span>
-                        <span class="hud-name-text">Digital Media</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title" id="skills-sidebar-title">Data & Documentation</div>
-                <div class="sidebar-description" id="skills-sidebar-desc">Structured/unstructured data handling, Microsoft Excel, Google Sheets, Access, inventory management, documentation.</div>
-            </div>
-            <div class="hud-footer" id="skills-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
             </div>
         </div>
-
-        <div class="hud-overlay" id="exp-hud-overlay">
-            <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ff66b2;">IT HELP DESK</span>
-                        <span class="hud-name-text">The Willows Community School</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title">IT Help Desk The Willows Community School | 2025</div>
-                <div class="sidebar-description">
-                    <ul>
-                        <li>Programmed and deployed 400 laptops and 200 iPads for K–8 students.</li>
-                        <li>Maintained structured inventory datasets (600+ records) with zero discrepancies.</li>
-                        <li>Created internal documentation for equipment tracking and device deployment.</li>
-                        <li>Supported remote setup, printer setups, and hardware issue resolutions.</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="hud-footer" id="exp-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
+        <div class="hud-detail-sidebar">
+            <div class="sidebar-category-title">IT Help Desk The Willows Community School | 2025</div>
+            <div class="sidebar-description">
+                <ul>
+                    <li>Programmed and deployed 400 laptops and 200 iPads for K–8 students.</li>
+                    <li>Maintained structured inventory datasets (600+ records) with zero discrepancies.</li>
+                    <li>Created internal documentation for equipment tracking and device deployment.</li>
+                    <li>Supported remote setup, printer setups, and hardware issue resolutions.</li>
+                </ul>
             </div>
         </div>
+        <div class="hud-footer" id="exp-back-btn">
+            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
+        </div>
+    </div>
 
-        <div class="hud-overlay" id="proj-hud-overlay">
-            <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00ffcc; color:#000;">SIMULATION</span>
-                        <span class="hud-name-text">Datacom Cyber Security</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="1">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00a8ff;">DATABASE</span>
-                        <span class="hud-name-text">Database Management & Data</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="2">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ff66b2;">NETWORK</span>
-                        <span class="hud-name-text">Wireshark Packet Analysis</span>
-                    </div>
+    <div class="hud-overlay" id="proj-hud-overlay">
+        <div class="hud-container">
+            <div class="hud-row active-row" data-index="0">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#00ffcc; color:#000;">SIMULATION</span>
+                    <span class="hud-name-text">Datacom Cyber Security</span>
                 </div>
             </div>
-            <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title" id="proj-sidebar-title">Datacom Cyber Security Operations Job Simulation</div>
-                <div class="sidebar-description" id="proj-sidebar-desc">Completed a job simulation investigating a cyberattack, conducting risk assessments, and delivering detailed findings report.</div>
+            <div class="hud-row" data-index="1">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#00a8ff;">DATABASE</span>
+                    <span class="hud-name-text">Database Management & Data</span>
+                </div>
             </div>
-            <div class="hud-footer" id="proj-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
+            <div class="hud-row" data-index="2">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#ff66b2;">NETWORK</span>
+                    <span class="hud-name-text">Wireshark Packet Analysis</span>
+                </div>
             </div>
         </div>
+        <div class="hud-detail-sidebar">
+            <div class="sidebar-category-title" id="proj-sidebar-title">Datacom Cyber Security Operations Job Simulation</div>
+            <div class="sidebar-description" id="proj-sidebar-desc">Completed a job simulation investigating a cyberattack, conducting risk assessments, and delivering detailed findings report.</div>
+        </div>
+        <div class="hud-footer" id="proj-back-btn">
+            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
+        </div>
+    </div>
 
-        <div class="hud-overlay" id="edu-hud-overlay">
-            <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ff66b2;">CERTS</span>
-                        <span class="hud-name-text">Certifications & Training</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="1">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00a8ff;">SCHOOL</span>
-                        <span class="hud-name-text">Saugus High School</span>
-                    </div>
+    <div class="hud-overlay" id="edu-hud-overlay">
+        <div class="hud-container">
+            <div class="hud-row active-row" data-index="0">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#ff66b2;">CERTS</span>
+                    <span class="hud-name-text">Certifications & Training</span>
                 </div>
             </div>
-            <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title" id="edu-sidebar-title">Certifications & Training</div>
-                <div class="sidebar-description" id="edu-sidebar-desc">
-                    <ul>
-                        <li>CompTIA A+ Certified, Studying Network+</li>
-                        <li>Cisco: Introduction to Cybersecurity</li>
-                        <li>Linux Command Line</li>
-                    </ul>
+            <div class="hud-row" data-index="1">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#00a8ff;">SCHOOL</span>
+                    <span class="hud-name-text">Saugus High School</span>
                 </div>
-            </div>
-            <div class="hud-footer" id="edu-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
             </div>
         </div>
-
-        <div class="hud-overlay" id="contact-hud-overlay">
-            <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ffcc00; color:#000;">EMAIL</span>
-                        <span class="hud-name-text">Email Address</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="1">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00a8ff;">LINKEDIN</span>
-                        <span class="hud-name-text">LinkedIn Profile</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title" id="contact-sidebar-title">Email Address</div>
-                <div class="sidebar-description" id="contact-sidebar-desc">
-                    <ul>
-                        <li>Email: <a href="mailto:krishprasad0907@gmail.com">krishprasad0907@gmail.com</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="hud-footer" id="contact-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Tap Here</div>
+        <div class="hud-detail-sidebar">
+            <div class="sidebar-category-title" id="edu-sidebar-title">Certifications & Training</div>
+            <div class="sidebar-description" id="edu-sidebar-desc">
+                <ul>
+                    <li>CompTIA A+ Certified, Studying Network+</li>
+                    <li>Cisco: Introduction to Cybersecurity</li>
+                    <li>Linux Command Line</li>
+                </ul>
             </div>
         </div>
+        <div class="hud-footer" id="edu-back-btn">
+            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
+        </div>
+    </div>
 
+    <div class="hud-overlay" id="contact-hud-overlay">
+        <div class="hud-container">
+            <div class="hud-row active-row" data-index="0">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#ffcc00; color:#000;">EMAIL</span>
+                    <span class="hud-name-text">Email Address</span>
+                </div>
+            </div>
+            <div class="hud-row" data-index="1">
+                <div class="hud-row-inner">
+                    <span class="hud-tag-label" style="background:#00a8ff;">LINKEDIN</span>
+                    <span class="hud-name-text">LinkedIn Profile</span>
+                </div>
+            </div>
+        </div>
+        <div class="hud-detail-sidebar">
+            <div class="sidebar-category-title" id="contact-sidebar-title">Email Address</div>
+            <div class="sidebar-description" id="contact-sidebar-desc">
+                <ul>
+                    <li>Email: <a href="mailto:krishprasad0907@gmail.com">krishprasad0907@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="hud-footer" id="contact-back-btn">
+            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const scaler = document.getElementById('scaler');
-            
-            function adjustScale() {
-                const targetWidth = 1920;
-                const targetHeight = 1080;
-                const scale = Math.min(window.innerWidth / targetWidth, window.innerHeight / targetHeight);
-                scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
-            }
-
-            window.addEventListener('resize', adjustScale);
-            adjustScale();
-
             setTimeout(() => document.body.classList.add('loaded'), 50);
 
             const menuItems = Array.from(document.querySelectorAll('.menu-item'));
@@ -1028,6 +1076,11 @@
                 if (overlays[stateKey]) {
                     mainUiLayer.classList.add('hidden');
                     sideTitleContainer.classList.add('hidden');
+                    document.querySelector('.track-card').style.opacity = '0';
+                    document.querySelector('.track-card').style.pointerEvents = 'none';
+                    if(document.querySelector('.controls-hint')) {
+                        document.querySelector('.controls-hint').style.opacity = '0';
+                    }
                     overlays[stateKey].classList.add('visible');
                     activeHudState = stateKey;
                     subIndices[stateKey] = 0;
@@ -1041,6 +1094,11 @@
                 }
                 sideTitleContainer.classList.remove('hidden');
                 mainUiLayer.classList.remove('hidden');
+                document.querySelector('.track-card').style.opacity = '1';
+                document.querySelector('.track-card').style.pointerEvents = 'auto';
+                if(document.querySelector('.controls-hint')) {
+                    document.querySelector('.controls-hint').style.opacity = '1';
+                }
                 activeHudState = null;
                 resetToVideoBackground();
             }
