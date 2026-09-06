@@ -8,9 +8,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Impact&family=Montserrat:ital,wght@0,900;1,900&family=Press+Start+2P&family=VT323&display=swap');
 
         :root {
-            --fluid-side-title: clamp(2.5rem, 8vw, 6.5rem);
-            --fluid-menu-size: clamp(2rem, 4.5vw, 3.5rem);
-            --fluid-active-size: clamp(2.4rem, 5.2vw, 4.2rem);
+            --fluid-side-title: clamp(2.5rem, 7vw, 6rem);
+            --fluid-menu-size: clamp(1.6rem, 3.8vw, 3rem);
+            --fluid-active-size: clamp(2rem, 4.5vw, 3.6rem);
         }
 
         * {
@@ -19,6 +19,7 @@
             box-sizing: border-box;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-touch-callout: none;
         }
 
         body {
@@ -26,8 +27,9 @@
             color: #ffffff;
             background-color: #000;
             width: 100vw;
-            min-height: 100vh;
-            overflow-x: hidden;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -43,18 +45,15 @@
             overflow: hidden;
             pointer-events: none;
             opacity: 0;
-            transform: scale(1.02);
-            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 1s ease;
         }
 
         body.loaded .video-background {
             opacity: 1;
-            transform: scale(1);
         }
 
         .image-background.active {
             opacity: 1;
-            transform: scale(1);
         }
 
         .video-background video, .image-background img {
@@ -63,27 +62,9 @@
             left: 50%;
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             transform: translate(-50%, -50%);
             display: block;
-        }
-
-        @media (min-aspect-ratio: 16/9) {
-            .video-background video, .image-background img {
-                width: 100%;
-                height: auto;
-            }
-        }
-
-        @media (max-aspect-ratio: 9/16) {
-            .video-background video, .image-background img {
-                width: auto;
-                height: 100%;
-            }
-        }
-
-        .image-background img {
-            filter: brightness(0.8) contrast(1.1);
         }
 
         .bg-tint-overlay {
@@ -92,36 +73,35 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.25);
+            background: rgba(0, 0, 0, 0.2);
             z-index: 2;
             pointer-events: none;
         }
 
         .main-container {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             width: 100%;
-            min-height: 100vh;
-            padding: 1.5rem;
+            height: 100%;
             position: relative;
             z-index: 3;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            padding: 2vw 4vw;
         }
 
         .side-title-container {
-            position: absolute;
-            top: 1.5rem;
-            left: 2rem;
+            position: relative;
             z-index: 5;
             pointer-events: none;
             opacity: 0;
-            transform: translateY(-20px);
+            transform: translateX(-30px);
             transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.4s ease;
+            flex-shrink: 0;
         }
 
         body.loaded .side-title-container {
-            transform: translateY(0);
+            transform: translateX(0);
             opacity: 1;
         }
 
@@ -137,25 +117,35 @@
             text-transform: uppercase;
             letter-spacing: -0.02em;
             line-height: 0.85;
-            white-space: nowrap;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
             color: #00a8ff;
             text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 4px 4px 0 rgba(0,0,0,0.8);
-            background: linear-gradient(180deg, #ffffff 0%, #00a8ff 50%, #0044b3 100%);
+            background: linear-gradient(135deg, #ffffff 0%, #00a8ff 40%, #ff66b2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(3px 3px 0px #000000);
+            filter: drop-shadow(4px 4px 0px #000000);
+        }
+
+        .center-content-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            gap: 1.5rem;
+            z-index: 10;
         }
 
         .ui-layer {
             position: relative;
             z-index: 10;
-            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             pointer-events: auto;
             transition: opacity 0.4s ease;
-            margin: auto 0;
         }
 
         .ui-layer.hidden {
@@ -168,7 +158,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            gap: 1.2rem;
+            gap: 0.8rem;
             z-index: 10;
             pointer-events: auto;
             transform: translateY(30px);
@@ -193,8 +183,9 @@
             transition: all 0.15s ease-out;
             letter-spacing: 2px;
             line-height: 1.1;
-            padding: 0.6rem 2rem;
+            padding: 0.4rem 1.5rem;
             pointer-events: auto;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .menu-item:hover:not(.active) {
@@ -206,7 +197,7 @@
             position: relative;
             font-size: var(--fluid-active-size);
             line-height: 1.1;
-            padding: 0.8rem 3.5rem;
+            padding: 0.6rem 2.8rem;
             background: transparent;
             text-shadow: none;
             cursor: pointer;
@@ -276,7 +267,7 @@
             transform: translateY(40px);
             opacity: 0;
             transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, opacity 0.5s ease 0.4s;
-            margin-top: 1rem;
+            flex-shrink: 0;
         }
 
         body.loaded .track-card {
@@ -288,13 +279,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
             pointer-events: none;
         }
 
         .p3-big {
             font-family: 'Press Start 2P', monospace;
-            font-size: clamp(1.3rem, 2.2vw, 2.2rem);
+            font-size: clamp(1.1rem, 1.8vw, 1.8rem);
             line-height: 0.9;
             letter-spacing: -2px;
             color: #ffffff;
@@ -303,7 +294,7 @@
 
         .persona-sub {
             font-family: 'VT323', monospace;
-            font-size: clamp(0.9rem, 1.3vw, 1.2rem);
+            font-size: clamp(0.8rem, 1.1vw, 1rem);
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1;
@@ -317,14 +308,14 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            font-size: 0.75rem;
-            padding: 1px 6px;
+            font-size: 0.65rem;
+            padding: 1px 5px;
             margin-top: 2px;
             clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
         }
 
         .song-title {
-            font-size: clamp(1.1rem, 1.8vw, 1.6rem);
+            font-size: clamp(1rem, 1.5vw, 1.4rem);
             font-weight: 900;
             font-style: italic;
             letter-spacing: -0.5px;
@@ -336,28 +327,28 @@
 
         .vocal-credits {
             font-family: 'VT323', monospace;
-            font-size: clamp(0.85rem, 1.1vw, 1rem);
+            font-size: clamp(0.75rem, 1vw, 0.9rem);
             letter-spacing: 1px;
             color: #ffffff;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
             text-shadow: 2px 2px 0px rgba(0,0,0,0.6);
             pointer-events: none;
         }
 
         .play-status {
             font-family: 'VT323', monospace;
-            font-size: clamp(0.75rem, 0.9vw, 0.95rem);
+            font-size: clamp(0.7rem, 0.85vw, 0.85rem);
             letter-spacing: 1.5px;
             color: #ff66b2;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.2rem;
             text-shadow: 1px 1px 0px rgba(0,0,0,0.8);
             text-transform: uppercase;
             pointer-events: none;
         }
 
         #visualizer {
-            width: 160px;
-            height: 35px;
+            width: 140px;
+            height: 30px;
             image-rendering: pixelated;
             filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.5));
             pointer-events: none;
@@ -385,6 +376,7 @@
             border: none;
             outline: none;
             transition: transform 0.2s ease, background 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .audio-btn:hover {
@@ -406,6 +398,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
             z-index: 30;
             display: flex;
             flex-direction: column;
@@ -414,10 +407,10 @@
             padding: 1.5rem;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s ease;
-            background: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+            background: rgba(0, 0, 0, 0.6);
             overflow-y: auto;
-            gap: 1.2rem;
+            gap: 1rem;
         }
 
         .hud-overlay.visible {
@@ -428,12 +421,12 @@
         .hud-container {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: 480px;
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
-            transform: translateY(-30px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            gap: 0.6rem;
+            transform: translateY(-20px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: auto;
         }
 
@@ -445,7 +438,7 @@
             position: relative;
             display: flex;
             align-items: center;
-            height: 4.5rem;
+            height: 4rem;
             background: #000;
             border-left: 6px solid #00a8ff;
             box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
@@ -453,9 +446,10 @@
             transform: skewX(-10deg);
             transition: transform 0.15s ease, background 0.15s ease, border-left-color 0.15s ease;
             pointer-events: auto;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .hud-row:hover {
+        .hud-row:hover, .hud-row:active {
             background: #111;
             transform: skewX(-10deg) scale(1.02);
         }
@@ -470,7 +464,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 0 2rem;
+            padding: 0 1.5rem;
             transform: skewX(10deg);
             pointer-events: none;
         }
@@ -479,16 +473,16 @@
             background: #000;
             color: #fff;
             font-family: 'Impact', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-style: italic;
-            padding: 3px 0.8rem;
+            padding: 3px 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         .hud-name-text {
             font-family: 'Impact', sans-serif;
-            font-size: clamp(1rem, 1.4vw, 1.3rem);
+            font-size: clamp(0.95rem, 1.3vw, 1.2rem);
             font-style: italic;
             color: #ffffff;
             text-transform: uppercase;
@@ -498,14 +492,14 @@
 
         .hud-detail-sidebar {
             width: 100%;
-            max-width: 500px;
-            background: rgba(0, 0, 0, 0.92);
+            max-width: 480px;
+            background: rgba(0, 0, 0, 0.94);
             border: 4px solid #00a8ff;
             box-shadow: 6px 6px 0px #ff66b2;
-            padding: 1.8rem;
-            transform: translateY(30px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            max-height: 42vh;
+            padding: 1.5rem;
+            transform: translateY(20px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 38vh;
             overflow-y: auto;
             pointer-events: auto;
         }
@@ -516,19 +510,19 @@
 
         .sidebar-category-title {
             font-family: 'Impact', sans-serif;
-            font-size: clamp(1.2rem, 1.7vw, 1.7rem);
+            font-size: clamp(1.1rem, 1.6vw, 1.5rem);
             font-style: italic;
             color: #00a8ff;
             text-transform: uppercase;
             border-bottom: 3px solid #ff66b2;
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.8rem;
+            padding-bottom: 0.4rem;
+            margin-bottom: 0.6rem;
         }
 
         .sidebar-description {
             font-family: 'Montserrat', sans-serif;
-            font-size: clamp(0.9rem, 1.1vw, 1.05rem);
-            line-height: 1.5;
+            font-size: clamp(0.85rem, 1vw, 1rem);
+            line-height: 1.4;
             color: #e6e6e6;
         }
 
@@ -537,8 +531,8 @@
             padding-left: 1.2rem;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            margin-top: 0.6rem;
+            gap: 0.4rem;
+            margin-top: 0.4rem;
         }
 
         .sidebar-description a {
@@ -553,7 +547,7 @@
         }
 
         .hud-footer {
-            margin-top: 0.4rem;
+            margin-top: 0.2rem;
             text-align: center;
             font-family: 'Montserrat', sans-serif;
             font-style: italic;
@@ -562,13 +556,42 @@
             cursor: pointer;
             pointer-events: auto;
             z-index: 35;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .hud-prompt-keys {
             font-family: 'VT323', monospace;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #ff66b2;
             letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                justify-content: center;
+                padding: 1rem;
+            }
+            .side-title-container {
+                position: absolute;
+                top: 1rem;
+                left: 1rem;
+                transform: none;
+            }
+            .side-title {
+                writing-mode: horizontal-tb;
+                transform: none;
+                font-size: clamp(2rem, 8vw, 3.5rem);
+            }
+            .center-content-group {
+                width: 100%;
+                margin-top: 2rem;
+            }
+            .video-background video, .image-background img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
     </style>
 </head>
@@ -612,31 +635,33 @@
             <h1 class="side-title">KRISH PRASAD</h1>
         </div>
 
-        <div class="ui-layer" id="main-ui-layer">
-            <nav class="menu-container" id="menu-container">
-                <div class="menu-item active" data-section="about">
-                    <div class="badge-bg"></div>
-                    <div class="badge-slash"></div>
-                    <span class="text-wrapper" data-text="ABOUT">ABOUT</span>
-                </div>
-                <div class="menu-item" data-section="SKILLS">SKILLS</div>
-                <div class="menu-item" data-section="EXPERIENCE">EXPERIENCE</div>
-                <div class="menu-item" data-section="PROJECTS">PROJECTS</div>
-                <div class="menu-item" data-section="EDUCATION">EDUCATION</div>
-                <div class="menu-item" data-section="CONTACT">CONTACT</div>
-            </nav>
-        </div>
-
-        <div class="track-card" id="track-card">
-            <div class="p3-logo">
-                <div class="p3-big">P3</div>
-                <div class="persona-sub">PERSONA3</div>
-                <div class="reload-badge">RELOAD</div>
+        <div class="center-content-group">
+            <div class="ui-layer" id="main-ui-layer">
+                <nav class="menu-container" id="menu-container">
+                    <div class="menu-item active" data-section="about">
+                        <div class="badge-bg"></div>
+                        <div class="badge-slash"></div>
+                        <span class="text-wrapper" data-text="ABOUT">ABOUT</span>
+                    </div>
+                    <div class="menu-item" data-section="SKILLS">SKILLS</div>
+                    <div class="menu-item" data-section="EXPERIENCE">EXPERIENCE</div>
+                    <div class="menu-item" data-section="PROJECTS">PROJECTS</div>
+                    <div class="menu-item" data-section="EDUCATION">EDUCATION</div>
+                    <div class="menu-item" data-section="CONTACT">CONTACT</div>
+                </nav>
             </div>
-            <h2 class="song-title">Full Moon Full Life</h2>
-            <div class="vocal-credits">Vocals : Azumi Takahashi feat Lotus Juice</div>
-            <div class="play-status" id="play-status">▶ STATUS: STOPPED</div>
-            <canvas id="visualizer" width="160" height="35"></canvas>
+
+            <div class="track-card" id="track-card">
+                <div class="p3-logo">
+                    <div class="p3-big">P3</div>
+                    <div class="persona-sub">PERSONA3</div>
+                    <div class="reload-badge">RELOAD</div>
+                </div>
+                <h2 class="song-title">Full Moon Full Life</h2>
+                <div class="vocal-credits">Vocals : Azumi Takahashi feat Lotus Juice</div>
+                <div class="play-status" id="play-status">▶ STATUS: STOPPED</div>
+                <canvas id="visualizer" width="140" height="30"></canvas>
+            </div>
         </div>
     </div>
 
@@ -942,10 +967,10 @@
             function renderVisualizer() {
                 requestAnimationFrame(renderVisualizer);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < 14; i++) {
-                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 10 + 4 : 4;
+                for (let i = 0; i < 12; i++) {
+                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 9 + 4 : 4;
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(5 + i * 11, (canvas.height / 2) - (barHeight / 2), 6, barHeight);
+                    ctx.fillRect(4 + i * 11, (canvas.height / 2) - (barHeight / 2), 5, barHeight);
                 }
             }
             renderVisualizer();
