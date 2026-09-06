@@ -8,9 +8,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Impact&family=Montserrat:ital,wght@0,900;1,900&family=Press+Start+2P&family=VT323&display=swap');
 
         :root {
-            --fluid-side-title: clamp(3rem, 10vw, 8rem);
-            --fluid-menu-size: clamp(2.2rem, 5vw, 3.8rem);
-            --fluid-active-size: clamp(2.8rem, 6vw, 4.6rem);
+            --fluid-side-title: clamp(2.5rem, 8vw, 6.5rem);
+            --fluid-menu-size: clamp(2rem, 4.5vw, 3.5rem);
+            --fluid-active-size: clamp(2.4rem, 5.2vw, 4.2rem);
         }
 
         * {
@@ -43,7 +43,7 @@
             overflow: hidden;
             pointer-events: none;
             opacity: 0;
-            transform: scale(1.08);
+            transform: scale(1.02);
             transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -59,27 +59,40 @@
 
         .video-background video, .image-background img {
             position: absolute;
-            top: 0;
-            left: 0;
+            top: 50%;
+            left: 50%;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            transform: translate(-50%, -50%);
             display: block;
         }
 
-        /* Reduced brightness filter so the character remains clearly visible on image backgrounds */
-        .image-background img {
-            filter: brightness(0.75) contrast(1.1);
+        @media (min-aspect-ratio: 16/9) {
+            .video-background video, .image-background img {
+                width: 100%;
+                height: auto;
+            }
         }
 
-        /* Semi-transparent tint overlay to keep background character and art consistently visible */
+        @media (max-aspect-ratio: 9/16) {
+            .video-background video, .image-background img {
+                width: auto;
+                height: 100%;
+            }
+        }
+
+        .image-background img {
+            filter: brightness(0.8) contrast(1.1);
+        }
+
         .bg-tint-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.25);
             z-index: 2;
             pointer-events: none;
         }
@@ -89,7 +102,7 @@
             flex-direction: column;
             width: 100%;
             min-height: 100vh;
-            padding: 2rem;
+            padding: 1.5rem;
             position: relative;
             z-index: 3;
             align-items: center;
@@ -98,11 +111,10 @@
 
         .side-title-container {
             position: absolute;
-            top: 2rem;
+            top: 1.5rem;
             left: 2rem;
-            z-index: 2;
+            z-index: 5;
             pointer-events: none;
-            mix-blend-mode: difference;
             opacity: 0;
             transform: translateY(-20px);
             transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.4s ease;
@@ -124,15 +136,19 @@
             font-style: italic;
             text-transform: uppercase;
             letter-spacing: -0.02em;
-            color: #e6e6e6;
             line-height: 0.85;
             white-space: nowrap;
-            filter: drop-shadow(4px 4px 0px #000000);
+            color: #00a8ff;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 4px 4px 0 rgba(0,0,0,0.8);
+            background: linear-gradient(180deg, #ffffff 0%, #00a8ff 50%, #0044b3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(3px 3px 0px #000000);
         }
 
         .ui-layer {
             position: relative;
-            z-index: 3;
+            z-index: 10;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -152,8 +168,8 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            gap: 1.5rem;
-            z-index: 4;
+            gap: 1.2rem;
+            z-index: 10;
             pointer-events: auto;
             transform: translateY(30px);
             opacity: 0;
@@ -177,6 +193,8 @@
             transition: all 0.15s ease-out;
             letter-spacing: 2px;
             line-height: 1.1;
+            padding: 0.6rem 2rem;
+            pointer-events: auto;
         }
 
         .menu-item:hover:not(.active) {
@@ -188,11 +206,12 @@
             position: relative;
             font-size: var(--fluid-active-size);
             line-height: 1.1;
-            padding: 0.4rem 3rem 0.4rem 3rem;
+            padding: 0.8rem 3.5rem;
             background: transparent;
             text-shadow: none;
             cursor: pointer;
             color: transparent;
+            pointer-events: auto;
         }
 
         .menu-item.active::before {
@@ -251,13 +270,13 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            z-index: 4;
+            z-index: 5;
             pointer-events: auto;
             cursor: pointer;
             transform: translateY(40px);
             opacity: 0;
             transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, opacity 0.5s ease 0.4s;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
 
         body.loaded .track-card {
@@ -269,13 +288,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             pointer-events: none;
         }
 
         .p3-big {
             font-family: 'Press Start 2P', monospace;
-            font-size: clamp(1.5rem, 2.5vw, 2.4rem);
+            font-size: clamp(1.3rem, 2.2vw, 2.2rem);
             line-height: 0.9;
             letter-spacing: -2px;
             color: #ffffff;
@@ -284,7 +303,7 @@
 
         .persona-sub {
             font-family: 'VT323', monospace;
-            font-size: clamp(1rem, 1.5vw, 1.3rem);
+            font-size: clamp(0.9rem, 1.3vw, 1.2rem);
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1;
@@ -298,14 +317,14 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             padding: 1px 6px;
             margin-top: 2px;
             clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
         }
 
         .song-title {
-            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            font-size: clamp(1.1rem, 1.8vw, 1.6rem);
             font-weight: 900;
             font-style: italic;
             letter-spacing: -0.5px;
@@ -317,35 +336,31 @@
 
         .vocal-credits {
             font-family: 'VT323', monospace;
-            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+            font-size: clamp(0.85rem, 1.1vw, 1rem);
             letter-spacing: 1px;
             color: #ffffff;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.3rem;
             text-shadow: 2px 2px 0px rgba(0,0,0,0.6);
             pointer-events: none;
         }
 
         .play-status {
             font-family: 'VT323', monospace;
-            font-size: clamp(0.8rem, 1vw, 1rem);
+            font-size: clamp(0.75rem, 0.9vw, 0.95rem);
             letter-spacing: 1.5px;
             color: #ff66b2;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.3rem;
             text-shadow: 1px 1px 0px rgba(0,0,0,0.8);
             text-transform: uppercase;
             pointer-events: none;
         }
 
         #visualizer {
-            width: 180px;
-            height: 40px;
+            width: 160px;
+            height: 35px;
             image-rendering: pixelated;
             filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.5));
             pointer-events: none;
-        }
-
-        .controls-hint {
-            display: none;
         }
 
         .audio-control-bar {
@@ -391,7 +406,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 25;
+            z-index: 30;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -400,9 +415,9 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(0, 0, 0, 0.5);
             overflow-y: auto;
-            gap: 1.5rem;
+            gap: 1.2rem;
         }
 
         .hud-overlay.visible {
@@ -419,6 +434,7 @@
             gap: 0.8rem;
             transform: translateY(-30px);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto;
         }
 
         .hud-overlay.visible .hud-container {
@@ -429,13 +445,14 @@
             position: relative;
             display: flex;
             align-items: center;
-            height: 4.8rem;
+            height: 4.5rem;
             background: #000;
             border-left: 6px solid #00a8ff;
             box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
             cursor: pointer;
             transform: skewX(-10deg);
             transition: transform 0.15s ease, background 0.15s ease, border-left-color 0.15s ease;
+            pointer-events: auto;
         }
 
         .hud-row:hover {
@@ -462,7 +479,7 @@
             background: #000;
             color: #fff;
             font-family: 'Impact', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-style: italic;
             padding: 3px 0.8rem;
             text-transform: uppercase;
@@ -471,7 +488,7 @@
 
         .hud-name-text {
             font-family: 'Impact', sans-serif;
-            font-size: clamp(1rem, 1.4vw, 1.4rem);
+            font-size: clamp(1rem, 1.4vw, 1.3rem);
             font-style: italic;
             color: #ffffff;
             text-transform: uppercase;
@@ -485,10 +502,10 @@
             background: rgba(0, 0, 0, 0.92);
             border: 4px solid #00a8ff;
             box-shadow: 6px 6px 0px #ff66b2;
-            padding: 2rem;
+            padding: 1.8rem;
             transform: translateY(30px);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            max-height: 45vh;
+            max-height: 42vh;
             overflow-y: auto;
             pointer-events: auto;
         }
@@ -499,12 +516,12 @@
 
         .sidebar-category-title {
             font-family: 'Impact', sans-serif;
-            font-size: clamp(1.3rem, 1.8vw, 1.8rem);
+            font-size: clamp(1.2rem, 1.7vw, 1.7rem);
             font-style: italic;
             color: #00a8ff;
             text-transform: uppercase;
             border-bottom: 3px solid #ff66b2;
-            padding-bottom: 0.6rem;
+            padding-bottom: 0.5rem;
             margin-bottom: 0.8rem;
         }
 
@@ -536,7 +553,7 @@
         }
 
         .hud-footer {
-            margin-top: 0.5rem;
+            margin-top: 0.4rem;
             text-align: center;
             font-family: 'Montserrat', sans-serif;
             font-style: italic;
@@ -544,7 +561,7 @@
             text-shadow: 2px 2px 0px #000;
             cursor: pointer;
             pointer-events: auto;
-            z-index: 30;
+            z-index: 35;
         }
 
         .hud-prompt-keys {
@@ -619,7 +636,7 @@
             <h2 class="song-title">Full Moon Full Life</h2>
             <div class="vocal-credits">Vocals : Azumi Takahashi feat Lotus Juice</div>
             <div class="play-status" id="play-status">▶ STATUS: STOPPED</div>
-            <canvas id="visualizer" width="180" height="40"></canvas>
+            <canvas id="visualizer" width="160" height="35"></canvas>
         </div>
     </div>
 
@@ -925,10 +942,10 @@
             function renderVisualizer() {
                 requestAnimationFrame(renderVisualizer);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < 15; i++) {
-                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 12 + 4 : 4;
+                for (let i = 0; i < 14; i++) {
+                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 10 + 4 : 4;
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(6 + i * 11, (canvas.height / 2) - (barHeight / 2), 6, barHeight);
+                    ctx.fillRect(5 + i * 11, (canvas.height / 2) - (barHeight / 2), 6, barHeight);
                 }
             }
             renderVisualizer();
@@ -942,8 +959,6 @@
                 const selectedText = newItem.textContent.trim();
                 newItem.classList.add('active');
                 newItem.innerHTML = `<div class="badge-bg"></div><div class="badge-slash"></div><span class="text-wrapper" data-text="${selectedText}">${selectedText}</span>`;
-
-                resetToVideoBackground();
             }
 
             function setSubSelectionIndex(stateKey, newIndex) {
@@ -1024,7 +1039,23 @@
 
             menuItems.forEach((item, index) => {
                 item.addEventListener('mouseenter', () => updateSelection(index));
-                item.addEventListener('click', () => { updateSelection(index); openActiveHUD(); });
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    if (currentIndex !== index) {
+                        updateSelection(index);
+                    } else {
+                        openActiveHUD();
+                    }
+                });
+                item.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (currentIndex !== index) {
+                        updateSelection(index);
+                    } else {
+                        openActiveHUD();
+                    }
+                }, { passive: false });
             });
 
             for (let key in overlays) {
@@ -1036,12 +1067,22 @@
                         e.stopPropagation();
                         setSubSelectionIndex(key, index);
                     });
+                    row.addEventListener('touchend', (e) => {
+                        e.stopPropagation();
+                        setSubSelectionIndex(key, index);
+                    }, { passive: true });
                     row.addEventListener('mouseenter', () => {
                         setSubSelectionIndex(key, index);
                     });
                 });
                 const backBtn = overlay.querySelector('.hud-footer');
-                if (backBtn) backBtn.addEventListener('click', closeActiveHUD);
+                if (backBtn) {
+                    backBtn.addEventListener('click', closeActiveHUD);
+                    backBtn.addEventListener('touchend', (e) => {
+                        e.stopPropagation();
+                        closeActiveHUD();
+                    }, { passive: true });
+                }
             }
 
             resetToVideoBackground();
