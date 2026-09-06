@@ -832,11 +832,24 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const scaler = document.getElementById('scaler');
+            
             function adjustScale() {
-                const scale = Math.max(window.innerWidth / 1920, window.innerHeight / 1080);
+                const targetWidth = 1920;
+                const targetHeight = 1080;
+                // Switch to Math.min so the fixed 1920x1080 canvas scales down to fit entirely inside mobile viewports without cropping.
+                const scale = Math.min(window.innerWidth / targetWidth, window.innerHeight / targetHeight);
                 scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
             }
-            window.addEventListener('resize', adjustScale);
+
+            if (window.ResizeObserver) {
+                const observer = new ResizeObserver(() => {
+                    requestAnimationFrame(adjustScale);
+                });
+                observer.observe(document.body);
+            } else {
+                window.addEventListener('resize', adjustScale);
+            }
+            
             adjustScale();
 
             setTimeout(() => document.body.classList.add('loaded'), 50);
