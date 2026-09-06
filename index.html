@@ -8,9 +8,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Impact&family=Montserrat:ital,wght@0,900;1,900&family=Press+Start+2P&family=VT323&display=swap');
 
         :root {
-            --fluid-side-title: clamp(4rem, 12vw, 9.5rem);
-            --fluid-menu-size: clamp(1.6rem, 3vw, 2.8rem);
-            --fluid-active-size: clamp(2.2rem, 4.5vw, 4rem);
+            --fluid-side-title: clamp(3rem, 10vw, 8rem);
+            --fluid-menu-size: clamp(2.2rem, 5vw, 3.8rem);
+            --fluid-active-size: clamp(2.8rem, 6vw, 4.6rem);
         }
 
         * {
@@ -67,35 +67,50 @@
             display: block;
         }
 
+        /* Reduced brightness filter so the character remains clearly visible on image backgrounds */
         .image-background img {
-            filter: brightness(0.5);
+            filter: brightness(0.75) contrast(1.1);
+        }
+
+        /* Semi-transparent tint overlay to keep background character and art consistently visible */
+        .bg-tint-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 2;
+            pointer-events: none;
         }
 
         .main-container {
-            display: grid;
-            grid-template-columns: auto 1fr auto;
+            display: flex;
+            flex-direction: column;
             width: 100%;
             min-height: 100vh;
-            padding: 2rem 4rem;
+            padding: 2rem;
             position: relative;
             z-index: 3;
             align-items: center;
+            justify-content: center;
         }
 
         .side-title-container {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
             z-index: 2;
             pointer-events: none;
             mix-blend-mode: difference;
-            transform: translateX(-120%);
+            opacity: 0;
+            transform: translateY(-20px);
             transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.4s ease;
         }
 
         body.loaded .side-title-container {
-            transform: translateX(0);
+            transform: translateY(0);
+            opacity: 1;
         }
 
         .side-title-container.hidden {
@@ -107,11 +122,9 @@
             font-size: var(--fluid-side-title);
             font-weight: 900;
             font-style: italic;
-            writing-mode: vertical-rl;
             text-transform: uppercase;
             letter-spacing: -0.02em;
             color: #e6e6e6;
-            transform: scale(-1);
             line-height: 0.85;
             white-space: nowrap;
             filter: drop-shadow(4px 4px 0px #000000);
@@ -121,12 +134,12 @@
             position: relative;
             z-index: 3;
             width: 100%;
-            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             pointer-events: auto;
             transition: opacity 0.4s ease;
+            margin: auto 0;
         }
 
         .ui-layer.hidden {
@@ -137,17 +150,18 @@
         .menu-container {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            gap: 1.2rem;
+            align-items: center;
+            text-align: center;
+            gap: 1.5rem;
             z-index: 4;
             pointer-events: auto;
-            transform: translateY(30px) rotate(-10deg);
+            transform: translateY(30px);
             opacity: 0;
             transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, opacity 0.5s ease 0.25s;
         }
 
         body.loaded .menu-container {
-            transform: translateY(0) rotate(-10deg);
+            transform: translateY(0);
             opacity: 1;
         }
 
@@ -161,12 +175,12 @@
             text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 4px 4px 0 rgba(0,0,0,0.8);
             cursor: pointer;
             transition: all 0.15s ease-out;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             line-height: 1.1;
         }
 
         .menu-item:hover:not(.active) {
-            transform: scale(1.08) translateX(8px);
+            transform: scale(1.08);
             color: #ffffff;
         }
 
@@ -174,7 +188,7 @@
             position: relative;
             font-size: var(--fluid-active-size);
             line-height: 1.1;
-            padding: 0.4rem 2.5rem 0.4rem 1.2rem;
+            padding: 0.4rem 3rem 0.4rem 3rem;
             background: transparent;
             text-shadow: none;
             cursor: pointer;
@@ -189,7 +203,7 @@
             width: 104%;
             height: 96%;
             background-color: #ff66b2;
-            clip-path: polygon(0% 30%, 100% 0%, 82% 100%, 10% 90%);
+            clip-path: polygon(2% 25%, 98% 5%, 90% 95%, 5% 90%);
             z-index: -3;
         }
 
@@ -200,18 +214,18 @@
             width: 100%;
             height: 88%;
             background-color: #ffffff;
-            clip-path: polygon(0% 30%, 98% 2%, 82% 98%, 10% 88%);
+            clip-path: polygon(2% 25%, 98% 5%, 90% 95%, 5% 90%);
             z-index: -2;
         }
 
         .menu-item.active .badge-slash {
             position: absolute;
             top: 50%;
-            left: -25%;
-            width: 150%;
-            height: 1.8rem;
+            left: -15%;
+            width: 130%;
+            height: 2rem;
             background-color: #e6002e;
-            transform: translateY(-50%) rotate(-15deg);
+            transform: translateY(-50%) rotate(-8deg);
             clip-path: polygon(0 35%, 100% 0%, 95% 100%, 5% 85%);
             z-index: -1;
         }
@@ -235,32 +249,33 @@
         .track-card {
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            text-align: right;
+            align-items: center;
+            text-align: center;
             z-index: 4;
             pointer-events: auto;
             cursor: pointer;
-            transform: translateX(100px);
+            transform: translateY(40px);
             opacity: 0;
             transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, opacity 0.5s ease 0.4s;
+            margin-top: 1.5rem;
         }
 
         body.loaded .track-card {
-            transform: translateX(0);
+            transform: translateY(0);
             opacity: 1;
         }
 
         .p3-logo {
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            margin-bottom: 0.8rem;
+            align-items: center;
+            margin-bottom: 0.5rem;
             pointer-events: none;
         }
 
         .p3-big {
             font-family: 'Press Start 2P', monospace;
-            font-size: clamp(2rem, 3.5vw, 3.4rem);
+            font-size: clamp(1.5rem, 2.5vw, 2.4rem);
             line-height: 0.9;
             letter-spacing: -2px;
             color: #ffffff;
@@ -269,7 +284,7 @@
 
         .persona-sub {
             font-family: 'VT323', monospace;
-            font-size: clamp(1.2rem, 2vw, 1.5rem);
+            font-size: clamp(1rem, 1.5vw, 1.3rem);
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1;
@@ -283,14 +298,14 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            font-size: 0.9rem;
-            padding: 1px 8px;
+            font-size: 0.8rem;
+            padding: 1px 6px;
             margin-top: 2px;
             clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
         }
 
         .song-title {
-            font-size: clamp(1.5rem, 2.5vw, 2.4rem);
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
             font-weight: 900;
             font-style: italic;
             letter-spacing: -0.5px;
@@ -302,102 +317,55 @@
 
         .vocal-credits {
             font-family: 'VT323', monospace;
-            font-size: clamp(1rem, 1.5vw, 1.35rem);
+            font-size: clamp(0.9rem, 1.2vw, 1.1rem);
             letter-spacing: 1px;
             color: #ffffff;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.4rem;
             text-shadow: 2px 2px 0px rgba(0,0,0,0.6);
             pointer-events: none;
         }
 
         .play-status {
             font-family: 'VT323', monospace;
-            font-size: clamp(0.9rem, 1.2vw, 1.2rem);
+            font-size: clamp(0.8rem, 1vw, 1rem);
             letter-spacing: 1.5px;
             color: #ff66b2;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.4rem;
             text-shadow: 1px 1px 0px rgba(0,0,0,0.8);
             text-transform: uppercase;
             pointer-events: none;
         }
 
         #visualizer {
-            width: 220px;
-            height: 50px;
+            width: 180px;
+            height: 40px;
             image-rendering: pixelated;
             filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.5));
             pointer-events: none;
         }
 
         .controls-hint {
-            position: fixed;
-            bottom: 2rem;
-            right: 4rem;
-            text-align: right;
-            z-index: 4;
-            pointer-events: none;
-            transform: translateY(50px);
-            opacity: 0;
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s, opacity 0.5s ease 0.5s;
-        }
-
-        body.loaded .controls-hint {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .action-title {
-            font-size: clamp(1.2rem, 2vw, 1.75rem);
-            font-weight: 900;
-            font-style: italic;
-            margin-bottom: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .command-sub {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #d1d1d1;
-            margin-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.4);
-            padding-bottom: 2px;
-        }
-
-        .key-prompt {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.95rem;
-            font-weight: 800;
-        }
-
-        .key-badge {
-            background-color: #ffffff;
-            color: #000000;
-            padding: 1px 6px;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            box-shadow: 1px 1px 0px #000000;
+            display: none;
         }
 
         .audio-control-bar {
             position: fixed;
-            top: 1.5rem;
-            right: 2rem;
+            top: 1rem;
+            right: 1rem;
             display: flex;
-            gap: 10px;
+            gap: 8px;
             z-index: 999;
         }
 
         .audio-btn {
             background: #ff66b2;
             color: #fff;
-            padding: 8px 16px;
+            padding: 6px 12px;
             font-family: 'Impact', sans-serif;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-style: italic;
             letter-spacing: 1px;
-            box-shadow: 3px 3px 0px #000;
+            box-shadow: 2px 2px 0px #000;
             cursor: pointer;
             border: none;
             outline: none;
@@ -425,13 +393,16 @@
             height: 100vh;
             z-index: 25;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 4rem;
+            justify-content: center;
+            padding: 1.5rem;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.55);
+            overflow-y: auto;
+            gap: 1.5rem;
         }
 
         .hud-overlay.visible {
@@ -441,34 +412,35 @@
 
         .hud-container {
             position: relative;
-            width: 42%;
+            width: 100%;
+            max-width: 500px;
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            transform: translateX(-60px);
+            gap: 0.8rem;
+            transform: translateY(-30px);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .hud-overlay.visible .hud-container {
-            transform: translateX(0);
+            transform: translateY(0);
         }
 
         .hud-row {
             position: relative;
             display: flex;
             align-items: center;
-            height: 5.2rem;
+            height: 4.8rem;
             background: #000;
             border-left: 6px solid #00a8ff;
             box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
             cursor: pointer;
-            transform: skewX(-12deg);
+            transform: skewX(-10deg);
             transition: transform 0.15s ease, background 0.15s ease, border-left-color 0.15s ease;
         }
 
         .hud-row:hover {
             background: #111;
-            transform: skewX(-12deg) scale(1.02);
+            transform: skewX(-10deg) scale(1.02);
         }
 
         .hud-row.active-row {
@@ -481,8 +453,8 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 0 2.5rem;
-            transform: skewX(12deg);
+            padding: 0 2rem;
+            transform: skewX(10deg);
             pointer-events: none;
         }
 
@@ -490,16 +462,16 @@
             background: #000;
             color: #fff;
             font-family: 'Impact', sans-serif;
-            font-size: 1.35rem;
+            font-size: 1.2rem;
             font-style: italic;
-            padding: 4px 1rem;
+            padding: 3px 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         .hud-name-text {
             font-family: 'Impact', sans-serif;
-            font-size: clamp(1.1rem, 1.6vw, 1.6rem);
+            font-size: clamp(1rem, 1.4vw, 1.4rem);
             font-style: italic;
             color: #ffffff;
             text-transform: uppercase;
@@ -508,36 +480,37 @@
         }
 
         .hud-detail-sidebar {
-            width: 48%;
+            width: 100%;
+            max-width: 500px;
             background: rgba(0, 0, 0, 0.92);
             border: 4px solid #00a8ff;
-            box-shadow: 8px 8px 0px #ff66b2;
-            padding: 2.5rem;
-            transform: translateX(60px);
+            box-shadow: 6px 6px 0px #ff66b2;
+            padding: 2rem;
+            transform: translateY(30px);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            max-height: 80vh;
+            max-height: 45vh;
             overflow-y: auto;
             pointer-events: auto;
         }
 
         .hud-overlay.visible .hud-detail-sidebar {
-            transform: translateX(0);
+            transform: translateY(0);
         }
 
         .sidebar-category-title {
             font-family: 'Impact', sans-serif;
-            font-size: clamp(1.5rem, 2vw, 2.2rem);
+            font-size: clamp(1.3rem, 1.8vw, 1.8rem);
             font-style: italic;
             color: #00a8ff;
             text-transform: uppercase;
             border-bottom: 3px solid #ff66b2;
-            padding-bottom: 0.8rem;
-            margin-bottom: 1rem;
+            padding-bottom: 0.6rem;
+            margin-bottom: 0.8rem;
         }
 
         .sidebar-description {
             font-family: 'Montserrat', sans-serif;
-            font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+            font-size: clamp(0.9rem, 1.1vw, 1.05rem);
             line-height: 1.5;
             color: #e6e6e6;
         }
@@ -547,8 +520,8 @@
             padding-left: 1.2rem;
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
-            margin-top: 0.8rem;
+            gap: 0.5rem;
+            margin-top: 0.6rem;
         }
 
         .sidebar-description a {
@@ -563,10 +536,8 @@
         }
 
         .hud-footer {
-            position: fixed;
-            bottom: 2rem;
-            right: 4rem;
-            text-align: right;
+            margin-top: 0.5rem;
+            text-align: center;
             font-family: 'Montserrat', sans-serif;
             font-style: italic;
             font-weight: 900;
@@ -578,68 +549,9 @@
 
         .hud-prompt-keys {
             font-family: 'VT323', monospace;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: #ff66b2;
             letter-spacing: 1px;
-        }
-
-        @media (max-width: 1024px) {
-            .main-container {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto 1fr auto;
-                padding: 1.5rem;
-                justify-items: center;
-                text-align: center;
-                gap: 2rem;
-            }
-
-            .side-title-container {
-                display: none;
-            }
-
-            .menu-container {
-                align-items: center;
-                transform: rotate(0deg) !important;
-                margin-top: 3rem;
-                gap: 1rem;
-            }
-
-            .menu-item.active {
-                padding: 0.4rem 1.5rem;
-            }
-
-            .track-card {
-                align-items: center;
-                text-align: center;
-                transform: none !important;
-            }
-
-            .p3-logo {
-                align-items: center;
-            }
-
-            .controls-hint {
-                display: none;
-            }
-
-            .hud-overlay {
-                flex-direction: column;
-                padding: 1.5rem;
-                justify-content: center;
-                gap: 1.5rem;
-                overflow-y: auto;
-            }
-
-            .hud-container, .hud-detail-sidebar {
-                width: 100%;
-                max-height: 42vh;
-                transform: none !important;
-            }
-            
-            .hud-footer {
-                bottom: 1rem;
-                right: 1.5rem;
-            }
         }
     </style>
 </head>
@@ -650,11 +562,14 @@
         <button class="audio-btn" id="stop-audio-btn">■ STOP</button>
     </div>
 
+    <!-- Background Layers -->
     <div class="video-background">
         <video id="vid-about" autoplay loop muted playsinline preload="auto">
             <source src="m2-res_1080p.mp4" type="video/mp4">
         </video>
     </div>
+
+    <div class="bg-tint-overlay"></div>
 
     <div class="image-background" id="bg-about">
         <img src="images.jpg" alt="About Background">
@@ -704,18 +619,11 @@
             <h2 class="song-title">Full Moon Full Life</h2>
             <div class="vocal-credits">Vocals : Azumi Takahashi feat Lotus Juice</div>
             <div class="play-status" id="play-status">▶ STATUS: STOPPED</div>
-            <canvas id="visualizer" width="220" height="50"></canvas>
+            <canvas id="visualizer" width="180" height="40"></canvas>
         </div>
     </div>
 
-    <div class="controls-hint">
-        <div class="action-title" id="action-title">View Bio & Summary</div>
-        <div class="command-sub">Resume Section</div>
-        <div class="key-prompt">
-            <span class="key-badge">↵</span> Select
-        </div>
-    </div>
-
+    <!-- HUD Overlays -->
     <div class="hud-overlay" id="about-hud-overlay">
         <div class="hud-container">
             <div class="hud-row active-row" data-index="0">
@@ -894,7 +802,6 @@
             setTimeout(() => document.body.classList.add('loaded'), 50);
 
             const menuItems = Array.from(document.querySelectorAll('.menu-item'));
-            const actionTitle = document.getElementById('action-title');
             const playStatus = document.getElementById('play-status');
             const startAudioBtn = document.getElementById('start-audio-btn');
             const stopAudioBtn = document.getElementById('stop-audio-btn');
@@ -968,15 +875,6 @@
                 ]
             };
 
-            const commandTexts = {
-                'ABOUT': 'View Bio & Summary',
-                'SKILLS': 'Open Skills HUD Menu',
-                'EXPERIENCE': 'Review Work History',
-                'PROJECTS': 'Explore Portfolio Works',
-                'EDUCATION': 'View Academic Background',
-                'CONTACT': 'Get in Touch'
-            };
-
             function setBackground(sectionName) {
                 videoBackground.style.opacity = '0';
                 Object.values(imageBackgrounds).forEach(bg => bg.classList.remove('active'));
@@ -1027,10 +925,10 @@
             function renderVisualizer() {
                 requestAnimationFrame(renderVisualizer);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < 18; i++) {
-                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 14 + 6 : 4;
+                for (let i = 0; i < 15; i++) {
+                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 12 + 4 : 4;
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(7.5 + i * 10, (canvas.height / 2) - (barHeight / 2), 7, barHeight);
+                    ctx.fillRect(6 + i * 11, (canvas.height / 2) - (barHeight / 2), 6, barHeight);
                 }
             }
             renderVisualizer();
@@ -1045,7 +943,6 @@
                 newItem.classList.add('active');
                 newItem.innerHTML = `<div class="badge-bg"></div><div class="badge-slash"></div><span class="text-wrapper" data-text="${selectedText}">${selectedText}</span>`;
 
-                if (actionTitle) actionTitle.textContent = commandTexts[selectedText] || 'Select Option';
                 resetToVideoBackground();
             }
 
@@ -1078,9 +975,7 @@
                     sideTitleContainer.classList.add('hidden');
                     document.querySelector('.track-card').style.opacity = '0';
                     document.querySelector('.track-card').style.pointerEvents = 'none';
-                    if(document.querySelector('.controls-hint')) {
-                        document.querySelector('.controls-hint').style.opacity = '0';
-                    }
+                    
                     overlays[stateKey].classList.add('visible');
                     activeHudState = stateKey;
                     subIndices[stateKey] = 0;
@@ -1096,9 +991,7 @@
                 mainUiLayer.classList.remove('hidden');
                 document.querySelector('.track-card').style.opacity = '1';
                 document.querySelector('.track-card').style.pointerEvents = 'auto';
-                if(document.querySelector('.controls-hint')) {
-                    document.querySelector('.controls-hint').style.opacity = '1';
-                }
+                
                 activeHudState = null;
                 resetToVideoBackground();
             }
