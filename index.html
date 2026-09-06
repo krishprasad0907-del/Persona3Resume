@@ -583,33 +583,58 @@
         /* --- FLUID MOBILE RESPONSIVE OVERRIDES (NO LETTERBOXING) --- */
         @media screen and (max-width: 1024px), screen and (max-height: 700px) {
             body {
-                overflow: auto;
-                height: 100vh;
-                height: 100svh;
+                overflow-x: hidden;
+                overflow-y: auto;
+                height: auto;
+                min-height: 100vh;
+                min-height: 100svh;
             }
             .scaler-wrapper {
-                width: 100vw;
-                height: 100vh;
-                height: 100svh;
+                width: 100% !important;
+                height: auto !important;
+                min-height: 100vh;
+                min-height: 100svh;
                 transform: none !important;
+                position: relative;
                 top: 0;
                 left: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .ui-layer {
+                width: 100% !important;
+                height: auto !important;
                 position: relative;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-bottom: 80px;
             }
             .side-title-container {
-                left: 5px;
-                width: 90px;
-                height: 100vh;
+                position: relative;
+                left: 0;
+                height: auto;
+                width: 100%;
+                text-align: center;
+                margin: 20px 0;
+                transform: none !important;
+                mix-blend-mode: normal;
             }
             .side-title {
-                font-size: 55px;
+                writing-mode: horizontal-tb;
+                font-size: 36px;
+                transform: none !important;
             }
             .menu-container {
-                left: 55% !important;
-                top: 40% !important;
-                transform: translate(-50%, -50%) rotate(0deg) !important;
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                transform: none !important;
                 align-items: center;
                 text-align: center;
+                margin: 20px 0;
+                opacity: 1 !important;
             }
             .menu-item {
                 font-size: 28px;
@@ -619,13 +644,15 @@
                 padding: 6px 25px 6px 12px;
             }
             .track-card {
-                top: auto;
-                bottom: 10px;
-                right: auto;
-                left: 50%;
-                transform: translateX(-50%) !important;
-                width: 92%;
-                align-items: center;
+                position: relative !important;
+                top: auto !important;
+                bottom: auto !important;
+                right: auto !important;
+                left: auto !important;
+                transform: none !important;
+                width: 90%;
+                margin: 20px auto;
+                text-align: center;
             }
             .song-title {
                 font-size: 20px;
