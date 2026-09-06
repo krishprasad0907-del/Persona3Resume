@@ -15,26 +15,23 @@
             -webkit-user-select: none;
         }
 
-        body {
-            font-family: 'Montserrat', 'Arial Black', sans-serif;
-            color: #ffffff;
+        body, html {
+            width: 100%;
+            height: 100%;
             overflow: hidden;
             background-color: #000;
-            width: 100vw;
-            height: 100vh;
-            position: relative;
+            font-family: 'Montserrat', 'Arial Black', sans-serif;
+            color: #ffffff;
         }
 
         .scaler-wrapper {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 1920px;
-            height: 1080px;
-            transform: translate(-50%, -50%) scale(1);
-            transform-origin: center center;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
             overflow: hidden;
-            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .video-background, .image-background {
@@ -47,24 +44,18 @@
             overflow: hidden;
             pointer-events: none;
             opacity: 0;
-            transform: scale(1.08);
-            transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 1.2s ease;
         }
 
         body.loaded .video-background {
             opacity: 1;
-            transform: scale(1);
         }
 
         .image-background.active {
             opacity: 1;
-            transform: scale(1);
         }
 
         .video-background video, .image-background img {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -77,23 +68,13 @@
 
         .side-title-container {
             position: absolute;
-            top: 0;
-            left: -30px;
-            height: 1080px;
-            width: 380px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
             z-index: 2;
             pointer-events: none;
-            overflow: visible;
             mix-blend-mode: difference;
-            transform: translateX(-120%);
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.4s ease;
-        }
-
-        body.loaded .side-title-container {
-            transform: translateX(0);
+            transition: opacity 0.4s ease;
         }
 
         .side-title-container.hidden {
@@ -102,12 +83,11 @@
 
         .side-title {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 150px;
+            font-size: min(10vw, 120px);
             font-weight: 900;
             font-style: italic;
             writing-mode: vertical-rl;
             text-transform: uppercase;
-            letter-spacing: -0.02em;
             color: #e6e6e6;
             transform: scale(-1);
             line-height: 0.85;
@@ -116,10 +96,16 @@
         }
 
         .ui-layer {
-            position: relative;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 3;
-            width: 1920px;
-            height: 1080px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             pointer-events: auto;
             transition: opacity 0.4s ease;
         }
@@ -130,63 +116,42 @@
         }
 
         .menu-container {
-            position: absolute;
-            top: 50%;
-            left: 55%;
-            transform: translate(-50%, 500px) rotate(-10deg);
-            opacity: 0;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 4px;
+            gap: 8px;
             z-index: 4;
-            pointer-events: auto;
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, opacity 0.5s ease 0.25s;
-        }
-
-        body.loaded .menu-container {
-            transform: translate(-50%, -50%) rotate(-10deg);
-            opacity: 1;
+            transform: rotate(-6deg);
         }
 
         .menu-item {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 52px;
+            font-size: min(7vw, 42px);
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
             color: #00a8ff;
-            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 4px 4px 0 rgba(0,0,0,0.8);
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
             cursor: pointer;
             transition: all 0.15s ease-out;
-            letter-spacing: 1px;
             line-height: 0.9;
-        }
-
-        .menu-item:hover:not(.active) {
-            transform: scale(1.08) translateX(8px);
-            color: #ffffff;
         }
 
         .menu-item.active {
             position: relative;
-            font-size: 78px;
-            line-height: 1;
-            padding: 8px 55px 8px 25px;
-            margin-bottom: 6px;
-            background: transparent;
-            text-shadow: none;
-            cursor: pointer;
+            font-size: min(9vw, 56px);
+            padding: 4px 30px 4px 15px;
             color: transparent;
+            text-shadow: none;
         }
 
         .menu-item.active::before {
             content: '';
             position: absolute;
-            top: 2px;
-            left: -4px;
-            width: 104%;
-            height: 96%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: #ff66b2;
             clip-path: polygon(0% 30%, 100% 0%, 82% 100%, 10% 90%);
             z-index: -3;
@@ -194,9 +159,9 @@
 
         .menu-item.active .badge-bg {
             position: absolute;
-            top: 6px;
-            left: 0;
-            width: 100%;
+            top: 4px;
+            left: 2px;
+            width: 96%Y;
             height: 88%;
             background-color: #ffffff;
             clip-path: polygon(0% 30%, 98% 2%, 82% 98%, 10% 88%);
@@ -206,230 +171,110 @@
         .menu-item.active .badge-slash {
             position: absolute;
             top: 50%;
-            left: -25%;
-            width: 150%;
-            height: 38px;
+            left: -10%;
+            width: 120%;
+            height: 24px;
             background-color: #e6002e;
             transform: translateY(-50%) rotate(-15deg);
-            clip-path: polygon(0 35%, 100% 0%, 95% 100%, 5% 85%);
             z-index: -1;
         }
 
         .menu-item.active .text-wrapper {
             position: relative;
-            display: inline-block;
             color: #000000;
-        }
-
-        .menu-item.active .text-wrapper::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            color: #e6002e;
-            clip-path: polygon(0 42%, 100% 22%, 100% 100%, 0 100%);
-            z-index: 2;
         }
 
         .track-card {
             position: absolute;
-            top: 430px;
-            right: 115px;
-            transform: translateY(-50%) translateX(1200px);
+            bottom: 20px;
+            right: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
+            align-items: flex-end;
+            text-align: right;
             z-index: 4;
-            pointer-events: auto;
-            cursor: pointer;
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
-        }
-
-        body.loaded .track-card {
-            transform: translateY(-50%) translateX(0);
+            pointer-events: none;
         }
 
         .p3-logo {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            margin-bottom: 12px;
-            pointer-events: none;
+            gap: 6px;
+            margin-bottom: 4px;
         }
 
         .p3-big {
             font-family: 'Press Start 2P', monospace;
-            font-size: 55px;
-            line-height: 0.9;
-            letter-spacing: -2px;
+            font-size: 20px;
             color: #ffffff;
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.4);
-        }
-
-        .persona-sub {
-            font-family: 'VT323', monospace;
-            font-size: 24px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            line-height: 1;
-            margin-top: 2px;
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.4);
         }
 
         .reload-badge {
             background-color: #ffffff;
             color: #0044b3;
-            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
             font-weight: 900;
-            font-style: italic;
-            font-size: 15px;
-            padding: 1px 8px;
-            margin-top: 2px;
-            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
+            padding: 1px 4px;
         }
 
         .song-title {
-            font-size: 38px;
+            font-size: 16px;
             font-weight: 900;
             font-style: italic;
-            letter-spacing: -0.5px;
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.6);
-            margin-bottom: 2px;
-            white-space: nowrap;
-            pointer-events: none;
         }
 
-        .vocal-credits {
+        .vocal-credits, .play-status {
             font-family: 'VT323', monospace;
-            font-size: 22px;
-            letter-spacing: 1px;
-            color: #ffffff;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.6);
-            pointer-events: none;
-        }
-
-        .play-status {
-            font-family: 'VT323', monospace;
-            font-size: 19px;
-            letter-spacing: 1.5px;
+            font-size: 14px;
             color: #ff66b2;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.8);
-            text-transform: uppercase;
-            pointer-events: none;
         }
 
         #visualizer {
-            width: 220px;
-            height: 50px;
-            image-rendering: pixelated;
-            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.5));
-            pointer-events: none;
-        }
-
-        .controls-hint {
-            position: absolute;
-            bottom: 35px;
-            right: 60px;
-            text-align: right;
-            z-index: 4;
-            pointer-events: none;
-            transform: translateY(100px);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
-        }
-
-        body.loaded .controls-hint {
-            transform: translateY(0);
-        }
-
-        .action-title {
-            font-size: 28px;
-            font-weight: 900;
-            font-style: italic;
-            margin-bottom: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-        }
-
-        .command-sub {
-            font-size: 13px;
-            font-weight: 700;
-            color: #d1d1d1;
-            margin-bottom: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.4);
-            padding-bottom: 2px;
-        }
-
-        .key-prompt {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 15px;
-            font-weight: 800;
-            margin-left: 12px;
-        }
-
-        .key-badge {
-            background-color: #ffffff;
-            color: #000000;
-            padding: 1px 6px;
-            border-radius: 3px;
-            font-size: 13px;
-            box-shadow: 1px 1px 0px #000000;
+            width: 120px;
+            height: 30px;
+            margin-top: 4px;
         }
 
         .audio-control-bar {
             position: absolute;
-            top: 25px;
-            right: 35px;
+            top: 15px;
+            right: 15px;
             display: flex;
-            gap: 12px;
+            gap: 8px;
             z-index: 999;
         }
 
         .audio-btn {
             background: #ff66b2;
             color: #fff;
-            padding: 10px 20px;
+            padding: 6px 12px;
             font-family: 'Impact', sans-serif;
-            font-size: 18px;
-            font-style: italic;
-            letter-spacing: 1px;
-            box-shadow: 4px 4px 0px #000;
-            cursor: pointer;
+            font-size: 14px;
             border: none;
-            outline: none;
-            transition: transform 0.2s ease, background 0.2s ease;
-        }
-
-        .audio-btn:hover {
-            transform: scale(1.05);
-            background: #00a8ff;
+            cursor: pointer;
+            box-shadow: 2px 2px 0px #000;
         }
 
         #stop-audio-btn {
             background: #e6002e;
         }
 
-        #stop-audio-btn:hover {
-            background: #ff3333;
-        }
-
         .hud-overlay {
             position: absolute;
             top: 0;
             left: 0;
-            width: 1920px;
-            height: 1080px;
+            width: 100%;
+            height: 100%;
             z-index: 25;
             display: flex;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 115px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.85);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.3s ease;
         }
 
         .hud-overlay.visible {
@@ -438,35 +283,20 @@
         }
 
         .hud-container {
-            position: relative;
-            width: 750px;
+            width: 100%;
+            max-width: 500px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            transform: translateX(-60px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .hud-overlay.visible .hud-container {
-            transform: translateX(0);
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .hud-row {
-            position: relative;
-            display: flex;
-            align-items: center;
-            height: 85px;
             background: #000;
-            border-left: 6px solid #00a8ff;
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
+            border-left: 5px solid #00a8ff;
+            padding: 12px 16px;
             cursor: pointer;
-            transform: skewX(-12deg);
-            transition: transform 0.15s ease, background 0.15s ease, border-left-color 0.15s ease;
-        }
-
-        .hud-row:hover {
-            background: #111;
-            transform: skewX(-12deg) scale(1.02);
+            transform: skewX(-6deg);
         }
 
         .hud-row.active-row {
@@ -474,117 +304,56 @@
             border-left-color: #ffffff;
         }
 
-        .hud-row-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 0 40px;
-            transform: skewX(12deg);
-            pointer-events: none;
-        }
-
-        .hud-tag-label {
-            background: #000;
-            color: #fff;
-            font-family: 'Impact', sans-serif;
-            font-size: 22px;
-            font-style: italic;
-            padding: 4px 18px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
         .hud-name-text {
             font-family: 'Impact', sans-serif;
-            font-size: 28px;
+            font-size: 18px;
             font-style: italic;
-            color: #ffffff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 2px 2px 0px #000;
+            color: #fff;
+            transform: skewX(6deg);
+            display: block;
         }
 
         .hud-detail-sidebar {
-            width: 800px;
-            background: rgba(0, 0, 0, 0.88);
-            border: 4px solid #00a8ff;
-            box-shadow: 8px 8px 0px #ff66b2;
-            padding: 40px;
-            transform: translateX(60px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            max-height: 880px;
+            width: 100%;
+            max-width: 500px;
+            background: rgba(10, 10, 10, 0.95);
+            border: 3px solid #00a8ff;
+            padding: 20px;
+            max-height: 40vh;
             overflow-y: auto;
-            pointer-events: auto;
-        }
-
-        .hud-overlay.visible .hud-detail-sidebar {
-            transform: translateX(0);
         }
 
         .sidebar-category-title {
             font-family: 'Impact', sans-serif;
-            font-size: 35px;
-            font-style: italic;
+            font-size: 20px;
             color: #00a8ff;
-            text-transform: uppercase;
-            border-bottom: 3px solid #ff66b2;
-            padding-bottom: 12px;
-            margin-bottom: 18px;
+            margin-bottom: 8px;
+            border-bottom: 2px solid #ff66b2;
+            padding-bottom: 4px;
         }
 
         .sidebar-description {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 18px;
-            line-height: 1.5;
+            font-size: 14px;
+            line-height: 1.4;
             color: #e6e6e6;
         }
 
         .sidebar-description ul {
-            list-style-type: disc;
-            padding-left: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .sidebar-description a {
-            color: #00a8ff;
-            text-decoration: none;
-            font-weight: 700;
-        }
-
-        .sidebar-description a:hover {
-            color: #ff66b2;
-            text-decoration: underline;
+            padding-left: 15px;
         }
 
         .hud-footer {
-            position: absolute;
-            bottom: 45px;
-            right: 115px;
-            text-align: right;
-            font-family: 'Montserrat', sans-serif;
-            font-style: italic;
-            font-weight: 900;
-            text-shadow: 2px 2px 0px #000;
-            cursor: pointer;
-            pointer-events: auto;
-        }
-
-        .hud-prompt-keys {
+            margin-top: 15px;
             font-family: 'VT323', monospace;
-            font-size: 24px;
+            font-size: 20px;
             color: #ff66b2;
-            letter-spacing: 1px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
     <div class="scaler-wrapper" id="scaler">
-
         <div class="audio-control-bar">
             <button class="audio-btn" id="start-audio-btn">♪ PLAY</button>
             <button class="audio-btn" id="stop-audio-btn">■ STOP</button>
@@ -596,24 +365,12 @@
             </video>
         </div>
 
-        <div class="image-background" id="bg-about">
-            <img src="images.jpg" alt="About Background">
-        </div>
-        <div class="image-background" id="bg-skills">
-            <img src="64662133e36f72e282c95b2a3c433534.jpg" alt="Skills Background">
-        </div>
-        <div class="image-background" id="bg-exp">
-            <img src="c8e500f3fca638633661069f1cc6795c.jpg" alt="Experience Background">
-        </div>
-        <div class="image-background" id="bg-proj">
-            <img src="download.jpg" alt="Projects Background">
-        </div>
-        <div class="image-background" id="bg-edu">
-            <img src="thumb-1920-1344915.jpg" alt="Education Background">
-        </div>
-        <div class="image-background" id="bg-contact">
-            <img src="24671851e83b17040f79df10fd5a6689.jpg" alt="Contact Background">
-        </div>
+        <div class="image-background" id="bg-about"><img src="images.jpg" alt=""></div>
+        <div class="image-background" id="bg-skills"><img src="64662133e36f72e282c95b2a3c433534.jpg" alt=""></div>
+        <div class="image-background" id="bg-exp"><img src="c8e500f3fca638633661069f1cc6795c.jpg" alt=""></div>
+        <div class="image-background" id="bg-proj"><img src="download.jpg" alt=""></div>
+        <div class="image-background" id="bg-edu"><img src="thumb-1920-1344915.jpg" alt=""></div>
+        <div class="image-background" id="bg-contact"><img src="24671851e83b17040f79df10fd5a6689.jpg" alt=""></div>
 
         <div class="side-title-container" id="side-title-container">
             <h1 class="side-title">KRISH PRASAD</h1>
@@ -636,226 +393,100 @@
             <div class="track-card" id="track-card">
                 <div class="p3-logo">
                     <div class="p3-big">P3</div>
-                    <div class="persona-sub">PERSONA3</div>
                     <div class="reload-badge">RELOAD</div>
                 </div>
                 <h2 class="song-title">Full Moon Full Life</h2>
-                <div class="vocal-credits">Vocals : Azumi Takahashi feat Lotus Juice</div>
                 <div class="play-status" id="play-status">▶ STATUS: STOPPED</div>
-                <canvas id="visualizer" width="220" height="50"></canvas>
-            </div>
-
-            <div class="controls-hint">
-                <div class="action-title" id="action-title">View Bio & Summary</div>
-                <div class="command-sub">Resume Section</div>
-                <div class="key-prompt">
-                    <span class="key-badge">↵</span> Select
-                </div>
+                <canvas id="visualizer" width="120" height="30"></canvas>
             </div>
         </div>
 
         <div class="hud-overlay" id="about-hud-overlay">
             <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ff66b2;">BIO</span>
-                        <span class="hud-name-text">Professional Summary</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="1">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00a8ff;">FOCUS</span>
-                        <span class="hud-name-text">Core Specializations</span>
-                    </div>
-                </div>
+                <div class="hud-row active-row" data-index="0"><span class="hud-name-text">Professional Summary</span></div>
+                <div class="hud-row" data-index="1"><span class="hud-name-text">Core Specializations</span></div>
             </div>
             <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title" id="about-sidebar-title">Professional Summary</div>
-                <div class="sidebar-description" id="about-sidebar-desc">IT professional specializing in systems deployment and security operations.</div>
+                <div class="sidebar-category-title">Professional Summary</div>
+                <div class="sidebar-description">IT professional specializing in systems deployment and security operations.</div>
             </div>
-            <div class="hud-footer" id="about-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
-            </div>
+            <div class="hud-footer" id="about-back-btn">[ Tap here to go back ]</div>
         </div>
 
         <div class="hud-overlay" id="skills-hud-overlay">
             <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label">DATA</span>
-                        <span class="hud-name-text">Data & Documentation</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="1">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00a8ff;">CODE</span>
-                        <span class="hud-name-text">Technical & Programming</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="2">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ff66b2;">SEC</span>
-                        <span class="hud-name-text">Cybersecurity & Networking</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="3">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00ffcc; color:#000;">MEDIA</span>
-                        <span class="hud-name-text">Digital Media</span>
-                    </div>
-                </div>
+                <div class="hud-row active-row" data-index="0"><span class="hud-name-text">Data & Documentation</span></div>
+                <div class="hud-row" data-index="1"><span class="hud-name-text">Technical & Programming</span></div>
+                <div class="hud-row" data-index="2"><span class="hud-name-text">Cybersecurity & Networking</span></div>
+                <div class="hud-row" data-index="3"><span class="hud-name-text">Digital Media</span></div>
             </div>
             <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title" id="skills-sidebar-title">Data & Documentation</div>
-                <div class="sidebar-description" id="skills-sidebar-desc">Structured/unstructured data handling, Microsoft Excel, Google Sheets, Access, inventory management, documentation.</div>
+                <div class="sidebar-category-title">Data & Documentation</div>
+                <div class="sidebar-description">Structured/unstructured data handling, Microsoft Excel, Google Sheets, Access, inventory management, documentation.</div>
             </div>
-            <div class="hud-footer" id="skills-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
-            </div>
+            <div class="hud-footer" id="skills-back-btn">[ Tap here to go back ]</div>
         </div>
 
         <div class="hud-overlay" id="exp-hud-overlay">
             <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ff66b2;">IT HELP DESK</span>
-                        <span class="hud-name-text">The Willows Community School</span>
-                    </div>
-                </div>
+                <div class="hud-row active-row" data-index="0"><span class="hud-name-text">The Willows Community School</span></div>
             </div>
             <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title">IT Help Desk The Willows Community School | 2025</div>
+                <div class="sidebar-category-title">IT Help Desk | 2025</div>
                 <div class="sidebar-description">
                     <ul>
                         <li>Programmed and deployed 400 laptops and 200 iPads for K–8 students.</li>
                         <li>Maintained structured inventory datasets (600+ records) with zero discrepancies.</li>
-                        <li>Created internal documentation for equipment tracking and device deployment.</li>
-                        <li>Supported remote setup, printer setups, and hardware issue resolutions.</li>
+                        <li>Created internal documentation for equipment tracking.</li>
                     </ul>
                 </div>
             </div>
-            <div class="hud-footer" id="exp-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
-            </div>
+            <div class="hud-footer" id="exp-back-btn">[ Tap here to go back ]</div>
         </div>
 
         <div class="hud-overlay" id="proj-hud-overlay">
             <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00ffcc; color:#000;">SIMULATION</span>
-                        <span class="hud-name-text">Datacom Cyber Security</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="1">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00a8ff;">DATABASE</span>
-                        <span class="hud-name-text">Database Management & Data</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="2">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ff66b2;">NETWORK</span>
-                        <span class="hud-name-text">Wireshark Packet Analysis</span>
-                    </div>
-                </div>
+                <div class="hud-row active-row" data-index="0"><span class="hud-name-text">Datacom Cyber Security</span></div>
+                <div class="hud-row" data-index="1"><span class="hud-name-text">Database Management</span></div>
+                <div class="hud-row" data-index="2"><span class="hud-name-text">Wireshark Packet Analysis</span></div>
             </div>
             <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title" id="proj-sidebar-title">Datacom Cyber Security Operations Job Simulation</div>
-                <div class="sidebar-description" id="proj-sidebar-desc">Completed a job simulation investigating cyberattacks, conducting risk assessments, and delivering findings reports.</div>
+                <div class="sidebar-category-title">Datacom Cyber Security Operations</div>
+                <div class="sidebar-description">Completed a job simulation investigating cyberattacks and delivering findings reports.</div>
             </div>
-            <div class="hud-footer" id="proj-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
-            </div>
+            <div class="hud-footer" id="proj-back-btn">[ Tap here to go back ]</div>
         </div>
 
         <div class="hud-overlay" id="edu-hud-overlay">
             <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ff66b2;">CERTS</span>
-                        <span class="hud-name-text">Certifications & Training</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="1">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00a8ff;">SCHOOL</span>
-                        <span class="hud-name-text">Saugus High School</span>
-                    </div>
-                </div>
+                <div class="hud-row active-row" data-index="0"><span class="hud-name-text">Certifications & Training</span></div>
+                <div class="hud-row" data-index="1"><span class="hud-name-text">Saugus High School</span></div>
             </div>
             <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title" id="edu-sidebar-title">Certifications & Training</div>
-                <div class="sidebar-description" id="edu-sidebar-desc">
-                    <ul>
-                        <li>CompTIA A+ Certified, Studying Network+</li>
-                        <li>Cisco: Introduction to Cybersecurity</li>
-                        <li>Linux Command Line</li>
-                    </ul>
-                </div>
+                <div class="sidebar-category-title">Certifications</div>
+                <div class="sidebar-description">CompTIA A+ Certified, studying Network+, Cisco Intro to Cybersecurity.</div>
             </div>
-            <div class="hud-footer" id="edu-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
-            </div>
+            <div class="hud-footer" id="edu-back-btn">[ Tap here to go back ]</div>
         </div>
 
         <div class="hud-overlay" id="contact-hud-overlay">
             <div class="hud-container">
-                <div class="hud-row active-row" data-index="0">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ffcc00; color:#000;">EMAIL</span>
-                        <span class="hud-name-text">Email Address</span>
-                    </div>
-                </div>
-                <div class="hud-row" data-index="1">
-                    <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00a8ff;">LINKEDIN</span>
-                        <span class="hud-name-text">LinkedIn Profile</span>
-                    </div>
-                </div>
+                <div class="hud-row active-row" data-index="0"><span class="hud-name-text">Email Address</span></div>
+                <div class="hud-row" data-index="1"><span class="hud-name-text">LinkedIn Profile</span></div>
             </div>
             <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title" id="contact-sidebar-title">Email Address</div>
-                <div class="sidebar-description" id="contact-sidebar-desc">
-                    <ul>
-                        <li>Email: <a href="mailto:krishprasad0907@gmail.com">krishprasad0907@gmail.com</a></li>
-                    </ul>
-                </div>
+                <div class="sidebar-category-title">Email</div>
+                <div class="sidebar-description"><a href="mailto:krishprasad0907@gmail.com">krishprasad0907@gmail.com</a></div>
             </div>
-            <div class="hud-footer" id="contact-back-btn">
-                <div class="hud-prompt-keys">[C] Back / Click</div>
-            </div>
+            <div class="hud-footer" id="contact-back-btn">[ Tap here to go back ]</div>
         </div>
-
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const scaler = document.getElementById('scaler');
-            
-            function adjustScale() {
-                const targetWidth = 1920;
-                const targetHeight = 1080;
-                // Switch to Math.min so the fixed 1920x1080 canvas scales down to fit entirely inside mobile viewports without cropping.
-                const scale = Math.min(window.innerWidth / targetWidth, window.innerHeight / targetHeight);
-                scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
-            }
-
-            if (window.ResizeObserver) {
-                const observer = new ResizeObserver(() => {
-                    requestAnimationFrame(adjustScale);
-                });
-                observer.observe(document.body);
-            } else {
-                window.addEventListener('resize', adjustScale);
-            }
-            
-            adjustScale();
-
             setTimeout(() => document.body.classList.add('loaded'), 50);
 
             const menuItems = Array.from(document.querySelectorAll('.menu-item'));
-            const actionTitle = document.getElementById('action-title');
             const playStatus = document.getElementById('play-status');
             const startAudioBtn = document.getElementById('start-audio-btn');
             const stopAudioBtn = document.getElementById('stop-audio-btn');
@@ -883,18 +514,15 @@
                 contact: document.getElementById('contact-hud-overlay')
             };
 
-            let musicElem = document.getElementById('bg-music');
-            if (!musicElem) {
-                musicElem = document.createElement('audio');
-                musicElem.id = 'bg-music';
-                musicElem.loop = true;
-                musicElem.preload = 'auto';
-                const source = document.createElement('source');
-                source.src = 'Full Moon Full Life.mp3';
-                source.type = 'audio/mpeg';
-                musicElem.appendChild(source);
-                document.body.appendChild(musicElem);
-            }
+            let musicElem = document.createElement('audio');
+            musicElem.id = 'bg-music';
+            musicElem.loop = true;
+            musicElem.preload = 'auto';
+            const source = document.createElement('source');
+            source.src = 'Full Moon Full Life.mp3';
+            source.type = 'audio/mpeg';
+            musicElem.appendChild(source);
+            document.body.appendChild(musicElem);
 
             let currentIndex = 0;
             let activeHudState = null;
@@ -912,11 +540,11 @@
                     { title: "Digital Media", desc: "Adobe Photoshop, Illustrator, Canva" }
                 ],
                 experience: [
-                    { title: "IT Help Desk The Willows Community School | 2025", desc: "<ul><li>Programmed and deployed 400 laptops and 200 iPads for K–8 students.</li><li>Maintained structured inventory datasets (600+ records) with zero discrepancies.</li><li>Created internal documentation for equipment tracking and device deployment.</li><li>Supported remote setup, printer setups, and hardware issue resolutions.</li></ul>" }
+                    { title: "IT Help Desk The Willows Community School | 2025", desc: "<ul><li>Programmed and deployed 400 laptops and 200 iPads for K–8 students.</li><li>Maintained structured inventory datasets (600+ records) with zero discrepancies.</li></ul>" }
                 ],
                 projects: [
-                    { title: "Datacom Cyber Security Operations Job Simulation", desc: "Completed a job simulation investigating a cyberattack, conducting risk assessment, and delivering detailed findings report." },
-                    { title: "Database Management", desc: "Designed and populated databases in Microsoft Access and Excel, ensuring accuracy and data integrity." },
+                    { title: "Datacom Cyber Security Operations", desc: "Completed a job simulation investigating a cyberattack, conducting risk assessment, and delivering detailed findings report." },
+                    { title: "Database Management", desc: "Designed and populated databases in Microsoft Access and Excel." },
                     { title: "Wireshark Packet Analysis", desc: "Analyzed HTTP, malware, and TTLS/SSL traffic." }
                 ],
                 education: [
@@ -924,18 +552,9 @@
                     { title: "Saugus High School", desc: "Completed pathways in Computer Science, Cybersecurity, and Digital Art & Design." }
                 ],
                 contact: [
-                    { title: "Email Address", desc: "<ul><li>Email: <a href=\"mailto:krishprasad0907@gmail.com\">krishprasad0907@gmail.com</a></li></ul>" },
-                    { title: "LinkedIn Profile", desc: "<ul><li>LinkedIn: <a href=\"https://www.linkedin.com/in/krish-prasad-021095343\" target=\"_blank\">Profile Link</a></li></ul>" }
+                    { title: "Email Address", desc: "Email: <a href=\"mailto:krishprasad0907@gmail.com\">krishprasad0907@gmail.com</a>" },
+                    { title: "LinkedIn Profile", desc: "<a href=\"https://www.linkedin.com/in/krish-prasad-021095343\" target=\"_blank\">View LinkedIn Profile</a>" }
                 ]
-            };
-
-            const commandTexts = {
-                'ABOUT': 'View Bio & Summary',
-                'SKILLS': 'Open Skills HUD Menu',
-                'EXPERIENCE': 'Review Work History',
-                'PROJECTS': 'Explore Portfolio Works',
-                'EDUCATION': 'View Academic Background',
-                'CONTACT': 'Get in Touch'
             };
 
             function setBackground(sectionName) {
@@ -950,24 +569,6 @@
                 Object.values(imageBackgrounds).forEach(bg => bg.classList.remove('active'));
                 videoBackground.style.opacity = '1';
             }
-
-            musicElem.play().then(() => {
-                playStatus.textContent = "■ STATUS: PLAYING";
-                playStatus.style.color = "#00ffcc";
-            }).catch(err => {
-                const unlockAudio = () => {
-                    musicElem.play().then(() => {
-                        playStatus.textContent = "■ STATUS: PLAYING";
-                        playStatus.style.color = "#00ffcc";
-                        window.removeEventListener('click', unlockAudio);
-                        window.removeEventListener('keydown', unlockAudio);
-                        window.removeEventListener('touchstart', unlockAudio);
-                    }).catch(e => console.log("Unlock play failed:", e));
-                };
-                window.addEventListener('click', unlockAudio);
-                window.addEventListener('keydown', unlockAudio);
-                window.addEventListener('touchstart', unlockAudio);
-            });
 
             startAudioBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -988,10 +589,10 @@
             function renderVisualizer() {
                 requestAnimationFrame(renderVisualizer);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < 18; i++) {
-                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 14 + 6 : 4;
+                for (let i = 0; i < 12; i++) {
+                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 10 + 4 : 2;
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(7.5 + i * 10, (canvas.height / 2) - (barHeight / 2), 7, barHeight);
+                    ctx.fillRect(4 + i * 10, (canvas.height / 2) - (barHeight / 2), 6, barHeight);
                 }
             }
             renderVisualizer();
@@ -1005,8 +606,6 @@
                 const selectedText = newItem.textContent.trim();
                 newItem.classList.add('active');
                 newItem.innerHTML = `<div class="badge-bg"></div><div class="badge-slash"></div><span class="text-wrapper" data-text="${selectedText}">${selectedText}</span>`;
-
-                actionTitle.textContent = commandTexts[selectedText] || 'Select Option';
                 resetToVideoBackground();
             }
 
@@ -1054,35 +653,11 @@
                 resetToVideoBackground();
             }
 
-            document.addEventListener('keydown', (e) => {
-                if (activeHudState) {
-                    if (e.key.toLowerCase() === 'c' || e.key === 'Escape') {
-                        closeActiveHUD();
-                    } else if (e.key === 'ArrowDown' || e.key.toLowerCase() === 's') {
-                        e.preventDefault();
-                        setSubSelectionIndex(activeHudState, subIndices[activeHudState] + 1);
-                    } else if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') {
-                        e.preventDefault();
-                        setSubSelectionIndex(activeHudState, subIndices[activeHudState] - 1);
-                    }
-                    return;
-                }
-
-                if (e.key === 'ArrowDown' || e.key.toLowerCase() === 's') {
-                    e.preventDefault();
-                    updateSelection(currentIndex + 1);
-                } else if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') {
-                    e.preventDefault();
-                    updateSelection(currentIndex - 1);
-                } else if (e.key === 'Enter') {
-                    e.preventDefault();
-                    openActiveHUD();
-                }
-            });
-
             menuItems.forEach((item, index) => {
-                item.addEventListener('mouseenter', () => updateSelection(index));
-                item.addEventListener('click', () => { updateSelection(index); openActiveHUD(); });
+                item.addEventListener('click', () => { 
+                    updateSelection(index); 
+                    openActiveHUD(); 
+                });
             });
 
             for (let key in overlays) {
@@ -1092,9 +667,6 @@
                 rows.forEach((row, index) => {
                     row.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        setSubSelectionIndex(key, index);
-                    });
-                    row.addEventListener('mouseenter', () => {
                         setSubSelectionIndex(key, index);
                     });
                 });
