@@ -9,8 +9,8 @@
 
         :root {
             --fluid-side-title: clamp(4rem, 12vw, 9.5rem);
-            --fluid-menu-size: clamp(1.8rem, 3.5vw, 3.25rem);
-            --fluid-active-size: clamp(2.5rem, 5vw, 4.875rem);
+            --fluid-menu-size: clamp(1.6rem, 3vw, 2.8rem);
+            --fluid-active-size: clamp(2.2rem, 4.5vw, 4rem);
         }
 
         * {
@@ -138,7 +138,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 0.25rem;
+            gap: 1.2rem;
             z-index: 4;
             pointer-events: auto;
             transform: translateY(30px) rotate(-10deg);
@@ -162,7 +162,7 @@
             cursor: pointer;
             transition: all 0.15s ease-out;
             letter-spacing: 1px;
-            line-height: 0.9;
+            line-height: 1.1;
         }
 
         .menu-item:hover:not(.active) {
@@ -173,9 +173,8 @@
         .menu-item.active {
             position: relative;
             font-size: var(--fluid-active-size);
-            line-height: 1;
+            line-height: 1.1;
             padding: 0.4rem 2.5rem 0.4rem 1.2rem;
-            margin-bottom: 0.3rem;
             background: transparent;
             text-shadow: none;
             cursor: pointer;
@@ -602,6 +601,7 @@
                 align-items: center;
                 transform: rotate(0deg) !important;
                 margin-top: 3rem;
+                gap: 1rem;
             }
 
             .menu-item.active {
