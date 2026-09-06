@@ -7,19 +7,12 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Impact&family=Montserrat:ital,wght@0,900;1,900&family=Press+Start+2P&family=VT323&display=swap');
 
-        :root {
-            --fluid-side-title: clamp(2.5rem, 7vw, 6rem);
-            --fluid-menu-size: clamp(1.6rem, 3.8vw, 3rem);
-            --fluid-active-size: clamp(2rem, 4.5vw, 3.6rem);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             user-select: none;
             -webkit-user-select: none;
-            -webkit-touch-callout: none;
         }
 
         body {
@@ -27,14 +20,13 @@
             color: #ffffff;
             background-color: #000;
             width: 100vw;
-            height: 100vh;
-            height: 100dvh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
-            display: flex;
-            flex-direction: column;
         }
 
+        /* Responsive Background Layers */
         .video-background, .image-background {
             position: fixed;
             top: 0;
@@ -42,10 +34,9 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            overflow: hidden;
             pointer-events: none;
             opacity: 0;
-            transition: opacity 1s ease;
+            transition: opacity 1.2s ease;
         }
 
         body.loaded .video-background {
@@ -57,94 +48,66 @@
         }
 
         .video-background video, .image-background img {
-            position: absolute;
-            top: 50%;
-            left: 50%;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transform: translate(-50%, -50%);
             display: block;
         }
 
-        .bg-tint-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            z-index: 2;
-            pointer-events: none;
+        .image-background img {
+            filter: brightness(0.5);
         }
 
-        .main-container {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            height: 100%;
+        /* Main Viewport Container */
+        .app-container {
             position: relative;
             z-index: 3;
-            align-items: center;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             justify-content: space-between;
-            padding: 2vw 4vw;
+            padding: 20px;
+            pointer-events: auto;
         }
 
+        /* Side Title / Header */
         .side-title-container {
-            position: relative;
-            z-index: 5;
-            pointer-events: none;
-            opacity: 0;
-            transform: translateX(-30px);
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.4s ease;
-            flex-shrink: 0;
-        }
-
-        body.loaded .side-title-container {
-            transform: translateX(0);
-            opacity: 1;
+            z-index: 2;
+            margin-bottom: 20px;
+            mix-blend-mode: difference;
+            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
         }
 
         .side-title-container.hidden {
             opacity: 0;
+            pointer-events: none;
         }
 
         .side-title {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: var(--fluid-side-title);
+            font-size: clamp(40px, 8vw, 120px);
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
-            letter-spacing: -0.02em;
+            color: #e6e6e6;
             line-height: 0.85;
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            transform: rotate(180deg);
-            color: #00a8ff;
-            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 4px 4px 0 rgba(0,0,0,0.8);
-            background: linear-gradient(135deg, #ffffff 0%, #00a8ff 40%, #ff66b2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             filter: drop-shadow(4px 4px 0px #000000);
         }
 
-        .center-content-group {
+        /* Center Content Layout (Menu & Track Card) */
+        .main-content-layout {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            flex-grow: 1;
-            gap: 1.5rem;
-            z-index: 10;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin: auto 0;
+            width: 100%;
         }
 
         .ui-layer {
-            position: relative;
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            pointer-events: auto;
+            width: 100%;
             transition: opacity 0.4s ease;
         }
 
@@ -153,27 +116,18 @@
             pointer-events: none;
         }
 
+        /* Menu Styling */
         .menu-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 0.8rem;
-            z-index: 10;
-            pointer-events: auto;
-            transform: translateY(30px);
-            opacity: 0;
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, opacity 0.5s ease 0.25s;
-        }
-
-        body.loaded .menu-container {
-            transform: translateY(0);
-            opacity: 1;
+            align-items: flex-start;
+            gap: 8px;
+            transform: rotate(-5deg);
         }
 
         .menu-item {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: var(--fluid-menu-size);
+            font-size: clamp(28px, 5vw, 52px);
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -181,28 +135,22 @@
             text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 4px 4px 0 rgba(0,0,0,0.8);
             cursor: pointer;
             transition: all 0.15s ease-out;
-            letter-spacing: 2px;
-            line-height: 1.1;
-            padding: 0.4rem 1.5rem;
-            pointer-events: auto;
-            -webkit-tap-highlight-color: transparent;
+            letter-spacing: 1px;
+            line-height: 0.9;
         }
 
         .menu-item:hover:not(.active) {
-            transform: scale(1.08);
+            transform: scale(1.05) translateX(8px);
             color: #ffffff;
         }
 
         .menu-item.active {
             position: relative;
-            font-size: var(--fluid-active-size);
-            line-height: 1.1;
-            padding: 0.6rem 2.8rem;
-            background: transparent;
-            text-shadow: none;
-            cursor: pointer;
+            font-size: clamp(38px, 6.5vw, 78px);
+            line-height: 1;
+            padding: 6px 35px 6px 15px;
             color: transparent;
-            pointer-events: auto;
+            text-shadow: none;
         }
 
         .menu-item.active::before {
@@ -213,18 +161,18 @@
             width: 104%;
             height: 96%;
             background-color: #ff66b2;
-            clip-path: polygon(2% 25%, 98% 5%, 90% 95%, 5% 90%);
+            clip-path: polygon(0% 30%, 100% 0%, 82% 100%, 10% 90%);
             z-index: -3;
         }
 
         .menu-item.active .badge-bg {
             position: absolute;
-            top: 4px;
+            top: 6px;
             left: 0;
             width: 100%;
             height: 88%;
             background-color: #ffffff;
-            clip-path: polygon(2% 25%, 98% 5%, 90% 95%, 5% 90%);
+            clip-path: polygon(0% 30%, 98% 2%, 82% 98%, 10% 88%);
             z-index: -2;
         }
 
@@ -233,9 +181,9 @@
             top: 50%;
             left: -15%;
             width: 130%;
-            height: 2rem;
+            height: 28px;
             background-color: #e6002e;
-            transform: translateY(-50%) rotate(-8deg);
+            transform: translateY(-50%) rotate(-15deg);
             clip-path: polygon(0 35%, 100% 0%, 95% 100%, 5% 85%);
             z-index: -1;
         }
@@ -256,50 +204,38 @@
             z-index: 2;
         }
 
+        /* Track Card / Music Player Widget */
         .track-card {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
-            z-index: 5;
-            pointer-events: auto;
-            cursor: pointer;
-            transform: translateY(40px);
-            opacity: 0;
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s, opacity 0.5s ease 0.4s;
-            flex-shrink: 0;
-        }
-
-        body.loaded .track-card {
-            transform: translateY(0);
-            opacity: 1;
+            align-items: flex-start;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 20px;
+            border-left: 4px solid #ff66b2;
+            backdrop-filter: blur(4px);
         }
 
         .p3-logo {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            margin-bottom: 0.2rem;
-            pointer-events: none;
+            align-items: flex-start;
+            margin-bottom: 8px;
         }
 
         .p3-big {
             font-family: 'Press Start 2P', monospace;
-            font-size: clamp(1.1rem, 1.8vw, 1.8rem);
+            font-size: clamp(24px, 4vw, 45px);
             line-height: 0.9;
-            letter-spacing: -2px;
             color: #ffffff;
             text-shadow: 3px 3px 0px rgba(0,0,0,0.4);
         }
 
         .persona-sub {
             font-family: 'VT323', monospace;
-            font-size: clamp(0.8rem, 1.1vw, 1rem);
+            font-size: 18px;
             letter-spacing: 2px;
             text-transform: uppercase;
-            line-height: 1;
-            margin-top: 2px;
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.4);
         }
 
         .reload-badge {
@@ -308,75 +244,59 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            font-size: 0.65rem;
-            padding: 1px 5px;
+            font-size: 12px;
+            padding: 1px 6px;
             margin-top: 2px;
             clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
         }
 
         .song-title {
-            font-size: clamp(1rem, 1.5vw, 1.4rem);
+            font-size: clamp(20px, 3vw, 32px);
             font-weight: 900;
             font-style: italic;
-            letter-spacing: -0.5px;
-            text-shadow: 3px 3px 0px rgba(0,0,0,0.6);
             margin-bottom: 2px;
-            white-space: nowrap;
-            pointer-events: none;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.6);
         }
 
-        .vocal-credits {
+        .vocal-credits, .play-status {
             font-family: 'VT323', monospace;
-            font-size: clamp(0.75rem, 1vw, 0.9rem);
+            font-size: 18px;
             letter-spacing: 1px;
-            color: #ffffff;
-            margin-bottom: 0.2rem;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.6);
-            pointer-events: none;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.6);
         }
 
         .play-status {
-            font-family: 'VT323', monospace;
-            font-size: clamp(0.7rem, 0.85vw, 0.85rem);
-            letter-spacing: 1.5px;
             color: #ff66b2;
-            margin-bottom: 0.2rem;
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.8);
+            margin: 6px 0;
             text-transform: uppercase;
-            pointer-events: none;
         }
 
         #visualizer {
-            width: 140px;
-            height: 30px;
+            width: 180px;
+            height: 40px;
             image-rendering: pixelated;
-            filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.5));
-            pointer-events: none;
         }
 
+        /* Audio Control Bar */
         .audio-control-bar {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
             display: flex;
-            gap: 8px;
+            gap: 10px;
+            margin-bottom: 20px;
             z-index: 999;
         }
 
         .audio-btn {
             background: #ff66b2;
             color: #fff;
-            padding: 6px 12px;
+            padding: 8px 16px;
             font-family: 'Impact', sans-serif;
-            font-size: 0.9rem;
+            font-size: 16px;
             font-style: italic;
-            letter-spacing: 1px;
-            box-shadow: 2px 2px 0px #000;
+            box-shadow: 3px 3px 0px #000;
             cursor: pointer;
             border: none;
             outline: none;
             transition: transform 0.2s ease, background 0.2s ease;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .audio-btn:hover {
@@ -388,29 +308,62 @@
             background: #e6002e;
         }
 
-        #stop-audio-btn:hover {
-            background: #ff3333;
+        /* Controls Hint Footer */
+        .controls-hint {
+            margin-top: 20px;
         }
 
+        .action-title {
+            font-size: clamp(18px, 2.5vw, 26px);
+            font-weight: 900;
+            font-style: italic;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .command-sub {
+            font-size: 12px;
+            font-weight: 700;
+            color: #d1d1d1;
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+            padding-bottom: 2px;
+            display: inline-block;
+        }
+
+        .key-prompt {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .key-badge {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            box-shadow: 1px 1px 0px #000000;
+        }
+
+        /* HUD Overlays (Sub-menus) */
         .hud-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh;
-            z-index: 30;
+            width: 100%;
+            height: 100%;
+            z-index: 25;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
+            justify-content: space-between;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.85);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
-            background: rgba(0, 0, 0, 0.6);
+            transition: opacity 0.4s ease;
             overflow-y: auto;
-            gap: 1rem;
         }
 
         .hud-overlay.visible {
@@ -418,45 +371,46 @@
             pointer-events: auto;
         }
 
-        .hud-container {
-            position: relative;
-            width: 100%;
-            max-width: 480px;
+        .hud-content-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
-            transform: translateY(-20px);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            pointer-events: auto;
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+            width: 100%;
         }
 
-        .hud-overlay.visible .hud-container {
-            transform: translateY(0);
+        @media (min-width: 900px) {
+            .hud-content-wrapper {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+        }
+
+        .hud-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .hud-row {
             position: relative;
             display: flex;
             align-items: center;
-            height: 4rem;
+            min-height: 70px;
             background: #000;
             border-left: 6px solid #00a8ff;
             box-shadow: 4px 4px 0px rgba(0,0,0,0.8);
             cursor: pointer;
             transform: skewX(-10deg);
-            transition: transform 0.15s ease, background 0.15s ease, border-left-color 0.15s ease;
-            pointer-events: auto;
-            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.15s ease, background 0.15s ease;
         }
 
-        .hud-row:hover, .hud-row:active {
-            background: #111;
-            transform: skewX(-10deg) scale(1.02);
-        }
-
-        .hud-row.active-row {
+        .hud-row:hover, .hud-row.active-row {
             background: #00a8ff;
             border-left-color: #ffffff;
+            transform: skewX(-10deg) scale(1.02);
         }
 
         .hud-row-inner {
@@ -464,75 +418,66 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 0 1.5rem;
+            padding: 0 20px;
             transform: skewX(10deg);
             pointer-events: none;
+            gap: 15px;
         }
 
         .hud-tag-label {
             background: #000;
             color: #fff;
             font-family: 'Impact', sans-serif;
-            font-size: 1rem;
+            font-size: 18px;
             font-style: italic;
-            padding: 3px 0.7rem;
+            padding: 4px 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .hud-name-text {
             font-family: 'Impact', sans-serif;
-            font-size: clamp(0.95rem, 1.3vw, 1.2rem);
+            font-size: clamp(18px, 2.5vw, 24px);
             font-style: italic;
             color: #ffffff;
             text-transform: uppercase;
-            letter-spacing: 1px;
             text-shadow: 2px 2px 0px #000;
         }
 
         .hud-detail-sidebar {
-            width: 100%;
-            max-width: 480px;
-            background: rgba(0, 0, 0, 0.94);
+            flex: 1.2;
+            background: rgba(0, 0, 0, 0.95);
             border: 4px solid #00a8ff;
             box-shadow: 6px 6px 0px #ff66b2;
-            padding: 1.5rem;
-            transform: translateY(20px);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            max-height: 38vh;
+            padding: 24px;
+            max-height: 70vh;
             overflow-y: auto;
-            pointer-events: auto;
-        }
-
-        .hud-overlay.visible .hud-detail-sidebar {
-            transform: translateY(0);
         }
 
         .sidebar-category-title {
             font-family: 'Impact', sans-serif;
-            font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+            font-size: clamp(24px, 3vw, 32px);
             font-style: italic;
             color: #00a8ff;
             text-transform: uppercase;
             border-bottom: 3px solid #ff66b2;
-            padding-bottom: 0.4rem;
-            margin-bottom: 0.6rem;
+            padding-bottom: 8px;
+            margin-bottom: 14px;
         }
 
         .sidebar-description {
             font-family: 'Montserrat', sans-serif;
-            font-size: clamp(0.85rem, 1vw, 1rem);
-            line-height: 1.4;
+            font-size: 16px;
+            line-height: 1.5;
             color: #e6e6e6;
         }
 
         .sidebar-description ul {
             list-style-type: disc;
-            padding-left: 1.2rem;
+            padding-left: 20px;
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
-            margin-top: 0.4rem;
+            gap: 8px;
+            margin-top: 8px;
         }
 
         .sidebar-description a {
@@ -541,102 +486,53 @@
             font-weight: 700;
         }
 
-        .sidebar-description a:hover {
-            color: #ff66b2;
-            text-decoration: underline;
-        }
-
         .hud-footer {
-            margin-top: 0.2rem;
-            text-align: center;
+            text-align: right;
             font-family: 'Montserrat', sans-serif;
             font-style: italic;
             font-weight: 900;
-            text-shadow: 2px 2px 0px #000;
             cursor: pointer;
-            pointer-events: auto;
-            z-index: 35;
-            -webkit-tap-highlight-color: transparent;
+            padding: 10px 0;
         }
 
         .hud-prompt-keys {
             font-family: 'VT323', monospace;
-            font-size: 1.2rem;
+            font-size: 22px;
             color: #ff66b2;
-            letter-spacing: 1px;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                flex-direction: column;
-                justify-content: center;
-                padding: 1rem;
-            }
-            .side-title-container {
-                position: absolute;
-                top: 1rem;
-                left: 1rem;
-                transform: none;
-            }
-            .side-title {
-                writing-mode: horizontal-tb;
-                transform: none;
-                font-size: clamp(2rem, 8vw, 3.5rem);
-            }
-            .center-content-group {
-                width: 100%;
-                margin-top: 2rem;
-            }
-            .video-background video, .image-background img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
         }
     </style>
 </head>
 <body>
 
-    <div class="audio-control-bar">
-        <button class="audio-btn" id="start-audio-btn">♪ PLAY</button>
-        <button class="audio-btn" id="stop-audio-btn">■ STOP</button>
-    </div>
-
-    <!-- Background Layers -->
     <div class="video-background">
         <video id="vid-about" autoplay loop muted playsinline preload="auto">
             <source src="m2-res_1080p.mp4" type="video/mp4">
         </video>
     </div>
 
-    <div class="bg-tint-overlay"></div>
+    <div class="image-background" id="bg-about"><img src="images.jpg" alt="About"></div>
+    <div class="image-background" id="bg-skills"><img src="64662133e36f72e282c95b2a3c433534.jpg" alt="Skills"></div>
+    <div class="image-background" id="bg-exp"><img src="c8e500f3fca638633661069f1cc6795c.jpg" alt="Experience"></div>
+    <div class="image-background" id="bg-proj"><img src="download.jpg" alt="Projects"></div>
+    <div class="image-background" id="bg-edu"><img src="thumb-1920-1344915.jpg" alt="Education"></div>
+    <div class="image-background" id="bg-contact"><img src="24671851e83b17040f79df10fd5a6689.jpg" alt="Contact"></div>
 
-    <div class="image-background" id="bg-about">
-        <img src="images.jpg" alt="About Background">
-    </div>
-    <div class="image-background" id="bg-skills">
-        <img src="64662133e36f72e282c95b2a3c433534.jpg" alt="Skills Background">
-    </div>
-    <div class="image-background" id="bg-exp">
-        <img src="c8e500f3fca638633661069f1cc6795c.jpg" alt="Experience Background">
-    </div>
-    <div class="image-background" id="bg-proj">
-        <img src="download.jpg" alt="Projects Background">
-    </div>
-    <div class="image-background" id="bg-edu">
-        <img src="thumb-1920-1344915.jpg" alt="Education Background">
-    </div>
-    <div class="image-background" id="bg-contact">
-        <img src="24671851e83b17040f79df10fd5a6689.jpg" alt="Contact Background">
-    </div>
-
-    <div class="main-container">
-        <div class="side-title-container" id="side-title-container">
-            <h1 class="side-title">KRISH PRASAD</h1>
+    <div class="app-container">
+        <!-- Top Controls & Title Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap;">
+            <div class="side-title-container" id="side-title-container">
+                <h1 class="side-title">KRISH PRASAD</h1>
+            </div>
+            
+            <div class="audio-control-bar">
+                <button class="audio-btn" id="start-audio-btn">♪ PLAY</button>
+                <button class="audio-btn" id="stop-audio-btn">■ STOP</button>
+            </div>
         </div>
 
-        <div class="center-content-group">
-            <div class="ui-layer" id="main-ui-layer">
+        <!-- Main UI Layer -->
+        <div class="ui-layer" id="main-ui-layer">
+            <div class="main-content-layout">
                 <nav class="menu-container" id="menu-container">
                     <div class="menu-item active" data-section="about">
                         <div class="badge-bg"></div>
@@ -649,194 +545,166 @@
                     <div class="menu-item" data-section="EDUCATION">EDUCATION</div>
                     <div class="menu-item" data-section="CONTACT">CONTACT</div>
                 </nav>
+
+                <div class="track-card" id="track-card">
+                    <div class="p3-logo">
+                        <div class="p3-big">P3</div>
+                        <div class="persona-sub">PERSONA3</div>
+                        <div class="reload-badge">RELOAD</div>
+                    </div>
+                    <h2 class="song-title">Full Moon Full Life</h2>
+                    <div class="vocal-credits">Vocals : Azumi Takahashi feat Lotus Juice</div>
+                    <div class="play-status" id="play-status">▶ STATUS: STOPPED</div>
+                    <canvas id="visualizer" width="180" height="40"></canvas>
+                </div>
             </div>
 
-            <div class="track-card" id="track-card">
-                <div class="p3-logo">
-                    <div class="p3-big">P3</div>
-                    <div class="persona-sub">PERSONA3</div>
-                    <div class="reload-badge">RELOAD</div>
+            <div class="controls-hint">
+                <div class="action-title" id="action-title">View Bio & Summary</div>
+                <div class="command-sub">Resume Section</div>
+                <div class="key-prompt">
+                    <span class="key-badge">↵</span> Select / Tap Item
                 </div>
-                <h2 class="song-title">Full Moon Full Life</h2>
-                <div class="vocal-credits">Vocals : Azumi Takahashi feat Lotus Juice</div>
-                <div class="play-status" id="play-status">▶ STATUS: STOPPED</div>
-                <canvas id="visualizer" width="140" height="30"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- HUD Overlays -->
+    <!-- HUD SUB-MENUS -->
+    <!-- ABOUT HUD -->
     <div class="hud-overlay" id="about-hud-overlay">
-        <div class="hud-container">
-            <div class="hud-row active-row" data-index="0">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#ff66b2;">BIO</span>
-                    <span class="hud-name-text">Professional Summary</span>
+        <div class="hud-content-wrapper">
+            <div class="hud-container">
+                <div class="hud-row active-row" data-index="0">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#ff66b2;">BIO</span><span class="hud-name-text">Professional Summary</span></div>
+                </div>
+                <div class="hud-row" data-index="1">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#00a8ff;">FOCUS</span><span class="hud-name-text">Core Specializations</span></div>
                 </div>
             </div>
-            <div class="hud-row" data-index="1">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#00a8ff;">FOCUS</span>
-                    <span class="hud-name-text">Core Specializations</span>
-                </div>
+            <div class="hud-detail-sidebar">
+                <div class="sidebar-category-title">Professional Summary</div>
+                <div class="sidebar-description">IT professional specializing in systems deployment and security operations.</div>
             </div>
         </div>
-        <div class="hud-detail-sidebar">
-            <div class="sidebar-category-title" id="about-sidebar-title">Professional Summary</div>
-            <div class="sidebar-description" id="about-sidebar-desc">IT professional specializing in systems deployment and security operations.</div>
-        </div>
-        <div class="hud-footer" id="about-back-btn">
-            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
-        </div>
+        <div class="hud-footer" id="about-back-btn"><div class="hud-prompt-keys">[C / Esc] Back</div></div>
     </div>
 
+    <!-- SKILLS HUD -->
     <div class="hud-overlay" id="skills-hud-overlay">
-        <div class="hud-container">
-            <div class="hud-row active-row" data-index="0">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label">DATA</span>
-                    <span class="hud-name-text">Data & Documentation</span>
+        <div class="hud-content-wrapper">
+            <div class="hud-container">
+                <div class="hud-row active-row" data-index="0">
+                    <div class="hud-row-inner"><span class="hud-tag-label">DATA</span><span class="hud-name-text">Data & Documentation</span></div>
+                </div>
+                <div class="hud-row" data-index="1">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#00a8ff;">CODE</span><span class="hud-name-text">Technical & Programming</span></div>
+                </div>
+                <div class="hud-row" data-index="2">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#ff66b2;">SEC</span><span class="hud-name-text">Cybersecurity & Networking</span></div>
+                </div>
+                <div class="hud-row" data-index="3">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#00ffcc; color:#000;">MEDIA</span><span class="hud-name-text">Digital Media</span></div>
                 </div>
             </div>
-            <div class="hud-row" data-index="1">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#00a8ff;">CODE</span>
-                    <span class="hud-name-text">Technical & Programming</span>
-                </div>
-            </div>
-            <div class="hud-row" data-index="2">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#ff66b2;">SEC</span>
-                    <span class="hud-name-text">Cybersecurity & Networking</span>
-                </div>
-            </div>
-            <div class="hud-row" data-index="3">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#00ffcc; color:#000;">MEDIA</span>
-                    <span class="hud-name-text">Digital Media</span>
-                </div>
+            <div class="hud-detail-sidebar">
+                <div class="sidebar-category-title">Data & Documentation</div>
+                <div class="sidebar-description">Structured/unstructured data handling, Microsoft Excel, Google Sheets, Access, inventory management, documentation.</div>
             </div>
         </div>
-        <div class="hud-detail-sidebar">
-            <div class="sidebar-category-title" id="skills-sidebar-title">Data & Documentation</div>
-            <div class="sidebar-description" id="skills-sidebar-desc">Structured/unstructured data handling, Microsoft Excel, Google Sheets, Access, inventory management, documentation.</div>
-        </div>
-        <div class="hud-footer" id="skills-back-btn">
-            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
-        </div>
+        <div class="hud-footer" id="skills-back-btn"><div class="hud-prompt-keys">[C / Esc] Back</div></div>
     </div>
 
+    <!-- EXPERIENCE HUD -->
     <div class="hud-overlay" id="exp-hud-overlay">
-        <div class="hud-container">
-            <div class="hud-row active-row" data-index="0">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#ff66b2;">IT HELP DESK</span>
-                    <span class="hud-name-text">The Willows Community School</span>
+        <div class="hud-content-wrapper">
+            <div class="hud-container">
+                <div class="hud-row active-row" data-index="0">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#ff66b2;">IT HELP DESK</span><span class="hud-name-text">The Willows Community School</span></div>
+                </div>
+            </div>
+            <div class="hud-detail-sidebar">
+                <div class="sidebar-category-title">IT Help Desk The Willows Community School | 2025</div>
+                <div class="sidebar-description">
+                    <ul>
+                        <li>Programmed and deployed 400 laptops and 200 iPads for K–8 students.</li>
+                        <li>Maintained structured inventory datasets (600+ records) with zero discrepancies.</li>
+                        <li>Created internal documentation for equipment tracking and device deployment.</li>
+                        <li>Supported remote setup, printer setups, and hardware issue resolutions.</li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="hud-detail-sidebar">
-            <div class="sidebar-category-title">IT Help Desk The Willows Community School | 2025</div>
-            <div class="sidebar-description">
-                <ul>
-                    <li>Programmed and deployed 400 laptops and 200 iPads for K–8 students.</li>
-                    <li>Maintained structured inventory datasets (600+ records) with zero discrepancies.</li>
-                    <li>Created internal documentation for equipment tracking and device deployment.</li>
-                    <li>Supported remote setup, printer setups, and hardware issue resolutions.</li>
-                </ul>
-            </div>
-        </div>
-        <div class="hud-footer" id="exp-back-btn">
-            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
-        </div>
+        <div class="hud-footer" id="exp-back-btn"><div class="hud-prompt-keys">[C / Esc] Back</div></div>
     </div>
 
+    <!-- PROJECTS HUD -->
     <div class="hud-overlay" id="proj-hud-overlay">
-        <div class="hud-container">
-            <div class="hud-row active-row" data-index="0">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#00ffcc; color:#000;">SIMULATION</span>
-                    <span class="hud-name-text">Datacom Cyber Security</span>
+        <div class="hud-content-wrapper">
+            <div class="hud-container">
+                <div class="hud-row active-row" data-index="0">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#00ffcc; color:#000;">SIMULATION</span><span class="hud-name-text">Datacom Cyber Security</span></div>
+                </div>
+                <div class="hud-row" data-index="1">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#00a8ff;">DATABASE</span><span class="hud-name-text">Database Management & Data</span></div>
+                </div>
+                <div class="hud-row" data-index="2">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#ff66b2;">NETWORK</span><span class="hud-name-text">Wireshark Packet Analysis</span></div>
                 </div>
             </div>
-            <div class="hud-row" data-index="1">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#00a8ff;">DATABASE</span>
-                    <span class="hud-name-text">Database Management & Data</span>
-                </div>
-            </div>
-            <div class="hud-row" data-index="2">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#ff66b2;">NETWORK</span>
-                    <span class="hud-name-text">Wireshark Packet Analysis</span>
-                </div>
+            <div class="hud-detail-sidebar">
+                <div class="sidebar-category-title">Datacom Cyber Security Operations Job Simulation</div>
+                <div class="sidebar-description">Completed a job simulation investigating cyberattacks, conducting risk assessments, and delivering findings reports.</div>
             </div>
         </div>
-        <div class="hud-detail-sidebar">
-            <div class="sidebar-category-title" id="proj-sidebar-title">Datacom Cyber Security Operations Job Simulation</div>
-            <div class="sidebar-description" id="proj-sidebar-desc">Completed a job simulation investigating a cyberattack, conducting risk assessments, and delivering detailed findings report.</div>
-        </div>
-        <div class="hud-footer" id="proj-back-btn">
-            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
-        </div>
+        <div class="hud-footer" id="proj-back-btn"><div class="hud-prompt-keys">[C / Esc] Back</div></div>
     </div>
 
+    <!-- EDUCATION HUD -->
     <div class="hud-overlay" id="edu-hud-overlay">
-        <div class="hud-container">
-            <div class="hud-row active-row" data-index="0">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#ff66b2;">CERTS</span>
-                    <span class="hud-name-text">Certifications & Training</span>
+        <div class="hud-content-wrapper">
+            <div class="hud-container">
+                <div class="hud-row active-row" data-index="0">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#ff66b2;">CERTS</span><span class="hud-name-text">Certifications & Training</span></div>
+                </div>
+                <div class="hud-row" data-index="1">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#00a8ff;">SCHOOL</span><span class="hud-name-text">Saugus High School</span></div>
                 </div>
             </div>
-            <div class="hud-row" data-index="1">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#00a8ff;">SCHOOL</span>
-                    <span class="hud-name-text">Saugus High School</span>
+            <div class="hud-detail-sidebar">
+                <div class="sidebar-category-title">Certifications & Training</div>
+                <div class="sidebar-description">
+                    <ul>
+                        <li>CompTIA A+ Certified, Studying Network+</li>
+                        <li>Cisco: Introduction to Cybersecurity</li>
+                        <li>Linux Command Line</li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="hud-detail-sidebar">
-            <div class="sidebar-category-title" id="edu-sidebar-title">Certifications & Training</div>
-            <div class="sidebar-description" id="edu-sidebar-desc">
-                <ul>
-                    <li>CompTIA A+ Certified, Studying Network+</li>
-                    <li>Cisco: Introduction to Cybersecurity</li>
-                    <li>Linux Command Line</li>
-                </ul>
-            </div>
-        </div>
-        <div class="hud-footer" id="edu-back-btn">
-            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
-        </div>
+        <div class="hud-footer" id="edu-back-btn"><div class="hud-prompt-keys">[C / Esc] Back</div></div>
     </div>
 
+    <!-- CONTACT HUD -->
     <div class="hud-overlay" id="contact-hud-overlay">
-        <div class="hud-container">
-            <div class="hud-row active-row" data-index="0">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#ffcc00; color:#000;">EMAIL</span>
-                    <span class="hud-name-text">Email Address</span>
+        <div class="hud-content-wrapper">
+            <div class="hud-container">
+                <div class="hud-row active-row" data-index="0">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#ffcc00; color:#000;">EMAIL</span><span class="hud-name-text">Email Address</span></div>
+                </div>
+                <div class="hud-row" data-index="1">
+                    <div class="hud-row-inner"><span class="hud-tag-label" style="background:#00a8ff;">LINKEDIN</span><span class="hud-name-text">LinkedIn Profile</span></div>
                 </div>
             </div>
-            <div class="hud-row" data-index="1">
-                <div class="hud-row-inner">
-                    <span class="hud-tag-label" style="background:#00a8ff;">LINKEDIN</span>
-                    <span class="hud-name-text">LinkedIn Profile</span>
+            <div class="hud-detail-sidebar">
+                <div class="sidebar-category-title">Email Address</div>
+                <div class="sidebar-description">
+                    <ul>
+                        <li>Email: <a href="mailto:krishprasad0907@gmail.com">krishprasad0907@gmail.com</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <div class="hud-detail-sidebar">
-            <div class="sidebar-category-title" id="contact-sidebar-title">Email Address</div>
-            <div class="sidebar-description" id="contact-sidebar-desc">
-                <ul>
-                    <li>Email: <a href="mailto:krishprasad0907@gmail.com">krishprasad0907@gmail.com</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="hud-footer" id="contact-back-btn">
-            <div class="hud-prompt-keys">[C] Back / Tap Here</div>
-        </div>
+        <div class="hud-footer" id="contact-back-btn"><div class="hud-prompt-keys">[C / Esc] Back</div></div>
     </div>
 
     <script>
@@ -844,6 +712,7 @@
             setTimeout(() => document.body.classList.add('loaded'), 50);
 
             const menuItems = Array.from(document.querySelectorAll('.menu-item'));
+            const actionTitle = document.getElementById('action-title');
             const playStatus = document.getElementById('play-status');
             const startAudioBtn = document.getElementById('start-audio-btn');
             const stopAudioBtn = document.getElementById('stop-audio-btn');
@@ -903,7 +772,7 @@
                     { title: "IT Help Desk The Willows Community School | 2025", desc: "<ul><li>Programmed and deployed 400 laptops and 200 iPads for K–8 students.</li><li>Maintained structured inventory datasets (600+ records) with zero discrepancies.</li><li>Created internal documentation for equipment tracking and device deployment.</li><li>Supported remote setup, printer setups, and hardware issue resolutions.</li></ul>" }
                 ],
                 projects: [
-                    { title: "Datacom Cyber Security Operations Job Simulation", desc: "Completed a job simulation investigating a cyberattack, conducting risk assessments, and delivering detailed findings report." },
+                    { title: "Datacom Cyber Security Operations Job Simulation", desc: "Completed a job simulation investigating a cyberattack, conducting risk assessment, and delivering detailed findings report." },
                     { title: "Database Management", desc: "Designed and populated databases in Microsoft Access and Excel, ensuring accuracy and data integrity." },
                     { title: "Wireshark Packet Analysis", desc: "Analyzed HTTP, malware, and TTLS/SSL traffic." }
                 ],
@@ -915,6 +784,15 @@
                     { title: "Email Address", desc: "<ul><li>Email: <a href=\"mailto:krishprasad0907@gmail.com\">krishprasad0907@gmail.com</a></li></ul>" },
                     { title: "LinkedIn Profile", desc: "<ul><li>LinkedIn: <a href=\"https://www.linkedin.com/in/krish-prasad-021095343\" target=\"_blank\">Profile Link</a></li></ul>" }
                 ]
+            };
+
+            const commandTexts = {
+                'ABOUT': 'View Bio & Summary',
+                'SKILLS': 'Open Skills HUD Menu',
+                'EXPERIENCE': 'Review Work History',
+                'PROJECTS': 'Explore Portfolio Works',
+                'EDUCATION': 'View Academic Background',
+                'CONTACT': 'Get in Touch'
             };
 
             function setBackground(sectionName) {
@@ -933,7 +811,7 @@
             musicElem.play().then(() => {
                 playStatus.textContent = "■ STATUS: PLAYING";
                 playStatus.style.color = "#00ffcc";
-            }).catch(err => {
+            }).catch(() => {
                 const unlockAudio = () => {
                     musicElem.play().then(() => {
                         playStatus.textContent = "■ STATUS: PLAYING";
@@ -941,7 +819,7 @@
                         window.removeEventListener('click', unlockAudio);
                         window.removeEventListener('keydown', unlockAudio);
                         window.removeEventListener('touchstart', unlockAudio);
-                    }).catch(e => console.log("Unlock play failed:", e));
+                    }).catch(e => console.log(e));
                 };
                 window.addEventListener('click', unlockAudio);
                 window.addEventListener('keydown', unlockAudio);
@@ -953,7 +831,7 @@
                 musicElem.play().then(() => {
                     playStatus.textContent = "■ STATUS: PLAYING";
                     playStatus.style.color = "#00ffcc";
-                }).catch(err => console.log("Playback error:", err));
+                }).catch(err => console.log(err));
             });
 
             stopAudioBtn.addEventListener('click', (e) => {
@@ -967,10 +845,10 @@
             function renderVisualizer() {
                 requestAnimationFrame(renderVisualizer);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < 12; i++) {
-                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 9 + 4 : 4;
+                for (let i = 0; i < 14; i++) {
+                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 12 + 4 : 4;
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(4 + i * 11, (canvas.height / 2) - (barHeight / 2), 5, barHeight);
+                    ctx.fillRect(5 + i * 12, (canvas.height / 2) - (barHeight / 2), 6, barHeight);
                 }
             }
             renderVisualizer();
@@ -984,6 +862,9 @@
                 const selectedText = newItem.textContent.trim();
                 newItem.classList.add('active');
                 newItem.innerHTML = `<div class="badge-bg"></div><div class="badge-slash"></div><span class="text-wrapper" data-text="${selectedText}">${selectedText}</span>`;
+
+                actionTitle.textContent = commandTexts[selectedText] || 'Select Option';
+                resetToVideoBackground();
             }
 
             function setSubSelectionIndex(stateKey, newIndex) {
@@ -1013,9 +894,6 @@
                 if (overlays[stateKey]) {
                     mainUiLayer.classList.add('hidden');
                     sideTitleContainer.classList.add('hidden');
-                    document.querySelector('.track-card').style.opacity = '0';
-                    document.querySelector('.track-card').style.pointerEvents = 'none';
-                    
                     overlays[stateKey].classList.add('visible');
                     activeHudState = stateKey;
                     subIndices[stateKey] = 0;
@@ -1029,9 +907,6 @@
                 }
                 sideTitleContainer.classList.remove('hidden');
                 mainUiLayer.classList.remove('hidden');
-                document.querySelector('.track-card').style.opacity = '1';
-                document.querySelector('.track-card').style.pointerEvents = 'auto';
-                
                 activeHudState = null;
                 resetToVideoBackground();
             }
@@ -1064,23 +939,7 @@
 
             menuItems.forEach((item, index) => {
                 item.addEventListener('mouseenter', () => updateSelection(index));
-                item.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (currentIndex !== index) {
-                        updateSelection(index);
-                    } else {
-                        openActiveHUD();
-                    }
-                });
-                item.addEventListener('touchend', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (currentIndex !== index) {
-                        updateSelection(index);
-                    } else {
-                        openActiveHUD();
-                    }
-                }, { passive: false });
+                item.addEventListener('click', () => { updateSelection(index); openActiveHUD(); });
             });
 
             for (let key in overlays) {
@@ -1092,22 +951,12 @@
                         e.stopPropagation();
                         setSubSelectionIndex(key, index);
                     });
-                    row.addEventListener('touchend', (e) => {
-                        e.stopPropagation();
-                        setSubSelectionIndex(key, index);
-                    }, { passive: true });
                     row.addEventListener('mouseenter', () => {
                         setSubSelectionIndex(key, index);
                     });
                 });
                 const backBtn = overlay.querySelector('.hud-footer');
-                if (backBtn) {
-                    backBtn.addEventListener('click', closeActiveHUD);
-                    backBtn.addEventListener('touchend', (e) => {
-                        e.stopPropagation();
-                        closeActiveHUD();
-                    }, { passive: true });
-                }
+                if (backBtn) backBtn.addEventListener('click', closeActiveHUD);
             }
 
             resetToVideoBackground();
