@@ -91,13 +91,13 @@
             filter: brightness(0.55);
         }
 
-        /* Side Vertical Name - Adjusted positioning & sizing to fix overlap */
+        /* Side Vertical Name - Pulled further left to guarantee zero collision */
         .side-title-container {
             position: absolute;
             top: 0;
-            left: 20px;
+            left: -120px;
             height: 1080px;
-            width: 260px;
+            width: 320px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -119,7 +119,7 @@
 
         .side-title {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 130px; /* Reduced to avoid overlapping center menu */
+            font-size: 110px; /* Reduced scale to prevent background text bleed */
             font-weight: 900;
             font-style: italic;
             writing-mode: vertical-rl;
@@ -146,11 +146,11 @@
             pointer-events: none;
         }
 
-        /* Menu Styling - shifted right slightly for clear spacing */
+        /* Menu Styling - Shifted right to create complete separation */
         .menu-container {
             position: absolute;
             top: 50%;
-            left: 58%;
+            left: 62%;
             transform: translate(-50%, 500px) rotate(-10deg);
             opacity: 0;
             display: flex;
@@ -169,7 +169,7 @@
 
         .menu-item {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 72px;
+            font-size: 68px;
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -188,7 +188,7 @@
 
         .menu-item.active {
             position: relative;
-            font-size: 96px;
+            font-size: 90px;
             line-height: 1;
             padding: 8px 60px 8px 30px;
             margin-bottom: 6px;
@@ -461,10 +461,10 @@
 
         .hud-container {
             position: relative;
-            width: 780px;
+            width: 750px;
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 16px;
             transform: translateX(-60px);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -477,9 +477,9 @@
             position: relative;
             display: flex;
             align-items: center;
-            height: 105px; /* Height enlarged for larger font */
+            height: 80px; /* Scaled down row height for cleaner concise labels */
             background: #0e2246;
-            border-left: 10px solid #00a8ff;
+            border-left: 8px solid #00a8ff;
             box-shadow: 4px 4px 0px rgba(10,24,50,0.9);
             cursor: pointer;
             transform: skewX(-12deg);
@@ -501,7 +501,7 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 0 40px;
+            padding: 0 35px;
             transform: skewX(12deg);
             pointer-events: none;
         }
@@ -510,16 +510,16 @@
             background: #0a1832;
             color: #fff;
             font-family: 'Impact', sans-serif;
-            font-size: 32px; /* Increased text size */
+            font-size: 24px; /* Scaled down tag label */
             font-style: italic;
-            padding: 8px 24px;
+            padding: 6px 18px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
         .hud-name-text {
             font-family: 'Impact', sans-serif;
-            font-size: 44px; /* Increased text size */
+            font-size: 32px; /* Scaled down short row label */
             font-style: italic;
             color: #ffffff;
             text-transform: uppercase;
@@ -546,18 +546,18 @@
 
         .sidebar-category-title {
             font-family: 'Impact', sans-serif;
-            font-size: 52px; /* Increased HUD sidebar header */
+            font-size: 38px; /* Scaled down title header */
             font-style: italic;
             color: #00a8ff;
             text-transform: uppercase;
             border-bottom: 4px solid #ff66b2;
-            padding-bottom: 14px;
+            padding-bottom: 12px;
             margin-bottom: 24px;
         }
 
         .sidebar-description {
             font-family: 'Montserrat', sans-serif;
-            font-size: 32px; /* Increased HUD description text */
+            font-size: 32px; /* Kept large detailed explanation font */
             line-height: 1.5;
             color: #ffffff;
             font-weight: 700;
@@ -597,7 +597,7 @@
 
         .hud-prompt-keys {
             font-family: 'VT323', monospace;
-            font-size: 38px; /* Increased back button text */
+            font-size: 38px;
             color: #ff66b2;
             letter-spacing: 1px;
         }
