@@ -15,14 +15,13 @@
             -webkit-user-select: none;
         }
 
-        body {
-            font-family: 'Montserrat', 'Arial Black', sans-serif;
-            color: #ffffff;
+        html, body {
+            width: 100%;
+            height: 100%;
             overflow: hidden;
             background-color: #000;
-            width: 100vw;
-            height: 100vh;
-            position: relative;
+            font-family: 'Montserrat', 'Arial Black', sans-serif;
+            color: #ffffff;
         }
 
         .scaler-wrapper {
@@ -34,7 +33,6 @@
             transform: translate(-50%, -50%) scale(1);
             transform-origin: center center;
             overflow: hidden;
-            pointer-events: auto;
         }
 
         .video-background, .image-background {
@@ -63,10 +61,13 @@
 
         .video-background video, .image-background img {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
             object-fit: cover;
             display: block;
         }
@@ -86,7 +87,6 @@
             justify-content: center;
             z-index: 2;
             pointer-events: none;
-            overflow: visible;
             mix-blend-mode: difference;
             transform: translateX(-120%);
             transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.4s ease;
@@ -132,7 +132,7 @@
         .menu-container {
             position: absolute;
             top: 50%;
-            left: 55%;
+            left: 50%;
             transform: translate(-50%, 500px) rotate(-10deg);
             opacity: 0;
             display: flex;
@@ -379,7 +379,6 @@
             box-shadow: 1px 1px 0px #000000;
         }
 
-        /* Dedicated Audio Control Buttons Bar */
         .audio-control-bar {
             position: absolute;
             top: 25px;
@@ -580,48 +579,12 @@
             color: #ff66b2;
             letter-spacing: 1px;
         }
-
-        /* Fullscreen Cover Layout for Mobile Screens */
-        @media (max-width: 768px) {
-            body {
-                overflow-y: auto !important;
-                height: 100% !important;
-            }
-
-            .scaler-wrapper {
-                position: absolute !important;
-                top: 50% !important;
-                left: 50% !important;
-                width: 1920px !important;
-                height: 1080px !important;
-                transform-origin: center center !important;
-            }
-
-            .menu-container {
-                left: 50% !important;
-            }
-
-            .track-card {
-                right: 5% !important;
-                top: 50% !important;
-            }
-
-            .side-title-container {
-                left: 0px !important;
-            }
-
-            .audio-control-bar {
-                top: 15px !important;
-                right: 15px !important;
-            }
-        }
     </style>
 </head>
 <body>
 
     <div class="scaler-wrapper" id="scaler">
 
-        <!-- Dedicated Audio Control UI Buttons -->
         <div class="audio-control-bar">
             <button class="audio-btn" id="start-audio-btn">♪ PLAY</button>
             <button class="audio-btn" id="stop-audio-btn">■ STOP</button>
@@ -691,7 +654,7 @@
             </div>
         </div>
 
-        <!-- ABOUT HUD SUB-MENU -->
+        <!-- ABOUT HUD -->
         <div class="hud-overlay" id="about-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -716,7 +679,7 @@
             </div>
         </div>
 
-        <!-- SKILLS HUD SUB-MENU -->
+        <!-- SKILLS HUD -->
         <div class="hud-overlay" id="skills-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -753,7 +716,7 @@
             </div>
         </div>
 
-        <!-- EXPERIENCE HUD SUB-MENU -->
+        <!-- EXPERIENCE HUD -->
         <div class="hud-overlay" id="exp-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -779,7 +742,7 @@
             </div>
         </div>
 
-        <!-- PROJECTS HUD SUB-MENU -->
+        <!-- PROJECTS HUD -->
         <div class="hud-overlay" id="proj-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -810,7 +773,7 @@
             </div>
         </div>
 
-        <!-- EDUCATION HUD SUB-MENU -->
+        <!-- EDUCATION HUD -->
         <div class="hud-overlay" id="edu-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -841,7 +804,7 @@
             </div>
         </div>
 
-        <!-- CONTACT HUD SUB-MENU -->
+        <!-- CONTACT HUD -->
         <div class="hud-overlay" id="contact-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -875,11 +838,16 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const scaler = document.getElementById('scaler');
+
             function adjustScale() {
-                // Math.max stretches the layout to cover the full viewport without letterboxing black bars
-                const scale = Math.max(window.innerWidth / 1920, window.innerHeight / 1080);
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                
+                // Calculates maximum cover scale to fill tall display ratios completely
+                const scale = Math.max(windowWidth / 1920, windowHeight / 1080);
                 scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
             }
+
             window.addEventListener('resize', adjustScale);
             adjustScale();
 
@@ -985,7 +953,7 @@
             musicElem.play().then(() => {
                 playStatus.textContent = "■ STATUS: PLAYING";
                 playStatus.style.color = "#00ffcc";
-            }).catch(err => {
+            }).catch(() => {
                 const unlockAudio = () => {
                     musicElem.play().then(() => {
                         playStatus.textContent = "■ STATUS: PLAYING";
@@ -993,7 +961,7 @@
                         window.removeEventListener('click', unlockAudio);
                         window.removeEventListener('keydown', unlockAudio);
                         window.removeEventListener('touchstart', unlockAudio);
-                    }).catch(e => console.log("Unlock play failed:", e));
+                    }).catch(e => console.log("Unlock failed:", e));
                 };
                 window.addEventListener('click', unlockAudio);
                 window.addEventListener('keydown', unlockAudio);
