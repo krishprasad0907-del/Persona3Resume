@@ -15,17 +15,17 @@
             -webkit-user-select: none;
         }
 
-        body {
-            font-family: 'Montserrat', 'Arial Black', sans-serif;
-            color: #ffffff;
-            overflow: hidden;
-            background-color: #020b18; /* Replaced pitch black background with deep persona blue */
+        html, body {
             width: 100vw;
             height: 100vh;
+            overflow: hidden;
+            background-color: #020b18 !important; /* Pitch black removed entirely */
+            color: #ffffff;
+            font-family: 'Montserrat', 'Arial Black', sans-serif;
             position: relative;
         }
 
-        /* Scaler Wrapper - Ensures full screen 1080p layout scale */
+        /* Scaler Wrapper - Center fixed aspect ratio while maintaining deep blue background */
         .scaler-wrapper {
             position: absolute;
             top: 50%;
@@ -39,7 +39,6 @@
             background-color: #020b18;
         }
 
-        /* Subtle outer outline frame that does NOT obscure the character */
         .frame-outline {
             position: absolute;
             top: 15px;
@@ -92,7 +91,7 @@
             filter: brightness(0.5);
         }
 
-        /* Original Vertical Side Name Title */
+        /* Side Vertical Name */
         .side-title-container {
             position: absolute;
             top: 0;
@@ -147,7 +146,7 @@
             pointer-events: none;
         }
 
-        /* Angled Persona Menu */
+        /* Menu Styling */
         .menu-container {
             position: absolute;
             top: 50%;
@@ -170,7 +169,7 @@
 
         .menu-item {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 58px; /* Slightly scaled up for extra legibility */
+            font-size: 64px; /* Increased font size for enhanced mobile readability */
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -189,7 +188,7 @@
 
         .menu-item.active {
             position: relative;
-            font-size: 82px;
+            font-size: 88px;
             line-height: 1;
             padding: 8px 55px 8px 25px;
             margin-bottom: 6px;
@@ -437,6 +436,7 @@
             background: #ff3333;
         }
 
+        /* Sub-Menu Overlay Windows */
         .hud-overlay {
             position: absolute;
             top: 0;
@@ -451,7 +451,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
-            background-color: rgba(2, 11, 24, 0.45);
+            background-color: rgba(2, 11, 24, 0.7);
         }
 
         .hud-overlay.visible {
@@ -519,7 +519,7 @@
 
         .hud-name-text {
             font-family: 'Impact', sans-serif;
-            font-size: 32px;
+            font-size: 34px;
             font-style: italic;
             color: #ffffff;
             text-transform: uppercase;
@@ -546,7 +546,7 @@
 
         .sidebar-category-title {
             font-family: 'Impact', sans-serif;
-            font-size: 40px;
+            font-size: 42px;
             font-style: italic;
             color: #00a8ff;
             text-transform: uppercase;
@@ -557,7 +557,7 @@
 
         .sidebar-description {
             font-family: 'Montserrat', sans-serif;
-            font-size: 22px; /* Scaled text size for enhanced mobile and high-density viewability */
+            font-size: 24px; /* Scaled text size for legibility */
             line-height: 1.55;
             color: #ffffff;
             font-weight: 700;
@@ -601,28 +601,11 @@
             color: #ff66b2;
             letter-spacing: 1px;
         }
-
-        /* Mobile specific enhancements to guarantee visibility and readability */
-        @media screen and (max-width: 768px) {
-            body {
-                background-color: #020b18;
-            }
-            .sidebar-description {
-                font-size: 26px;
-            }
-            .menu-item {
-                font-size: 64px;
-            }
-            .hud-name-text {
-                font-size: 34px;
-            }
-        }
     </style>
 </head>
 <body>
 
     <div class="scaler-wrapper" id="scaler">
-        <!-- Thin blue framing border overlay -->
         <div class="frame-outline"></div>
 
         <div class="audio-control-bar">
@@ -694,7 +677,7 @@
             </div>
         </div>
 
-        <!-- ABOUT HUD SUB-MENU -->
+        <!-- ABOUT HUD -->
         <div class="hud-overlay" id="about-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -719,7 +702,7 @@
             </div>
         </div>
 
-        <!-- SKILLS HUD SUB-MENU -->
+        <!-- SKILLS HUD -->
         <div class="hud-overlay" id="skills-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -756,7 +739,7 @@
             </div>
         </div>
 
-        <!-- EXPERIENCE HUD SUB-MENU -->
+        <!-- EXPERIENCE HUD -->
         <div class="hud-overlay" id="exp-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -782,7 +765,7 @@
             </div>
         </div>
 
-        <!-- PROJECTS HUD SUB-MENU -->
+        <!-- PROJECTS HUD -->
         <div class="hud-overlay" id="proj-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -813,7 +796,7 @@
             </div>
         </div>
 
-        <!-- EDUCATION HUD SUB-MENU -->
+        <!-- EDUCATION HUD -->
         <div class="hud-overlay" id="edu-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -844,7 +827,7 @@
             </div>
         </div>
 
-        <!-- CONTACT HUD SUB-MENU -->
+        <!-- CONTACT HUD -->
         <div class="hud-overlay" id="contact-hud-overlay">
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
@@ -984,7 +967,6 @@
                 videoBackground.style.opacity = '1';
             }
 
-            // Audio trigger on user interaction
             const attemptPlay = () => {
                 musicElem.play().then(() => {
                     playStatus.textContent = "■ STATUS: PLAYING";
