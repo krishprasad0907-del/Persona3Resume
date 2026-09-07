@@ -582,6 +582,79 @@
             color: #ff66b2;
             letter-spacing: 1px;
         }
+
+        /* Mobile Portrait Responsive Adjustments */
+        @media screen and (max-width: 768px) and (orientation: portrait) {
+            .scaler-wrapper {
+                width: 100vw !important;
+                height: 100dvh !important;
+                transform: none !important;
+            }
+
+            .side-title-container {
+                left: -10px !important;
+                width: 120px !important;
+                height: 100% !important;
+            }
+
+            .side-title {
+                font-size: 60px !important;
+            }
+
+            .menu-container {
+                left: 55% !important;
+                top: 45% !important;
+                transform: translate(-50%, -50%) rotate(-8deg) !important;
+                width: 80% !important;
+            }
+
+            body.loaded .menu-container {
+                transform: translate(-50%, -50%) rotate(-8deg) !important;
+            }
+
+            .menu-item {
+                font-size: 32px !important;
+            }
+
+            .menu-item.active {
+                font-size: 44px !important;
+                padding: 4px 30px 4px 15px !important;
+            }
+
+            .track-card {
+                top: 80px !important;
+                right: 15px !important;
+                transform: scale(0.65) !important;
+                transform-origin: top right !important;
+            }
+
+            body.loaded .track-card {
+                transform: scale(0.65) !important;
+            }
+
+            .controls-hint {
+                bottom: 20px !important;
+                right: 20px !important;
+                transform: scale(0.8) !important;
+                transform-origin: bottom right !important;
+            }
+
+            .hud-overlay {
+                flex-direction: column !important;
+                padding: 60px 15px 20px 15px !important;
+                justify-content: flex-start !important;
+                gap: 15px !important;
+            }
+
+            .hud-container, .hud-detail-sidebar {
+                width: 100% !important;
+                transform: none !important;
+            }
+
+            .hud-detail-sidebar {
+                max-height: 40dvh !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -843,10 +916,16 @@
             const scaler = document.getElementById('scaler');
 
             function adjustScale() {
+                const isMobilePortrait = window.innerWidth <= 768 && window.innerHeight > window.innerWidth;
+                
+                if (isMobilePortrait) {
+                    scaler.style.transform = 'none';
+                    return;
+                }
+
                 const windowWidth = document.documentElement.clientWidth || window.innerWidth;
                 const windowHeight = document.documentElement.clientHeight || window.innerHeight;
                 
-                // Uniformly scales down the full 1920x1080 canvas without cropping horizontal or vertical edges
                 const scale = Math.min(windowWidth / 1920, windowHeight / 1080);
                 scaler.style.transform = `scale(${scale})`;
             }
