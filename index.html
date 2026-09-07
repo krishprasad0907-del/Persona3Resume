@@ -18,26 +18,25 @@
         body {
             width: 100%;
             min-height: 100vh;
-            background-color: #081028;
+            background-color: #050b18;
             font-family: 'Montserrat', 'Arial Black', sans-serif;
             color: #ffffff;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             overflow-x: hidden;
-            overflow-y: auto;
-            padding: 20px 10px;
+            padding: 15px;
         }
 
-        .main-wrapper {
+        /* Compact, intentional blue frame */
+        .main-frame {
             position: relative;
             width: 100%;
-            max-width: 1200px;
-            min-height: 90vh;
-            background-color: #0a1838;
+            max-width: 1000px; /* Reduced box size */
+            min-height: 620px;
+            background-color: #0a1628;
             border: 3px solid #00a8ff;
-            box-shadow: 0 0 20px rgba(0, 168, 255, 0.3);
+            box-shadow: 0 0 25px rgba(0, 168, 255, 0.4);
             border-radius: 8px;
             overflow: hidden;
             display: flex;
@@ -57,17 +56,18 @@
         }
 
         body.loaded .video-background {
-            opacity: 0.35;
+            opacity: 0.45;
         }
 
         .image-background.active {
-            opacity: 0.4;
+            opacity: 0.5;
         }
 
         .video-background video, .image-background img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            filter: brightness(0.7);
         }
 
         .audio-control-bar {
@@ -75,20 +75,20 @@
             z-index: 30;
             display: flex;
             justify-content: flex-end;
-            gap: 12px;
-            padding: 15px;
-            background: rgba(8, 16, 40, 0.6);
+            gap: 10px;
+            padding: 12px 15px;
+            background: rgba(5, 11, 24, 0.7);
         }
 
         .audio-btn {
             background: #ff66b2;
             color: #fff;
-            padding: 12px 24px;
+            padding: 8px 16px;
             font-family: 'Impact', sans-serif;
-            font-size: 20px;
+            font-size: 16px;
             font-style: italic;
             letter-spacing: 1px;
-            box-shadow: 3px 3px 0px #081028;
+            box-shadow: 3px 3px 0px #050b18;
             cursor: pointer;
             border: none;
             outline: none;
@@ -109,79 +109,150 @@
             z-index: 10;
             display: flex;
             flex-direction: column;
-            padding: 20px;
-            gap: 30px;
+            padding: 15px 25px;
             flex-grow: 1;
         }
 
-        .header-title {
-            font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: clamp(42px, 8vw, 90px);
+        .side-title-vertical {
+            position: absolute;
+            top: 20px;
+            left: -10px;
+            height: 90%;
+            display: flex;
+            align-items: center;
+            z-index: 2;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        .side-title-vertical span {
+            font-family: 'Impact', sans-serif;
+            font-size: clamp(60px, 10vw, 110px);
             font-weight: 900;
             font-style: italic;
+            writing-mode: vertical-rl;
             text-transform: uppercase;
             color: #ffffff;
-            text-shadow: 4px 4px 0px #081028, 0 0 10px #00a8ff;
-            line-height: 0.9;
-            text-align: center;
+            transform: scale(-1);
+            line-height: 0.8;
+            opacity: 0.3;
         }
 
         .ui-layout {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 20px;
+            margin-top: 10px;
         }
 
-        @media (min-width: 850px) {
+        @media (min-width: 768px) {
             .ui-layout {
                 flex-direction: row;
                 justify-content: space-between;
-                align-items: flex-start;
+                align-items: center;
+                padding-left: 60px;
             }
         }
 
+        /* Restored Stylized Persona 3 Menu Items */
         .menu-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            width: 100%;
-            max-width: 450px;
-            margin: 0 auto;
+            gap: 6px;
+            z-index: 4;
+            transform: rotate(-3deg);
+            max-width: 380px;
         }
 
         .menu-item {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: clamp(32px, 6vw, 55px);
+            font-size: clamp(28px, 4.5vw, 42px);
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
             color: #00a8ff;
-            text-shadow: 2px 2px 0 #081028, -2px -2px 0 #081028;
+            text-shadow: -2px -2px 0 #050b18, 2px -2px 0 #050b18, -2px 2px 0 #050b18, 2px 2px 0 #050b18;
             cursor: pointer;
             transition: all 0.15s ease-out;
-            padding: 8px 12px;
-            background: rgba(10, 24, 56, 0.8);
-            border-left: 5px solid #00a8ff;
+            letter-spacing: 1px;
+            line-height: 1;
+            position: relative;
         }
 
-        .menu-item:hover, .menu-item.active {
+        .menu-item:hover:not(.active) {
+            transform: scale(1.05) translateX(6px);
             color: #ffffff;
-            background: #00a8ff;
-            border-left-color: #ff66b2;
-            transform: translateX(8px);
         }
 
+        .menu-item.active {
+            font-size: clamp(38px, 5.5vw, 54px);
+            padding: 4px 30px 4px 15px;
+            color: transparent;
+        }
+
+        .menu-item.active::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: -4px;
+            width: 104%;
+            height: 96%;
+            background-color: #ff66b2;
+            clip-path: polygon(0% 30%, 100% 0%, 82% 100%, 10% 90%);
+            z-index: -3;
+        }
+
+        .menu-item.active .badge-bg {
+            position: absolute;
+            top: 4px;
+            left: 0;
+            width: 100%;
+            height: 88%;
+            background-color: #ffffff;
+            clip-path: polygon(0% 30%, 98% 2%, 82% 98%, 10% 88%);
+            z-index: -2;
+        }
+
+        .menu-item.active .badge-slash {
+            position: absolute;
+            top: 50%;
+            left: -25%;
+            width: 150%;
+            height: 28px;
+            background-color: #e6002e;
+            transform: translateY(-50%) rotate(-12deg);
+            clip-path: polygon(0 35%, 100% 0%, 95% 100%, 5% 85%);
+            z-index: -1;
+        }
+
+        .menu-item.active .text-wrapper {
+            position: relative;
+            display: inline-block;
+            color: #000000;
+        }
+
+        .menu-item.active .text-wrapper::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #e6002e;
+            clip-path: polygon(0 42%, 100% 22%, 100% 100%, 0 100%);
+            z-index: 2;
+        }
+
+        /* Restored Track Card */
         .track-card {
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            background: rgba(8, 16, 40, 0.85);
+            background: rgba(10, 22, 40, 0.85);
             border: 2px solid #00a8ff;
-            padding: 20px;
-            border-radius: 6px;
+            padding: 16px;
+            box-shadow: 4px 4px 0px rgba(0,0,0,0.6);
             width: 100%;
-            max-width: 400px;
+            max-width: 320px;
             margin: 0 auto;
         }
 
@@ -189,18 +260,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .p3-big {
             font-family: 'Press Start 2P', monospace;
-            font-size: clamp(32px, 5vw, 48px);
+            font-size: 32px;
             color: #ffffff;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.4);
         }
 
         .persona-sub {
             font-family: 'VT323', monospace;
-            font-size: 24px;
+            font-size: 18px;
             letter-spacing: 2px;
         }
 
@@ -209,42 +281,47 @@
             color: #0044b3;
             font-weight: 900;
             font-style: italic;
-            font-size: 16px;
-            padding: 2px 10px;
+            font-size: 13px;
+            padding: 1px 8px;
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
         }
 
         .song-title {
-            font-size: clamp(24px, 4vw, 32px);
+            font-size: 24px;
             font-weight: 900;
             font-style: italic;
-            margin-top: 10px;
+            margin-top: 6px;
         }
 
-        .vocal-credits, .play-status {
+        .vocal-credits {
             font-family: 'VT323', monospace;
-            font-size: 22px;
-            margin-top: 4px;
+            font-size: 17px;
+            color: #d1d1d1;
         }
 
         .play-status {
+            font-family: 'VT323', monospace;
+            font-size: 17px;
             color: #ff66b2;
+            margin-top: 4px;
         }
 
         #visualizer {
-            width: 220px;
-            height: 40px;
-            margin-top: 10px;
+            width: 180px;
+            height: 35px;
+            margin-top: 6px;
         }
 
+        /* Restored HUD Overlays */
         .hud-overlay {
             display: none;
             flex-direction: column;
-            gap: 20px;
-            background: rgba(8, 16, 40, 0.95);
+            gap: 15px;
+            background: rgba(10, 22, 40, 0.92);
             border: 3px solid #00a8ff;
-            padding: 20px;
-            margin-top: 10px;
-            border-radius: 6px;
+            padding: 16px;
+            border-radius: 4px;
+            box-shadow: 6px 6px 0px #ff66b2;
         }
 
         .hud-overlay.visible {
@@ -254,64 +331,68 @@
         .hud-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .hud-row {
             display: flex;
             align-items: center;
-            padding: 12px 16px;
-            background: #0a1838;
-            border-left: 6px solid #00a8ff;
+            padding: 10px 14px;
+            background: #050b18;
+            border-left: 5px solid #00a8ff;
             cursor: pointer;
-            transition: background 0.2s ease;
+            transform: skewX(-8deg);
+            transition: transform 0.15s ease, background 0.15s ease;
         }
 
-        .hud-row.active-row {
+        .hud-row:hover, .hud-row.active-row {
             background: #00a8ff;
+            transform: skewX(-8deg) scale(1.01);
         }
 
         .hud-tag-label {
             background: #ff66b2;
             color: #fff;
             font-family: 'Impact', sans-serif;
-            font-size: 18px;
+            font-size: 16px;
             font-style: italic;
             padding: 2px 8px;
-            margin-right: 12px;
+            margin-right: 10px;
+            transform: skewX(8deg);
         }
 
         .hud-name-text {
             font-family: 'Impact', sans-serif;
-            font-size: clamp(20px, 3.5vw, 26px);
+            font-size: clamp(18px, 3vw, 22px);
             font-style: italic;
+            transform: skewX(8deg);
         }
 
         .hud-detail-sidebar {
-            background: #0a1838;
-            border: 2px solid #ff66b2;
-            padding: 20px;
+            background: rgba(5, 11, 24, 0.85);
+            border: 2px solid #00a8ff;
+            padding: 15px;
         }
 
         .sidebar-category-title {
             font-family: 'Impact', sans-serif;
-            font-size: clamp(26px, 4vw, 34px);
+            font-size: clamp(22px, 3.5vw, 28px);
             font-style: italic;
             color: #00a8ff;
             border-bottom: 2px solid #ff66b2;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
         }
 
         .sidebar-description {
-            font-size: clamp(16px, 3vw, 20px);
-            line-height: 1.6;
+            font-size: clamp(15px, 2.5vw, 18px);
+            line-height: 1.5;
             color: #ffffff;
         }
 
         .sidebar-description ul {
-            padding-left: 20px;
-            margin-top: 10px;
+            padding-left: 18px;
+            margin-top: 8px;
         }
 
         .sidebar-description a {
@@ -321,20 +402,19 @@
 
         .hud-footer {
             align-self: flex-end;
-            margin-top: 10px;
             font-family: 'VT323', monospace;
-            font-size: 24px;
+            font-size: 20px;
             color: #ff66b2;
             cursor: pointer;
-            background: rgba(0,0,0,0.4);
-            padding: 6px 16px;
+            background: rgba(0,0,0,0.5);
+            padding: 4px 12px;
             border: 1px solid #ff66b2;
         }
     </style>
 </head>
 <body>
 
-    <div class="main-wrapper">
+    <div class="main-frame">
 
         <div class="audio-control-bar">
             <button class="audio-btn" id="start-audio-btn">♪ PLAY</button>
@@ -354,12 +434,19 @@
         <div class="image-background" id="bg-edu"><img src="thumb-1920-1344915.jpg" alt="Education"></div>
         <div class="image-background" id="bg-contact"><img src="24671851e83b17040f79df10fd5a6689.jpg" alt="Contact"></div>
 
+        <div class="side-title-vertical">
+            <span>KRISH PRASAD</span>
+        </div>
+
         <div class="content-container">
-            <h1 class="header-title">KRISH PRASAD</h1>
 
             <div class="ui-layout" id="main-ui-layer">
                 <nav class="menu-container" id="menu-container">
-                    <div class="menu-item active" data-section="about">ABOUT</div>
+                    <div class="menu-item active" data-section="about">
+                        <div class="badge-bg"></div>
+                        <div class="badge-slash"></div>
+                        <span class="text-wrapper" data-text="ABOUT">ABOUT</span>
+                    </div>
                     <div class="menu-item" data-section="SKILLS">SKILLS</div>
                     <div class="menu-item" data-section="EXPERIENCE">EXPERIENCE</div>
                     <div class="menu-item" data-section="PROJECTS">PROJECTS</div>
@@ -374,9 +461,9 @@
                         <div class="reload-badge">RELOAD</div>
                     </div>
                     <h2 class="song-title">Full Moon Full Life</h2>
-                    <div class="vocal-credits">Azumi Takahashi feat Lotus Juice</div>
+                    <div class="vocal-credits">Vocals : Azumi Takahashi feat Lotus Juice</div>
                     <div class="play-status" id="play-status">▶ STATUS: STOPPED</div>
-                    <canvas id="visualizer" width="220" height="40"></canvas>
+                    <canvas id="visualizer" width="180" height="35"></canvas>
                 </div>
             </div>
 
@@ -384,11 +471,11 @@
             <div class="hud-overlay" id="about-hud-overlay">
                 <div class="hud-container">
                     <div class="hud-row active-row" data-index="0">
-                        <span class="hud-tag-label">BIO</span>
+                        <span class="hud-tag-label" style="background:#ff66b2;">BIO</span>
                         <span class="hud-name-text">Professional Summary</span>
                     </div>
                     <div class="hud-row" data-index="1">
-                        <span class="hud-tag-label">FOCUS</span>
+                        <span class="hud-tag-label" style="background:#00a8ff;">FOCUS</span>
                         <span class="hud-name-text">Core Specializations</span>
                     </div>
                 </div>
@@ -407,15 +494,15 @@
                         <span class="hud-name-text">Data & Documentation</span>
                     </div>
                     <div class="hud-row" data-index="1">
-                        <span class="hud-tag-label">CODE</span>
+                        <span class="hud-tag-label" style="background:#00a8ff;">CODE</span>
                         <span class="hud-name-text">Technical & Programming</span>
                     </div>
                     <div class="hud-row" data-index="2">
-                        <span class="hud-tag-label">SEC</span>
+                        <span class="hud-tag-label" style="background:#ff66b2;">SEC</span>
                         <span class="hud-name-text">Cybersecurity & Networking</span>
                     </div>
                     <div class="hud-row" data-index="3">
-                        <span class="hud-tag-label">MEDIA</span>
+                        <span class="hud-tag-label" style="background:#00ffcc; color:#000;">MEDIA</span>
                         <span class="hud-name-text">Digital Media</span>
                     </div>
                 </div>
@@ -430,7 +517,7 @@
             <div class="hud-overlay" id="exp-hud-overlay">
                 <div class="hud-container">
                     <div class="hud-row active-row" data-index="0">
-                        <span class="hud-tag-label">IT HELP DESK</span>
+                        <span class="hud-tag-label" style="background:#ff66b2;">IT HELP DESK</span>
                         <span class="hud-name-text">The Willows Community School</span>
                     </div>
                 </div>
@@ -452,15 +539,15 @@
             <div class="hud-overlay" id="proj-hud-overlay">
                 <div class="hud-container">
                     <div class="hud-row active-row" data-index="0">
-                        <span class="hud-tag-label">SIMULATION</span>
+                        <span class="hud-tag-label" style="background:#00ffcc; color:#000;">SIMULATION</span>
                         <span class="hud-name-text">Datacom Cyber Security</span>
                     </div>
                     <div class="hud-row" data-index="1">
-                        <span class="hud-tag-label">DATABASE</span>
+                        <span class="hud-tag-label" style="background:#00a8ff;">DATABASE</span>
                         <span class="hud-name-text">Database Management & Data</span>
                     </div>
                     <div class="hud-row" data-index="2">
-                        <span class="hud-tag-label">NETWORK</span>
+                        <span class="hud-tag-label" style="background:#ff66b2;">NETWORK</span>
                         <span class="hud-name-text">Wireshark Packet Analysis</span>
                     </div>
                 </div>
@@ -475,11 +562,11 @@
             <div class="hud-overlay" id="edu-hud-overlay">
                 <div class="hud-container">
                     <div class="hud-row active-row" data-index="0">
-                        <span class="hud-tag-label">CERTS</span>
+                        <span class="hud-tag-label" style="background:#ff66b2;">CERTS</span>
                         <span class="hud-name-text">Certifications & Training</span>
                     </div>
                     <div class="hud-row" data-index="1">
-                        <span class="hud-tag-label">SCHOOL</span>
+                        <span class="hud-tag-label" style="background:#00a8ff;">SCHOOL</span>
                         <span class="hud-name-text">Saugus High School</span>
                     </div>
                 </div>
@@ -500,11 +587,11 @@
             <div class="hud-overlay" id="contact-hud-overlay">
                 <div class="hud-container">
                     <div class="hud-row active-row" data-index="0">
-                        <span class="hud-tag-label">EMAIL</span>
+                        <span class="hud-tag-label" style="background:#ffcc00; color:#000;">EMAIL</span>
                         <span class="hud-name-text">Email Address</span>
                     </div>
                     <div class="hud-row" data-index="1">
-                        <span class="hud-tag-label">LINKEDIN</span>
+                        <span class="hud-tag-label" style="background:#00a8ff;">LINKEDIN</span>
                         <span class="hud-name-text">LinkedIn Profile</span>
                     </div>
                 </div>
@@ -609,7 +696,7 @@
 
             function resetToVideoBackground() {
                 Object.values(imageBackgrounds).forEach(bg => bg.classList.remove('active'));
-                videoBackground.style.opacity = '0.35';
+                videoBackground.style.opacity = '0.45';
             }
 
             startAudioBtn.addEventListener('click', (e) => {
@@ -631,18 +718,24 @@
             function renderVisualizer() {
                 requestAnimationFrame(renderVisualizer);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < 18; i++) {
-                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 12 + 4 : 4;
+                for (let i = 0; i < 16; i++) {
+                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 10 + 3 : 3;
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(7.5 + i * 10, (canvas.height / 2) - (barHeight / 2), 7, barHeight);
+                    ctx.fillRect(6 + i * 10, (canvas.height / 2) - (barHeight / 2), 6, barHeight);
                 }
             }
             renderVisualizer();
 
             function updateSelection(newIndex) {
                 menuItems[currentIndex].classList.remove('active');
+                menuItems[currentIndex].innerHTML = menuItems[currentIndex].textContent.trim();
+
                 currentIndex = (newIndex + menuItems.length) % menuItems.length;
-                menuItems[currentIndex].classList.add('active');
+                const newItem = menuItems[currentIndex];
+                const selectedText = newItem.textContent.trim();
+                newItem.classList.add('active');
+                newItem.innerHTML = `<div class="badge-bg"></div><div class="badge-slash"></div><span class="text-wrapper" data-text="${selectedText}">${selectedText}</span>`;
+
                 resetToVideoBackground();
             }
 
