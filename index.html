@@ -19,13 +19,13 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
-            background-color: #020b18 !important; /* Pitch black removed entirely */
+            background-color: #0a1832 !important; /* Made dark blue lighter */
             color: #ffffff;
             font-family: 'Montserrat', 'Arial Black', sans-serif;
             position: relative;
         }
 
-        /* Scaler Wrapper - Center fixed aspect ratio while maintaining deep blue background */
+        /* Scaler Wrapper */
         .scaler-wrapper {
             position: absolute;
             top: 50%;
@@ -36,7 +36,7 @@
             transform-origin: center center;
             overflow: hidden;
             pointer-events: auto;
-            background-color: #020b18;
+            background-color: #0a1832;
         }
 
         .frame-outline {
@@ -46,7 +46,7 @@
             right: 15px;
             bottom: 15px;
             border: 2px solid #00a8ff;
-            box-shadow: inset 0 0 15px rgba(0, 168, 255, 0.3), 0 0 15px rgba(0, 168, 255, 0.3);
+            box-shadow: inset 0 0 15px rgba(0, 168, 255, 0.4), 0 0 15px rgba(0, 168, 255, 0.4);
             pointer-events: none;
             z-index: 20;
             border-radius: 4px;
@@ -64,7 +64,7 @@
             opacity: 0;
             transform: scale(1.05);
             transition: opacity 1.2s ease, transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-            background-color: #020b18;
+            background-color: #0a1832;
         }
 
         body.loaded .video-background {
@@ -88,7 +88,7 @@
         }
 
         .image-background img {
-            filter: brightness(0.5);
+            filter: brightness(0.55);
         }
 
         /* Side Vertical Name */
@@ -119,7 +119,7 @@
 
         .side-title {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 150px;
+            font-size: 165px; /* Increased side title text size */
             font-weight: 900;
             font-style: italic;
             writing-mode: vertical-rl;
@@ -129,7 +129,7 @@
             transform: scale(-1);
             line-height: 0.85;
             white-space: nowrap;
-            filter: drop-shadow(4px 4px 0px #020b18);
+            filter: drop-shadow(4px 4px 0px #0a1832);
         }
 
         .ui-layer {
@@ -156,7 +156,7 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 4px;
+            gap: 6px;
             z-index: 4;
             pointer-events: auto;
             transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, opacity 0.5s ease 0.25s;
@@ -169,12 +169,12 @@
 
         .menu-item {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 64px; /* Increased font size for enhanced mobile readability */
+            font-size: 72px; /* Increased menu item font size */
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
             color: #00a8ff;
-            text-shadow: -2px -2px 0 #020b18, 2px -2px 0 #020b18, -2px 2px 0 #020b18, 2px 2px 0 #020b18, 4px 4px 0 rgba(2,11,24,0.9);
+            text-shadow: -2px -2px 0 #0a1832, 2px -2px 0 #0a1832, -2px 2px 0 #0a1832, 2px 2px 0 #0a1832, 4px 4px 0 rgba(10,24,50,0.9);
             cursor: pointer;
             transition: all 0.15s ease-out;
             letter-spacing: 1px;
@@ -188,9 +188,9 @@
 
         .menu-item.active {
             position: relative;
-            font-size: 88px;
+            font-size: 96px; /* Increased active menu item font size */
             line-height: 1;
-            padding: 8px 55px 8px 25px;
+            padding: 8px 60px 8px 30px;
             margin-bottom: 6px;
             background: transparent;
             text-shadow: none;
@@ -226,7 +226,7 @@
             top: 50%;
             left: -25%;
             width: 150%;
-            height: 38px;
+            height: 42px;
             background-color: #e6002e;
             transform: translateY(-50%) rotate(-15deg);
             clip-path: polygon(0 35%, 100% 0%, 95% 100%, 5% 85%);
@@ -236,7 +236,7 @@
         .menu-item.active .text-wrapper {
             position: relative;
             display: inline-block;
-            color: #020b18;
+            color: #0a1832;
         }
 
         .menu-item.active .text-wrapper::after {
@@ -279,21 +279,21 @@
 
         .p3-big {
             font-family: 'Press Start 2P', monospace;
-            font-size: 55px;
+            font-size: 60px;
             line-height: 0.9;
             letter-spacing: -2px;
             color: #ffffff;
-            text-shadow: 3px 3px 0px rgba(2,11,24,0.6);
+            text-shadow: 3px 3px 0px rgba(10,24,50,0.6);
         }
 
         .persona-sub {
             font-family: 'VT323', monospace;
-            font-size: 26px;
+            font-size: 28px;
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1;
             margin-top: 2px;
-            text-shadow: 1px 1px 0px rgba(2,11,24,0.6);
+            text-shadow: 1px 1px 0px rgba(10,24,50,0.6);
         }
 
         .reload-badge {
@@ -302,18 +302,18 @@
             font-family: 'Montserrat', sans-serif;
             font-weight: 900;
             font-style: italic;
-            font-size: 16px;
-            padding: 2px 10px;
+            font-size: 18px;
+            padding: 2px 12px;
             margin-top: 2px;
             clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%);
         }
 
         .song-title {
-            font-size: 40px;
+            font-size: 44px;
             font-weight: 900;
             font-style: italic;
             letter-spacing: -0.5px;
-            text-shadow: 3px 3px 0px rgba(2,11,24,0.8);
+            text-shadow: 3px 3px 0px rgba(10,24,50,0.8);
             margin-bottom: 2px;
             white-space: nowrap;
             pointer-events: none;
@@ -321,30 +321,30 @@
 
         .vocal-credits {
             font-family: 'VT323', monospace;
-            font-size: 24px;
+            font-size: 26px;
             letter-spacing: 1px;
             color: #ffffff;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 0px rgba(2,11,24,0.8);
+            text-shadow: 2px 2px 0px rgba(10,24,50,0.8);
             pointer-events: none;
         }
 
         .play-status {
             font-family: 'VT323', monospace;
-            font-size: 22px;
+            font-size: 24px;
             letter-spacing: 1.5px;
             color: #ff66b2;
             margin-bottom: 10px;
-            text-shadow: 1px 1px 0px rgba(2,11,24,0.9);
+            text-shadow: 1px 1px 0px rgba(10,24,50,0.9);
             text-transform: uppercase;
             pointer-events: none;
         }
 
         #visualizer {
-            width: 220px;
-            height: 50px;
+            width: 240px;
+            height: 55px;
             image-rendering: pixelated;
-            filter: drop-shadow(2px 2px 0px rgba(2,11,24,0.7));
+            filter: drop-shadow(2px 2px 0px rgba(10,24,50,0.7));
             pointer-events: none;
         }
 
@@ -364,15 +364,15 @@
         }
 
         .action-title {
-            font-size: 32px;
+            font-size: 36px; /* Increased font size */
             font-weight: 900;
             font-style: italic;
             margin-bottom: 2px;
-            text-shadow: 2px 2px 4px rgba(2,11,24,0.9);
+            text-shadow: 2px 2px 4px rgba(10,24,50,0.9);
         }
 
         .command-sub {
-            font-size: 15px;
+            font-size: 18px; /* Increased font size */
             font-weight: 700;
             color: #d1d1d1;
             margin-bottom: 8px;
@@ -383,19 +383,19 @@
         .key-prompt {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            font-size: 17px;
+            gap: 8px;
+            font-size: 20px;
             font-weight: 800;
             margin-left: 12px;
         }
 
         .key-badge {
             background-color: #ffffff;
-            color: #020b18;
-            padding: 2px 8px;
+            color: #0a1832;
+            padding: 2px 10px;
             border-radius: 3px;
-            font-size: 15px;
-            box-shadow: 1px 1px 0px #020b18;
+            font-size: 18px;
+            box-shadow: 1px 1px 0px #0a1832;
         }
 
         /* Top Right Audio Controls */
@@ -411,12 +411,12 @@
         .audio-btn {
             background: #ff66b2;
             color: #fff;
-            padding: 12px 24px;
+            padding: 14px 28px;
             font-family: 'Impact', sans-serif;
-            font-size: 20px;
+            font-size: 22px; /* Increased text size */
             font-style: italic;
             letter-spacing: 1px;
-            box-shadow: 4px 4px 0px #020b18;
+            box-shadow: 4px 4px 0px #0a1832;
             cursor: pointer;
             border: none;
             outline: none;
@@ -451,7 +451,7 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
-            background-color: rgba(2, 11, 24, 0.7);
+            background-color: rgba(10, 24, 50, 0.85); /* Slightly lighter backdrop */
         }
 
         .hud-overlay.visible {
@@ -478,16 +478,16 @@
             display: flex;
             align-items: center;
             height: 90px;
-            background: #031633;
+            background: #0e2246; /* Slightly lighter row background */
             border-left: 8px solid #00a8ff;
-            box-shadow: 4px 4px 0px rgba(2,11,24,0.9);
+            box-shadow: 4px 4px 0px rgba(10,24,50,0.9);
             cursor: pointer;
             transform: skewX(-12deg);
             transition: transform 0.15s ease, background 0.15s ease, border-left-color 0.15s ease;
         }
 
         .hud-row:hover {
-            background: #08295a;
+            background: #143264;
             transform: skewX(-12deg) scale(1.02);
         }
 
@@ -507,10 +507,10 @@
         }
 
         .hud-tag-label {
-            background: #020b18;
+            background: #0a1832;
             color: #fff;
             font-family: 'Impact', sans-serif;
-            font-size: 24px;
+            font-size: 26px; /* Scaled text size */
             font-style: italic;
             padding: 6px 20px;
             text-transform: uppercase;
@@ -519,17 +519,17 @@
 
         .hud-name-text {
             font-family: 'Impact', sans-serif;
-            font-size: 34px;
+            font-size: 38px; /* Scaled text size */
             font-style: italic;
             color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 1px;
-            text-shadow: 2px 2px 0px #020b18;
+            text-shadow: 2px 2px 0px #0a1832;
         }
 
         .hud-detail-sidebar {
             width: 800px;
-            background: rgba(3, 22, 51, 0.94);
+            background: rgba(14, 34, 70, 0.95); /* Lighter deep blue sidebar */
             border: 4px solid #00a8ff;
             box-shadow: 8px 8px 0px #ff66b2;
             padding: 40px;
@@ -546,18 +546,18 @@
 
         .sidebar-category-title {
             font-family: 'Impact', sans-serif;
-            font-size: 42px;
+            font-size: 46px; /* Scaled category header */
             font-style: italic;
             color: #00a8ff;
             text-transform: uppercase;
             border-bottom: 3px solid #ff66b2;
             padding-bottom: 12px;
-            margin-bottom: 18px;
+            margin-bottom: 22px;
         }
 
         .sidebar-description {
             font-family: 'Montserrat', sans-serif;
-            font-size: 24px; /* Scaled text size for legibility */
+            font-size: 28px; /* Increased overall text size */
             line-height: 1.55;
             color: #ffffff;
             font-weight: 700;
@@ -565,10 +565,10 @@
 
         .sidebar-description ul {
             list-style-type: disc;
-            padding-left: 24px;
+            padding-left: 28px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             margin-top: 12px;
         }
 
@@ -590,14 +590,14 @@
             font-family: 'Montserrat', sans-serif;
             font-style: italic;
             font-weight: 900;
-            text-shadow: 2px 2px 0px #020b18;
+            text-shadow: 2px 2px 0px #0a1832;
             cursor: pointer;
             pointer-events: auto;
         }
 
         .hud-prompt-keys {
             font-family: 'VT323', monospace;
-            font-size: 28px;
+            font-size: 32px; /* Increased back text size */
             color: #ff66b2;
             letter-spacing: 1px;
         }
@@ -665,7 +665,7 @@
                 <h2 class="song-title">Full Moon Full Life</h2>
                 <div class="vocal-credits">Vocals : Azumi Takahashi feat Lotus Juice</div>
                 <div class="play-status" id="play-status">▶ STATUS: STOPPED</div>
-                <canvas id="visualizer" width="220" height="50"></canvas>
+                <canvas id="visualizer" width="240" height="55"></canvas>
             </div>
 
             <div class="controls-hint">
@@ -725,7 +725,7 @@
                 </div>
                 <div class="hud-row" data-index="3">
                     <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00ffcc; color:#020b18;">MEDIA</span>
+                        <span class="hud-tag-label" style="background:#00ffcc; color:#0a1832;">MEDIA</span>
                         <span class="hud-name-text">Digital Media</span>
                     </div>
                 </div>
@@ -770,7 +770,7 @@
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
                     <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#00ffcc; color:#020b18;">SIMULATION</span>
+                        <span class="hud-tag-label" style="background:#00ffcc; color:#0a1832;">SIMULATION</span>
                         <span class="hud-name-text">Datacom Cyber Security</span>
                     </div>
                 </div>
@@ -801,11 +801,17 @@
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
                     <div class="hud-row-inner">
+                        <span class="hud-tag-label" style="background:#00ffcc; color:#0a1832;">COLLEGE</span>
+                        <span class="hud-name-text">College of the Canyons</span>
+                    </div>
+                </div>
+                <div class="hud-row" data-index="1">
+                    <div class="hud-row-inner">
                         <span class="hud-tag-label" style="background:#ff66b2;">CERTS</span>
                         <span class="hud-name-text">Certifications & Training</span>
                     </div>
                 </div>
-                <div class="hud-row" data-index="1">
+                <div class="hud-row" data-index="2">
                     <div class="hud-row-inner">
                         <span class="hud-tag-label" style="background:#00a8ff;">SCHOOL</span>
                         <span class="hud-name-text">Saugus High School</span>
@@ -813,12 +819,11 @@
                 </div>
             </div>
             <div class="hud-detail-sidebar">
-                <div class="sidebar-category-title" id="edu-sidebar-title">Certifications & Training</div>
+                <div class="sidebar-category-title" id="edu-sidebar-title">College of the Canyons</div>
                 <div class="sidebar-description" id="edu-sidebar-desc">
                     <ul>
-                        <li>CompTIA A+ Certified, Studying Network+</li>
-                        <li>Cisco: Introduction to Cybersecurity</li>
-                        <li>Linux Command Line</li>
+                        <li>Undergraduate Studies</li>
+                        <li>4.0 GPA</li>
                     </ul>
                 </div>
             </div>
@@ -832,7 +837,7 @@
             <div class="hud-container">
                 <div class="hud-row active-row" data-index="0">
                     <div class="hud-row-inner">
-                        <span class="hud-tag-label" style="background:#ffcc00; color:#020b18;">EMAIL</span>
+                        <span class="hud-tag-label" style="background:#ffcc00; color:#0a1832;">EMAIL</span>
                         <span class="hud-name-text">Email Address</span>
                     </div>
                 </div>
@@ -936,6 +941,7 @@
                     { title: "Wireshark Packet Analysis", desc: "Analyzed HTTP, malware, and TTLS/SSL traffic." }
                 ],
                 education: [
+                    { title: "College of the Canyons", desc: "<ul><li>Undergraduate Studies</li><li>4.0 GPA</li></ul>" },
                     { title: "Certifications & Training", desc: "<ul><li>CompTIA A+ Certified, Studying Network+</li><li>Cisco: Introduction to Cybersecurity</li><li>Linux Command Line</li></ul>" },
                     { title: "Saugus High School", desc: "Completed pathways in Computer Science, Cybersecurity, and Digital Art & Design." }
                 ],
@@ -998,9 +1004,9 @@
                 requestAnimationFrame(renderVisualizer);
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 for (let i = 0; i < 18; i++) {
-                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 14 + 6 : 4;
+                    let barHeight = (musicElem && !musicElem.paused) ? (Math.sin(Date.now() * 0.007 + i * 0.4) + 1.2) * 16 + 6 : 4;
                     ctx.fillStyle = '#ffffff';
-                    ctx.fillRect(7.5 + i * 10, (canvas.height / 2) - (barHeight / 2), 7, barHeight);
+                    ctx.fillRect(8 + i * 11, (canvas.height / 2) - (barHeight / 2), 7, barHeight);
                 }
             }
             renderVisualizer();
