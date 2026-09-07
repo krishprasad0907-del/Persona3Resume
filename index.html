@@ -25,7 +25,6 @@
             position: relative;
         }
 
-        /* Scaler Wrapper */
         .scaler-wrapper {
             position: absolute;
             top: 50%;
@@ -35,7 +34,7 @@
             transform: translate(-50%, -50%) scale(1);
             transform-origin: center center;
             overflow: hidden;
-            pointer-events: none; /* Allows clicks to pass through transparent regions */
+            pointer-events: none;
             background-color: #0a1832;
         }
 
@@ -91,13 +90,13 @@
             filter: brightness(0.55);
         }
 
-        /* Side Vertical Name - Fixed back to far left */
+        /* Even Larger Vertical Side Name */
         .side-title-container {
             position: absolute;
             top: 0;
-            left: 0px; /* Restored to far left */
+            left: 0px;
             height: 1080px;
-            width: 200px;
+            width: 280px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -119,7 +118,7 @@
 
         .side-title {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 105px;
+            font-size: 160px; /* Scaled up from 130px */
             font-weight: 900;
             font-style: italic;
             writing-mode: vertical-rl;
@@ -129,7 +128,7 @@
             transform: scale(-1);
             line-height: 0.85;
             white-space: nowrap;
-            filter: drop-shadow(4px 4px 0px #0a1832);
+            filter: drop-shadow(6px 6px 0px #0a1832);
         }
 
         .ui-layer {
@@ -146,23 +145,22 @@
             pointer-events: none;
         }
 
-        /* Menu Styling - Shifted further left away from player */
         .menu-container {
             position: absolute;
-            top: 52%;
-            left: 36%; /* Moved left to prevent overlap with music player */
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%) rotate(-10deg);
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 4px;
+            gap: 6px;
             z-index: 10;
-            pointer-events: auto; /* Ensures menu buttons are clickable */
+            pointer-events: auto;
         }
 
         .menu-item {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 56px; /* Scaled slightly down to ensure clean gap */
+            font-size: 58px;
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -243,7 +241,6 @@
             z-index: 2;
         }
 
-        /* Track Card */
         .track-card {
             position: absolute;
             top: 430px;
@@ -381,7 +378,6 @@
             box-shadow: 1px 1px 0px #0a1832;
         }
 
-        /* Top Right Audio Controls */
         .audio-control-bar {
             position: absolute;
             top: 35px;
@@ -420,7 +416,6 @@
             background: #ff3333;
         }
 
-        /* Sub-Menu Overlay Windows */
         .hud-overlay {
             position: absolute;
             top: 0;
@@ -534,7 +529,7 @@
 
         .sidebar-description {
             font-family: 'Montserrat', sans-serif;
-            font-size: 32px;
+            font-size: 30px;
             line-height: 1.5;
             color: #ffffff;
             font-weight: 700;
@@ -545,8 +540,8 @@
             padding-left: 32px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            margin-top: 14px;
+            gap: 14px;
+            margin-top: 10px;
         }
 
         .sidebar-description a {
@@ -894,6 +889,27 @@
                 document.body.appendChild(musicElem);
             }
 
+            // Auto-play audio on page launch
+            function attemptAutoPlay() {
+                musicElem.play().then(() => {
+                    playStatus.textContent = "■ STATUS: PLAYING";
+                    playStatus.style.color = "#00ffcc";
+                }).catch(() => {
+                    // Fallback to initial user click if browser blocks autoplay
+                    const enableAudioOnUserAction = () => {
+                        musicElem.play().then(() => {
+                            playStatus.textContent = "■ STATUS: PLAYING";
+                            playStatus.style.color = "#00ffcc";
+                        });
+                        window.removeEventListener('click', enableAudioOnUserAction);
+                        window.removeEventListener('keydown', enableAudioOnUserAction);
+                    };
+                    window.addEventListener('click', enableAudioOnUserAction);
+                    window.addEventListener('keydown', enableAudioOnUserAction);
+                });
+            }
+            attemptAutoPlay();
+
             let currentIndex = 0;
             let activeHudState = null;
             let subIndices = { about: 0, skills: 0, experience: 0, projects: 0, education: 0, contact: 0 };
@@ -919,7 +935,17 @@
                 ],
                 education: [
                     { title: "College of the Canyons", desc: "<ul><li>Undergraduate Studies</li><li>4.0 GPA</li></ul>" },
-                    { title: "Certifications & Training", desc: "<ul><li>CompTIA A+ Certified, Studying Network+</li><li>Cisco: Introduction to Cybersecurity</li><li>Linux Command Line</li></ul>" },
+                    { 
+                        title: "Certifications & Training", 
+                        desc: "<ul>" +
+                              "<li>CompTIA A+ Certified, Studying Network+</li>" +
+                              "<li>Cisco: Introduction to Cybersecurity</li>" +
+                              "<li>Linux Command Line</li>" +
+                              "<li>Networking – William Hart Union Career & College Readiness Program</li>" +
+                              "<li>Design Visual & Media Arts – William Hart Union Career & College Readiness Program</li>" +
+                              "<li>Software & Systems Development – System Programming – William Hart Union Career & College Readiness Program</li>" +
+                              "</ul>" 
+                    },
                     { title: "Saugus High School", desc: "Completed pathways in Computer Science, Cybersecurity, and Digital Art & Design." }
                 ],
                 contact: [
