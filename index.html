@@ -35,7 +35,7 @@
             transform: translate(-50%, -50%) scale(1);
             transform-origin: center center;
             overflow: hidden;
-            pointer-events: auto;
+            pointer-events: none; /* Allows clicks to pass through transparent regions */
             background-color: #0a1832;
         }
 
@@ -91,13 +91,13 @@
             filter: brightness(0.55);
         }
 
-        /* Side Vertical Name - Pulled further left to guarantee zero collision */
+        /* Side Vertical Name - Fixed back to far left */
         .side-title-container {
             position: absolute;
             top: 0;
-            left: -120px;
+            left: 0px; /* Restored to far left */
             height: 1080px;
-            width: 320px;
+            width: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -105,12 +105,12 @@
             pointer-events: none;
             overflow: visible;
             mix-blend-mode: difference;
-            transform: translateX(-120%);
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, opacity 0.4s ease;
+            opacity: 0;
+            transition: opacity 0.8s ease;
         }
 
         body.loaded .side-title-container {
-            transform: translateX(0);
+            opacity: 1;
         }
 
         .side-title-container.hidden {
@@ -119,7 +119,7 @@
 
         .side-title {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 110px; /* Reduced scale to prevent background text bleed */
+            font-size: 105px;
             font-weight: 900;
             font-style: italic;
             writing-mode: vertical-rl;
@@ -137,7 +137,7 @@
             z-index: 3;
             width: 1920px;
             height: 1080px;
-            pointer-events: auto;
+            pointer-events: none;
             transition: opacity 0.4s ease;
         }
 
@@ -146,30 +146,23 @@
             pointer-events: none;
         }
 
-        /* Menu Styling - Shifted right to create complete separation */
+        /* Menu Styling - Shifted further left away from player */
         .menu-container {
             position: absolute;
-            top: 50%;
-            left: 62%;
-            transform: translate(-50%, 500px) rotate(-10deg);
-            opacity: 0;
+            top: 52%;
+            left: 36%; /* Moved left to prevent overlap with music player */
+            transform: translate(-50%, -50%) rotate(-10deg);
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 6px;
-            z-index: 4;
-            pointer-events: auto;
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s, opacity 0.5s ease 0.25s;
-        }
-
-        body.loaded .menu-container {
-            transform: translate(-50%, -50%) rotate(-10deg);
-            opacity: 1;
+            gap: 4px;
+            z-index: 10;
+            pointer-events: auto; /* Ensures menu buttons are clickable */
         }
 
         .menu-item {
             font-family: 'Impact', 'Montserrat', sans-serif;
-            font-size: 68px;
+            font-size: 56px; /* Scaled slightly down to ensure clean gap */
             font-weight: 900;
             font-style: italic;
             text-transform: uppercase;
@@ -178,7 +171,8 @@
             cursor: pointer;
             transition: all 0.15s ease-out;
             letter-spacing: 1px;
-            line-height: 0.95;
+            line-height: 1;
+            pointer-events: auto;
         }
 
         .menu-item:hover:not(.active) {
@@ -188,10 +182,10 @@
 
         .menu-item.active {
             position: relative;
-            font-size: 90px;
+            font-size: 72px;
             line-height: 1;
-            padding: 8px 60px 8px 30px;
-            margin-bottom: 6px;
+            padding: 6px 45px 6px 20px;
+            margin-bottom: 4px;
             background: transparent;
             text-shadow: none;
             cursor: pointer;
@@ -225,8 +219,8 @@
             position: absolute;
             top: 50%;
             left: -25%;
-            width: 150%;
-            height: 42px;
+            width: 140%;
+            height: 36px;
             background-color: #e6002e;
             transform: translateY(-50%) rotate(-15deg);
             clip-path: polygon(0 35%, 100% 0%, 95% 100%, 5% 85%);
@@ -254,7 +248,7 @@
             position: absolute;
             top: 430px;
             right: 115px;
-            transform: translateY(-50%) translateX(1200px);
+            transform: translateY(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -262,11 +256,6 @@
             z-index: 4;
             pointer-events: auto;
             cursor: pointer;
-            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
-        }
-
-        body.loaded .track-card {
-            transform: translateY(-50%) translateX(0);
         }
 
         .p3-logo {
@@ -355,12 +344,6 @@
             text-align: right;
             z-index: 4;
             pointer-events: none;
-            transform: translateY(100px);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
-        }
-
-        body.loaded .controls-hint {
-            transform: translateY(0);
         }
 
         .action-title {
@@ -406,6 +389,7 @@
             display: flex;
             gap: 12px;
             z-index: 999;
+            pointer-events: auto;
         }
 
         .audio-btn {
@@ -465,19 +449,13 @@
             display: flex;
             flex-direction: column;
             gap: 16px;
-            transform: translateX(-60px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .hud-overlay.visible .hud-container {
-            transform: translateX(0);
         }
 
         .hud-row {
             position: relative;
             display: flex;
             align-items: center;
-            height: 80px; /* Scaled down row height for cleaner concise labels */
+            height: 80px;
             background: #0e2246;
             border-left: 8px solid #00a8ff;
             box-shadow: 4px 4px 0px rgba(10,24,50,0.9);
@@ -499,9 +477,9 @@
         .hud-row-inner {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             width: 100%;
-            padding: 0 35px;
+            padding: 0 25px;
             transform: skewX(12deg);
             pointer-events: none;
         }
@@ -510,21 +488,26 @@
             background: #0a1832;
             color: #fff;
             font-family: 'Impact', sans-serif;
-            font-size: 24px; /* Scaled down tag label */
+            font-size: 22px;
             font-style: italic;
-            padding: 6px 18px;
+            padding: 6px 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
+            flex-shrink: 0;
+            text-align: center;
+            min-width: 90px;
         }
 
         .hud-name-text {
             font-family: 'Impact', sans-serif;
-            font-size: 32px; /* Scaled down short row label */
+            font-size: 26px;
             font-style: italic;
             color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 1px;
             text-shadow: 2px 2px 0px #0a1832;
+            padding-left: 18px;
+            white-space: nowrap;
         }
 
         .hud-detail-sidebar {
@@ -533,20 +516,14 @@
             border: 4px solid #00a8ff;
             box-shadow: 8px 8px 0px #ff66b2;
             padding: 45px;
-            transform: translateX(60px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             max-height: 880px;
             overflow-y: auto;
             pointer-events: auto;
         }
 
-        .hud-overlay.visible .hud-detail-sidebar {
-            transform: translateX(0);
-        }
-
         .sidebar-category-title {
             font-family: 'Impact', sans-serif;
-            font-size: 38px; /* Scaled down title header */
+            font-size: 38px;
             font-style: italic;
             color: #00a8ff;
             text-transform: uppercase;
@@ -557,7 +534,7 @@
 
         .sidebar-description {
             font-family: 'Montserrat', sans-serif;
-            font-size: 32px; /* Kept large detailed explanation font */
+            font-size: 32px;
             line-height: 1.5;
             color: #ffffff;
             font-weight: 700;
@@ -973,17 +950,6 @@
                 videoBackground.style.opacity = '1';
             }
 
-            const attemptPlay = () => {
-                musicElem.play().then(() => {
-                    playStatus.textContent = "■ STATUS: PLAYING";
-                    playStatus.style.color = "#00ffcc";
-                    ['click', 'keydown', 'touchstart'].forEach(evt => window.removeEventListener(evt, attemptPlay));
-                }).catch(() => {});
-            };
-            
-            attemptPlay();
-            ['click', 'keydown', 'touchstart'].forEach(evt => window.addEventListener(evt, attemptPlay));
-
             startAudioBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 musicElem.play().then(() => {
@@ -1097,7 +1063,11 @@
 
             menuItems.forEach((item, index) => {
                 item.addEventListener('mouseenter', () => updateSelection(index));
-                item.addEventListener('click', () => { updateSelection(index); openActiveHUD(); });
+                item.addEventListener('click', (e) => { 
+                    e.stopPropagation();
+                    updateSelection(index); 
+                    openActiveHUD(); 
+                });
             });
 
             for (let key in overlays) {
