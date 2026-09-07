@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Krish Prasad - Persona 3 Reload Resume</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Impact&family=Montserrat:ital,wght@0,900;1,900&family=Press+Start+2P&family=VT323&display=swap');
@@ -16,23 +16,26 @@
         }
 
         html, body {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
             overflow: hidden;
-            background-color: #000;
+            background-color: #000000;
             font-family: 'Montserrat', 'Arial Black', sans-serif;
             color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .scaler-wrapper {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            position: relative;
             width: 1920px;
             height: 1080px;
-            transform: translate(-50%, -50%) scale(1);
+            flex-shrink: 0;
             transform-origin: center center;
             overflow: hidden;
+            background-color: #000000;
         }
 
         .video-background, .image-background {
@@ -766,7 +769,7 @@
             </div>
             <div class="hud-detail-sidebar">
                 <div class="sidebar-category-title" id="proj-sidebar-title">Datacom Cyber Security Operations Job Simulation</div>
-                <div class="sidebar-description" id="proj-sidebar-desc">Completed a job simulation investigating cyberattacks, conducting risk assessments, and delivering findings reports.</div>
+                <div class="sidebar-description" id="proj-sidebar-desc">Completed a job simulation investigating a cyberattack, conducting risk assessment, and delivering detailed findings report.</div>
             </div>
             <div class="hud-footer" id="proj-back-btn">
                 <div class="hud-prompt-keys">[C] Back / Click</div>
@@ -840,15 +843,16 @@
             const scaler = document.getElementById('scaler');
 
             function adjustScale() {
-                const windowWidth = window.innerWidth;
-                const windowHeight = window.innerHeight;
+                const windowWidth = document.documentElement.clientWidth || window.innerWidth;
+                const windowHeight = document.documentElement.clientHeight || window.innerHeight;
                 
-                // Calculates maximum cover scale to fill tall display ratios completely
-                const scale = Math.max(windowWidth / 1920, windowHeight / 1080);
-                scaler.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                // Uniformly scales down the full 1920x1080 canvas without cropping horizontal or vertical edges
+                const scale = Math.min(windowWidth / 1920, windowHeight / 1080);
+                scaler.style.transform = `scale(${scale})`;
             }
 
             window.addEventListener('resize', adjustScale);
+            window.addEventListener('orientationchange', adjustScale);
             adjustScale();
 
             setTimeout(() => document.body.classList.add('loaded'), 50);
